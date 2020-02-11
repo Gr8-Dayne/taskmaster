@@ -1,5 +1,12 @@
 # taskmaster
 
+###Android Studio
 
-Android Studio
+####02/11/2020
+
+Created MainActivity, AddTask, and AllTasks w/ functionality to the buttons on MainActivity and AddTask.
+
+####Pictures
+
+
 
