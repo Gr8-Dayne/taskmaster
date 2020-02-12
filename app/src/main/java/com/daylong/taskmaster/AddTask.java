@@ -23,7 +23,7 @@ public class AddTask extends AppCompatActivity {
             @Override
             public void onClick(View e) {
                 TextView item = AddTask.this.findViewById(R.id.submittedTextShow);
-                item.setText("SUBMITTED!");
+                item.setText("SUBMITTED");
             }
         });
     }
