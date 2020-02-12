@@ -4,11 +4,11 @@
 
 ### 02/12/2020
 
-Daily progress update goes here.
+Created Settings, and TaskDetail activities w/updated functionality to the buttons on MainActivity and username "saving" in Settings.
 
 #### Picture
 
-<a href=>Task Details</a>
+<a href=https://raw.githubusercontent.com/Gr8-Dayne/taskmaster/master/screenshots/02122020TaskDetail.png>Task Details</a>
 
 
 
