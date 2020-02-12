@@ -1,6 +1,4 @@
-# taskmaster
-
-## Android Studio
+# Android Studio - Task Master
 
 
 
@@ -10,7 +8,7 @@ Daily progress update goes here.
 
 #### Picture
 
-<a href=>Home Page</a>
+<a href=>Task Details</a>
 
 
 
