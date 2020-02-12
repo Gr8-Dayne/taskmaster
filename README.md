@@ -1,8 +1,20 @@
 # taskmaster
 
-### Android Studio
+## Android Studio
 
-#### 02/11/2020
+
+
+### 02/12/2020
+
+Daily progress update goes here.
+
+#### Picture
+
+<a href=>Home Page</a>
+
+
+
+### 02/11/2020
 
 Created MainActivity, AddTask, and AllTasks w/ functionality to the buttons on MainActivity and AddTask.
 
