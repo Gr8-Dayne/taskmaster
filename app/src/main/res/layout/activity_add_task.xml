@@ -7,17 +7,20 @@
     tools:context=".AddTask">
 
     <TextView
-        android:id="@+id/mainViewH1"
+        android:id="@+id/addTaskH1"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="80dp"
         android:text="Add New Task"
         android:textAlignment="center"
         android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/createTask"
@@ -49,11 +52,12 @@
         android:id="@+id/constraintLayout"
         android:layout_width="413dp"
         android:layout_height="288dp"
+        android:layout_marginBottom="288dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainViewH1"
-        app:layout_constraintVertical_bias="0.06">
+        app:layout_constraintTop_toBottomOf="@+id/addTaskH1">
 
         <EditText
             android:id="@+id/inputNewTaskDescription"
