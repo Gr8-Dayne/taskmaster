@@ -11,6 +11,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
+// ViewAdapter has the job of telling the RecycleView what to display at each row (ForEach?)
+// RecycleView asks for things from ViewAdapter
+// ViewAdapter needs to know: the contents/data at each index AND total length
+
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -62,8 +67,6 @@ public class MainActivity extends AppCompatActivity {
 //                SharedPreferences.Editor editor = sharedPref.edit();
 //                editor.putInt(getString(R.string.taskTwo), buttonToTaskDetailTwo.getText());
 //                editor.commit();
-
-
             }
         });
 
