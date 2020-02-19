@@ -1,9 +1,11 @@
 package com.daylong.taskmaster;
 
 
-import androidx.room.RoomDatabase;
+import androidx.room.Database;
 
-//
-//@android.room.Database(entities = {})
-//public class TaskDatabase {
-//}
+
+@Database(entities = {AddTask.class}, version = 1)
+public class TaskDatabase {
+}
+
+
