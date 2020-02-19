@@ -6,19 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".AllTasks">
 
-    <ImageView
-        android:id="@+id/allTaskView"
-        android:layout_width="330dp"
-        android:layout_height="330dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="140dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewAllTasksH1"
-        app:srcCompat="@android:drawable/ic_menu_agenda" />
-
     <TextView
         android:id="@+id/viewAllTasksH1"
         android:layout_width="200dp"
@@ -26,10 +13,22 @@
         android:text="All Tasks"
         android:textAlignment="center"
         android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@+id/allTaskView"
+        app:layout_constraintBottom_toTopOf="@+id/my_recycler_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/my_recycler_view"
+        android:layout_width="320dp"
+        android:layout_height="574dp"
+        android:layout_marginBottom="48dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewAllTasksH1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
