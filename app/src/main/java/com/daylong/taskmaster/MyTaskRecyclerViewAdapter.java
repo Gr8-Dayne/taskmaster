@@ -2,6 +2,7 @@ package com.daylong.taskmaster;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,16 +41,24 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
         holder.mIdView.setText(mValues.get(position).id);
         holder.mContentView.setText(mValues.get(position).content);
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
-            }
+        holder.mView.setOnClickListener((event) -> {
+            Log.i("DaylongTheGreat", "Stuff Works!!!" + holder.mItem.id);
         });
+
+        //
+        // For the listener on AllTasks
+        //
+//        holder.mView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (null != mListener) {
+//                    // Notify the active callbacks interface (the activity, if the
+//                    // fragment is attached to one) that an item has been selected.
+//                    mListener.onListFragmentInteraction(holder.mItem);
+//                }
+//            }
+//        });
+
     }
 
     @Override

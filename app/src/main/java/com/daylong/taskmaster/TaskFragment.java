@@ -71,7 +71,9 @@ public class TaskFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+
+            // Not necessary
+//            recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(DummyContent.ITEMS, mListener));
         }
         return view;
     }
@@ -83,8 +85,7 @@ public class TaskFragment extends Fragment {
         if (context instanceof OnListFragmentInteractionListener) {
             mListener = (OnListFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
+            throw new RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener");
         }
     }
 
