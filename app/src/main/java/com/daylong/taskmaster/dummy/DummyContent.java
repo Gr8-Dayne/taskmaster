@@ -23,7 +23,7 @@ public class DummyContent {
      */
     public static final Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
 
-    private static final int COUNT = 25;
+    private static final int COUNT = 5;
 
     static {
         // Add some sample items.
@@ -38,14 +38,15 @@ public class DummyContent {
     }
 
     private static DummyItem createDummyItem(int position) {
-        return new DummyItem(String.valueOf(position), "Item " + position, makeDetails(position));
+
+        return new DummyItem(String.valueOf(position), "Task " + position, makeDetails(position));
     }
 
     private static String makeDetails(int position) {
         StringBuilder builder = new StringBuilder();
-        builder.append("Details about Item: ").append(position);
+        builder.append("Details about Task: ").append(position);
         for (int i = 0; i < position; i++) {
-            builder.append("\nMore details information here.");
+            builder.append("\nMore details and info here.");
         }
         return builder.toString();
     }
@@ -55,18 +56,18 @@ public class DummyContent {
      */
     public static class DummyItem {
         public final String id;
-        public final String content;
+        public final String task;
         public final String details;
 
-        public DummyItem(String id, String content, String details) {
+        public DummyItem(String id, String task, String details) {
             this.id = id;
-            this.content = content;
+            this.task = task;
             this.details = details;
         }
 
         @Override
         public String toString() {
-            return content;
+            return task;
         }
     }
 }

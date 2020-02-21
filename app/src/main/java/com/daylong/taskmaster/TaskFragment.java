@@ -1,21 +1,19 @@
 package com.daylong.taskmaster;
 
+
 import android.content.Context;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.daylong.taskmaster.dummy.DummyContent;
 import com.daylong.taskmaster.dummy.DummyContent.DummyItem;
-
 import java.util.List;
+
 
 /**
  * A fragment representing a list of Items.
@@ -27,6 +25,7 @@ public class TaskFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
+
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;

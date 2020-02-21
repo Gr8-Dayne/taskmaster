@@ -1,87 +1,130 @@
 package com.daylong.taskmaster;
 
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
 
-import com.daylong.taskmaster.TaskFragment.OnListFragmentInteractionListener;
-import com.daylong.taskmaster.dummy.DummyContent.DummyItem;
 
-import java.util.List;
+public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecyclerViewAdapter.MyViewHolder> {
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
-public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecyclerViewAdapter.ViewHolder> {
+    private ArrayList<TaskData> dataSet;
 
-    private final List<DummyItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-    public MyTaskRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
-        mListener = listener;
+        TextView textViewName;
+        TextView textViewVersion;
+        ImageView imageViewIcon;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            this.textViewName = (TextView) itemView.findViewById(R.id.textViewName);
+            this.textViewVersion = (TextView) itemView.findViewById(R.id.textViewVersion);
+        }
+    }
+
+    public MyTaskRecyclerViewAdapter(ArrayList<TaskData> data) {
+        this.dataSet = data;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_task, parent, false);
-        return new ViewHolder(view);
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cards_layout, parent, false);
+
+        view.setOnClickListener(AllTasks.myOnClickListener);
+
+        MyViewHolder myViewHolder = new MyViewHolder(view);
+
+        return myViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+    public void onBindViewHolder(final MyViewHolder holder, final int listPosition) {
 
-        holder.mView.setOnClickListener((event) -> {
-            Log.i("DaylongTheGreat", "Stuff Works!!!" + holder.mItem.id);
-        });
+        TextView textViewName = holder.textViewName;
+        TextView textViewVersion = holder.textViewVersion;
+        ImageView imageView = holder.imageViewIcon;
 
-        //
-        // For the listener on AllTasks
-        //
-//        holder.mView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (null != mListener) {
-//                    // Notify the active callbacks interface (the activity, if the
-//                    // fragment is attached to one) that an item has been selected.
-//                    mListener.onListFragmentInteraction(holder.mItem);
-//                }
-//            }
-//        });
-
+        textViewName.setText(dataSet.get(listPosition).getTaskName());
+        textViewVersion.setText(dataSet.get(listPosition).getDescription());
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
-
-        public ViewHolder(View view) {
-            super(view);
-            mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
-        }
-
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
-        }
+        return dataSet.size();
     }
 }
+
+
+
+//public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecyclerViewAdapter.ViewHolder> {
+//
+//    private final List<DummyItem> mValues;
+//    private final OnListFragmentInteractionListener mListener;
+//
+//    public MyTaskRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+//        mValues = items;
+//        mListener = listener;
+//    }
+//
+//    @Override
+//    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+//        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_task, parent, false);
+//        return new ViewHolder(view);
+//    }
+//
+//    @Override
+//    public void onBindViewHolder(final ViewHolder holder, int position) {
+//        holder.mItem = mValues.get(position);
+//        holder.mIdView.setText(mValues.get(position).id);
+//        holder.mContentView.setText(mValues.get(position).task);
+//
+//        holder.mView.setOnClickListener((event) -> {
+//            Log.i("DaylongTheGreat", "Stuff Works!!!" + holder.mItem.id);
+//        });
+//
+//        //
+//        // For the listener on AllTasks
+//        //
+////        holder.mView.setOnClickListener(new View.OnClickListener() {
+////            @Override
+////            public void onClick(View v) {
+////                if (null != mListener) {
+////                    // Notify the active callbacks interface (the activity, if the
+////                    // fragment is attached to one) that an item has been selected.
+////                    mListener.onListFragmentInteraction(holder.mItem);
+////                }
+////            }
+////        });
+//
+//    }
+//
+//    @Override
+//    public int getItemCount() {
+//        return mValues.size();
+//    }
+//
+//    public class ViewHolder extends RecyclerView.ViewHolder {
+//        public final View mView;
+//        public final TextView mIdView;
+//        public final TextView mContentView;
+//        public DummyItem mItem;
+//
+//        public ViewHolder(View view) {
+//            super(view);
+//            mView = view;
+//            mIdView = (TextView) view.findViewById(R.id.item_number);
+//            mContentView = (TextView) view.findViewById(R.id.content);
+//        }
+//
+//        @Override
+//        public String toString() {
+//            return super.toString() + " '" + mContentView.getText() + "'";
+//        }
+//    }
+//}

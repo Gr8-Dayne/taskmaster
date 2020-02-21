@@ -19,10 +19,21 @@ public class TaskDetail extends AppCompatActivity {
         setContentView(R.layout.activity_task_detail);
 
 
+
+        //
+        //
         // Update Task Detail Title with Task being looked at
-//        String taskToView = getIntent().getStringExtra("taskDetailTitle");
-//        TextView taskTitleTextView = findViewById(R.id.taskDetailTitle);
-//        taskTitleTextView.setText(taskToView);
+        //
+        //
+        String taskToView = getIntent().getStringExtra("taskDetailTitle");
+        TextView taskTitleTextView = findViewById(R.id.taskDetailTitle);
+        taskTitleTextView.setText(taskToView);
+        //
+        //
+        //
+        //
+        //
+
 
 
         // Redirect to Main
@@ -38,14 +49,13 @@ public class TaskDetail extends AppCompatActivity {
         });
 
 
-        // Credit: https://developer.android.com/training/data-storage/shared-preferences
-//        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-//        int defaultValue = getResources().getInteger(R.integer.saved_high_score_default_key);
-//        int highScore = sharedPref.getInt(getString(R.string.saved_high_score_key), defaultValue);
 
-
+        //
+        //
         // Modify Task Detail Title
-        TextView taskTitleTextView = findViewById(R.id.taskDetailTitle);
+        //
+        //
+//        TextView taskTitleTextView = findViewById(R.id.taskDetailTitle);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String customTaskTitle = sharedPreferences.getString("taskOne", "Task Details");
@@ -53,5 +63,10 @@ public class TaskDetail extends AppCompatActivity {
         if (customTaskTitle != null) {
             taskTitleTextView.setText(customTaskTitle);
         }
+        //
+        //
+        //
+        //
+        //
     }
 }

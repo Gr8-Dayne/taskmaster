@@ -10,38 +10,46 @@
         android:id="@+id/taskDetailTitle"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:text="Task Details"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@+id/taskDetailDescription"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/taskDetailDescription"
-        android:layout_width="274dp"
-        android:layout_height="130dp"
+        android:layout_width="0dp"
+        android:layout_height="185dp"
         android:text="Lorem Ipsum"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/returnToMain"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskDetailTitle"
-        app:layout_constraintVertical_bias="0.293" />
+        app:layout_constraintTop_toBottomOf="@+id/taskDetailTitle" />
 
     <Button
         android:id="@+id/returnToMain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
         android:layout_marginBottom="160dp"
         android:text="Return To Main"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/chronologicalTaskID"
+        android:layout_width="120dp"
+        android:layout_height="20dp"
+        android:text="Task Number"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/taskDetailDescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskDetailDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/taskDetailTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

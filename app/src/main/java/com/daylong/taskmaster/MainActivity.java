@@ -1,7 +1,6 @@
 package com.daylong.taskmaster;
 
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
 
 
 // ViewAdapter has the job of telling the RecycleView what to display at each row (ForEach?)
@@ -23,7 +23,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        // Redirect to Task Detail 1
+
+
+//
+//        initRecyclerView();
+//
+
+        // Redirect to Task Detail 1
+
 //        Button buttonToTaskDetailOne = findViewById(R.id.taskOne);
 //        buttonToTaskDetailOne.setOnClickListener(new View.OnClickListener() {
 //
@@ -40,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
 //                editorIBarelyKnowHer.apply();
 //            }
 //        });
+
+
 
         // Redirect to AddTask
         Button buttonTaskAdd = findViewById(R.id.addTaskButton);
@@ -87,12 +96,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        // Credit: Class 27 Demo
         TextView usernameMainTextView = findViewById(R.id.addTaskH1);
-
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String customUsername = sharedPreferences.getString("username", "default");
-
         if (customUsername != null) {
             usernameMainTextView.setText(customUsername + "'s Tasks");
         }
@@ -117,6 +123,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
+
+
+
+//    private void initRecyclerView(){
+//
+//        RecyclerView recyclerView;
+//        RecyclerView.LayoutManager layoutManager;
+//        RecyclerView.Adapter mAdapter;
+//
+//        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+//
+//        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+//
+//        recyclerView.setLayoutManager(layoutManager);
+//
+//        mAdapter = new MyTaskRecyclerViewAdapter(DummyContent.ITEMS, null);
+//
+//        recyclerView.setAdapter(mAdapter);
+//    }
 }
 
 
