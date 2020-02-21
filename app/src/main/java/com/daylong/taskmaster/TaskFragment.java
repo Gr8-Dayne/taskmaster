@@ -74,6 +74,7 @@ public class TaskFragment extends Fragment {
 
             // Not necessary
 //            recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+
         }
         return view;
     }
