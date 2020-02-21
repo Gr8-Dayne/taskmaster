@@ -137,6 +137,7 @@ public class AllTasks extends AppCompatActivity {
     }
 
     private void addRemovedItemToList() {
+
         int addItemAtListPosition = 3;
 
         data.add(addItemAtListPosition, new TaskData(HardCodedTasks.taskNameArray[removedItems.get(0)], HardCodedTasks.descriptionArray[removedItems.get(0)], HardCodedTasks.descriptionArray[removedItems.get(0)], HardCodedTasks.id[removedItems.get(0)]));
