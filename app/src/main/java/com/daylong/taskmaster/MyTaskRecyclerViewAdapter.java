@@ -16,16 +16,16 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewName;
-        TextView textViewState;
-//        TextView textViewDescription;
-//        TextView textViewID;
+        TextView textViewCardState;
+        TextView textViewCardDescription;
+//        TextView textViewCardID;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             this.textViewName = (TextView) itemView.findViewById(R.id.textViewName);
-            this.textViewState = (TextView) itemView.findViewById(R.id.textViewCardState);
-//            this.textViewDescription = (TextView) itemView.findViewById(R.id.textViewCardDescription);
-//            this.textViewID = (TextView) itemView.findViewById(R.id.textViewCardID);
+            this.textViewCardState = (TextView) itemView.findViewById(R.id.textViewCardState);
+            this.textViewCardDescription = (TextView) itemView.findViewById(R.id.textViewCardDescription);
+//            this.textViewCardID = (TextView) itemView.findViewById(R.id.textViewCardID);
         }
     }
 
@@ -47,15 +47,15 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int listPosition) {
-        TextView textViewName = holder.textViewName;
-        TextView textViewState = holder.textViewState;
-//        TextView textViewDescription = holder.textViewName;
-//        TextView textViewID = holder.textViewState;
+        TextView taskTitle = holder.textViewName;
+        TextView taskState = holder.textViewCardState;
+        TextView taskDescription = holder.textViewCardDescription;
+//        TextView taskID = holder.textViewCardID;
 
-        textViewName.setText(dataSet.get(listPosition).getTaskName());
-        textViewState.setText(dataSet.get(listPosition).getState());
-//        textViewDescription.setText(dataSet.get(listPosition).getDescription());
-//        textViewID.setText(dataSet.get(listPosition).getId());
+        taskTitle.setText(dataSet.get(listPosition).getTaskName());
+        taskState.setText(dataSet.get(listPosition).getState());
+        taskDescription.setText(dataSet.get(listPosition).getDescription());
+//        taskID.setText(dataSet.get(listPosition).getId());
     }
 
     @Override

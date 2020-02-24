@@ -17,32 +17,29 @@ public class TaskDetail extends AppCompatActivity {
         setContentView(R.layout.activity_task_detail);
 
         //
-        //
         // Update Task Detail Title with Task being looked at
-        //
         //
         Intent showTaskDetailsFromTaskDetailPage = getIntent();
 
-        String showTaskName = showTaskDetailsFromTaskDetailPage.getStringExtra("nameText");
+        String showTaskName = showTaskDetailsFromTaskDetailPage.getStringExtra("taskName");
         TextView textView1 = findViewById(R.id.taskDetailTitle);
         textView1.setText(showTaskName);
 
-        String showTaskStatus = showTaskDetailsFromTaskDetailPage.getStringExtra("stateText");
+        String showTaskStatus = showTaskDetailsFromTaskDetailPage.getStringExtra("taskState");
         TextView textView2 = findViewById(R.id.taskState);
         textView2.setText(showTaskStatus);
 
-//        String showTaskDescription = showTaskDetailsFromTaskDetailPage.getStringExtra(AllTasks.DESCRIPTION_REPLACE);
-//        TextView textView3 = findViewById(R.id.taskDetailDescription);
-//        textView3.setText(showTaskDescription);
-//
-//        String numberID = showTaskDetailsFromTaskDetailPage.getStringExtra(AllTasks.ID_REPLACE, 0);
+        String showTaskDescription = showTaskDetailsFromTaskDetailPage.getStringExtra("taskDescription");
+        TextView textView3 = findViewById(R.id.taskDetailDescription);
+        textView3.setText(showTaskDescription);
+
+//        String numberID = showTaskDetailsFromTaskDetailPage.getStringExtra("taskID");
 //        TextView textView4 = findViewById(R.id.chronologicalTaskID);
-//        textView4.setText("" + numberID);
+//        textView4.setText(numberID);
         //
         //
         //
-        //
-        //
+
 
         // Redirect to Main
         Button buttonToMain = findViewById(R.id.returnToMain);
@@ -54,18 +51,6 @@ public class TaskDetail extends AppCompatActivity {
             }
         });
     }
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        Intent intent = getIntent();
-//
-//        String text = intent.getStringExtra(AllTasks.EXTRA_TEXT);
-//        int number = intent.getIntExtra(MainActivity.EXTRA_NUMBER, 0);
-//
-//        TextView textView1 = findViewById(R.id.taskDetailTitle);
-//        TextView textView2 = (TextView) findViewById(R.id.textview2);
-//
-//        textView1.setText(text);
-//        textView2.setText("" + number);
-//    }
 }
+
+

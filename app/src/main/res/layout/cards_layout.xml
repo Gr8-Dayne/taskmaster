@@ -47,25 +47,25 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
-                    android:layout_marginBottom="0dp"
+                    android:layout_marginBottom="3dp"
                     android:text="Current Task State"
                     android:textAlignment="center"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#F53175"
                     android:textSize="15sp" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/textViewCardDescription"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center_horizontal"-->
-<!--                    android:layout_marginTop="0dp"-->
-<!--                    android:layout_marginBottom="0dp"-->
-<!--                    android:text="Current Task Description"-->
-<!--                    android:textAlignment="center"-->
-<!--                    android:textAppearance="?android:attr/textAppearanceMedium"-->
-<!--                    android:textColor="#F53175"-->
-<!--                    android:textSize="15sp" />-->
+                <TextView
+                    android:id="@+id/textViewCardDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="Current Task Description"
+                    android:textAlignment="center"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#F53175"
+                    android:textSize="15sp" />
 
 <!--                <TextView-->
 <!--                    android:id="@+id/textViewCardID"-->

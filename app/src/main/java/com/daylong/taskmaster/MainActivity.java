@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private static RecyclerView.Adapter adapter;
     private static RecyclerView recyclerView;
     private static ArrayList<TaskData> data;
-    private static ArrayList<Integer> removedItems;
 
     //
     // Have it so only the important Tasks display on Main Page
@@ -53,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
             data.add(new TaskData(HardCodedTasks.taskNameArray[i], HardCodedTasks.descriptionArray[i], HardCodedTasks.stateArray[i], HardCodedTasks.id[i]));
         }
 
-        removedItems = new ArrayList<Integer>();
         adapter = new MyTaskRecyclerViewAdapter(data);
         recyclerView.setAdapter(adapter);
 
@@ -206,48 +204,7 @@ public class MainActivity extends AppCompatActivity {
 //            if (customUsername != null) {
 //                taskIDInDepth.setText("Task Number: " + );
 //            }
-
         }
-        //
-        //
-        //
-        //
-        //
-
-
-
-        private void removeItem(View v) {
-
-            int selectedItemPosition = recyclerView.getChildPosition(v);
-
-            RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForPosition(selectedItemPosition);
-
-            TextView textViewName = (TextView) viewHolder.itemView.findViewById(R.id.textViewName);
-
-            String selectedName = (String) textViewName.getText();
-
-            int selectedItemId = -1;
-
-            for (int i = 0; i < HardCodedTasks.taskNameArray.length; i++) {
-                if (selectedName.equals(HardCodedTasks.taskNameArray[i])) {
-                    selectedItemId = HardCodedTasks.id[i];
-                }
-            }
-            removedItems.add(selectedItemId);
-            data.remove(selectedItemPosition);
-            adapter.notifyItemRemoved(selectedItemPosition);
-        }
-    }
-
-    private void addRemovedItemToList() {
-
-        int addItemAtListPosition = 3;
-
-        data.add(addItemAtListPosition, new TaskData(HardCodedTasks.taskNameArray[removedItems.get(0)], HardCodedTasks.descriptionArray[removedItems.get(0)], HardCodedTasks.descriptionArray[removedItems.get(0)], HardCodedTasks.id[removedItems.get(0)]));
-
-        adapter.notifyItemInserted(addItemAtListPosition);
-
-        removedItems.remove(0);
     }
 }
 

@@ -110,9 +110,9 @@ public class AllTasks extends AppCompatActivity {
 
         String selectedName = (String) textViewName.getText();
 
-        String selectedItemName = " ";
-        String selectedItemDescription = " ";
-        String selectedItemState = " ";
+        String selectedItemName;
+        String selectedItemState;
+        String selectedItemDescription;
         int selectedItemId = -1;
 
         for (int i = 0; i < HardCodedTasks.taskNameArray.length; i++) {
@@ -124,8 +124,6 @@ public class AllTasks extends AppCompatActivity {
                 selectedItemName = HardCodedTasks.taskNameArray[i];
                 selectedItemState = HardCodedTasks.stateArray[i];
                 selectedItemDescription = HardCodedTasks.descriptionArray[i];
-                selectedItemId = HardCodedTasks.id[i];
-
 
                 TextView textViewNameOfTask = findViewById(R.id.textViewName);
                 String nameText = textViewNameOfTask.getText().toString();
@@ -133,42 +131,18 @@ public class AllTasks extends AppCompatActivity {
                 TextView textViewStatusOfTask = findViewById(R.id.textViewCardState);
                 String stateText = textViewStatusOfTask.getText().toString();
 
-//                TextView textViewDescriptionOfTask = findViewById(R.id.textViewName);
-//                String descriptionText = textViewDescriptionOfTask.getText().toString();
-
-//                TextView textViewIDOfTask = findViewById(selectedItemId);
-//                String numberID = textViewIDOfTask.getText().toString();
+                TextView textViewDescriptionOfTask = findViewById(R.id.textViewCardDescription);
+                String descriptionText = textViewDescriptionOfTask.getText().toString();
 
                 Intent showTaskDetailsFromTaskDetailPage = new Intent(this, TaskDetail.class);
 
-                showTaskDetailsFromTaskDetailPage.putExtra("nameText", nameText);
-                showTaskDetailsFromTaskDetailPage.putExtra("stateText", stateText);
-//                showTaskDetailsFromTaskDetailPage.putExtra(selectedItemState, descriptionText);
-//                showTaskDetailsFromTaskDetailPage.putExtra(numberID, numberID);
+                showTaskDetailsFromTaskDetailPage.putExtra("taskName", nameText);
+                showTaskDetailsFromTaskDetailPage.putExtra("taskState", stateText);
+                showTaskDetailsFromTaskDetailPage.putExtra("taskDescription", descriptionText);
 
                 startActivity(showTaskDetailsFromTaskDetailPage);
             }
         }
-//        TextView textViewNameOfTask = findViewById(R.id.textViewName);
-//        String nameText = textViewNameOfTask.getText().toString();
-//
-//        TextView textViewStatusOfTask = findViewById(R.id.textViewCardState);
-//        String stateText = textViewStatusOfTask.getText().toString();
-//
-//        TextView textViewDescriptionOfTask = findViewById(R.id.textViewName);
-//        String descriptionText = textViewDescriptionOfTask.getText().toString();
-//
-//        TextView textViewIDOfTask = findViewById(selectedItemId);
-//        String numberID = textViewIDOfTask.getText().toString();
-//
-//        Intent showTaskDetailsFromTaskDetailPage = new Intent(this, TaskDetail.class);
-//
-//        showTaskDetailsFromTaskDetailPage.putExtra(nameText, nameText);
-//        showTaskDetailsFromTaskDetailPage.putExtra(stateText, stateText);
-//        showTaskDetailsFromTaskDetailPage.putExtra(descriptionText, descriptionText);
-//        showTaskDetailsFromTaskDetailPage.putExtra(numberID, numberID);
-//
-//        startActivity(showTaskDetailsFromTaskDetailPage);
     }
 }
 
