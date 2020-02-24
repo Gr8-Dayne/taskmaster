@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
-import android.widget.EditText;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -21,8 +20,6 @@ import java.util.ArrayList;
 // Credit: https://proandroiddev.com/a-guide-to-recyclerview-selection-3ed9f2381504
 public class AllTasks extends AppCompatActivity {
 
-    public static final String NAME_REPLACE = "String.NAME_REPLACE";
-    public static final String ID_REPLACE = "String.ID_REPLACE";
     static View.OnClickListener myOnClickListener;
     private RecyclerView.LayoutManager layoutManager;
     private static RecyclerView.Adapter adapter;
@@ -37,9 +34,9 @@ public class AllTasks extends AppCompatActivity {
 
         myOnClickListener = new MyOnClickListener(this);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        recyclerView.setHasFixedSize(true);
 
         // Research more about this later
-        recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -106,10 +103,11 @@ public class AllTasks extends AppCompatActivity {
     // Credit: https://stackoverflow.com/questions/33897978/android-convert-edittext-to-string
     public void toTaskDetailView(View d) {
 
-        int selectedItemPosition = recyclerView.getChildPosition(d);
+        int selectedItemPosition = recyclerView.getChildLayoutPosition(d);
 
-        RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForPosition(selectedItemPosition);
+        RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForLayoutPosition(selectedItemPosition);
         TextView textViewName = viewHolder.itemView.findViewById(R.id.textViewName);
+
         String selectedName = (String) textViewName.getText();
 
         String selectedItemName = " ";
@@ -118,30 +116,59 @@ public class AllTasks extends AppCompatActivity {
         int selectedItemId = -1;
 
         for (int i = 0; i < HardCodedTasks.taskNameArray.length; i++) {
-
             if (selectedName.equals(HardCodedTasks.taskNameArray[i])) {
+
                 //
                 // Info for selected Task
                 //
                 selectedItemName = HardCodedTasks.taskNameArray[i];
-                selectedItemDescription = HardCodedTasks.descriptionArray[i];
                 selectedItemState = HardCodedTasks.stateArray[i];
+                selectedItemDescription = HardCodedTasks.descriptionArray[i];
                 selectedItemId = HardCodedTasks.id[i];
+
+
+                TextView textViewNameOfTask = findViewById(R.id.textViewName);
+                String nameText = textViewNameOfTask.getText().toString();
+
+                TextView textViewStatusOfTask = findViewById(R.id.textViewCardState);
+                String stateText = textViewStatusOfTask.getText().toString();
+
+//                TextView textViewDescriptionOfTask = findViewById(R.id.textViewName);
+//                String descriptionText = textViewDescriptionOfTask.getText().toString();
+
+//                TextView textViewIDOfTask = findViewById(selectedItemId);
+//                String numberID = textViewIDOfTask.getText().toString();
+
+                Intent showTaskDetailsFromTaskDetailPage = new Intent(this, TaskDetail.class);
+
+                showTaskDetailsFromTaskDetailPage.putExtra("nameText", nameText);
+                showTaskDetailsFromTaskDetailPage.putExtra("stateText", stateText);
+//                showTaskDetailsFromTaskDetailPage.putExtra(selectedItemState, descriptionText);
+//                showTaskDetailsFromTaskDetailPage.putExtra(numberID, numberID);
+
+                startActivity(showTaskDetailsFromTaskDetailPage);
             }
         }
-
-        TextView textViewNameOfTask = findViewById(R.id.textViewName);
-        String text = textViewNameOfTask.getText().toString();
-
-        EditText textViewIDOfTask = findViewById(selectedItemId);
-//        int number = Integer.parseInt(textViewIDOfTask.getText().toString());
-
-        Intent showTaskDetailsFromTaskDetailPage = new Intent(this, TaskDetail.class);
-
-        showTaskDetailsFromTaskDetailPage.putExtra(NAME_REPLACE, text);
-//        showTaskDetailsFromTaskDetailPage.putExtra(ID_REPLACE, number);
-
-        startActivity(showTaskDetailsFromTaskDetailPage);
+//        TextView textViewNameOfTask = findViewById(R.id.textViewName);
+//        String nameText = textViewNameOfTask.getText().toString();
+//
+//        TextView textViewStatusOfTask = findViewById(R.id.textViewCardState);
+//        String stateText = textViewStatusOfTask.getText().toString();
+//
+//        TextView textViewDescriptionOfTask = findViewById(R.id.textViewName);
+//        String descriptionText = textViewDescriptionOfTask.getText().toString();
+//
+//        TextView textViewIDOfTask = findViewById(selectedItemId);
+//        String numberID = textViewIDOfTask.getText().toString();
+//
+//        Intent showTaskDetailsFromTaskDetailPage = new Intent(this, TaskDetail.class);
+//
+//        showTaskDetailsFromTaskDetailPage.putExtra(nameText, nameText);
+//        showTaskDetailsFromTaskDetailPage.putExtra(stateText, stateText);
+//        showTaskDetailsFromTaskDetailPage.putExtra(descriptionText, descriptionText);
+//        showTaskDetailsFromTaskDetailPage.putExtra(numberID, numberID);
+//
+//        startActivity(showTaskDetailsFromTaskDetailPage);
     }
 }
 

@@ -21,21 +21,23 @@ public class TaskDetail extends AppCompatActivity {
         // Update Task Detail Title with Task being looked at
         //
         //
+        Intent showTaskDetailsFromTaskDetailPage = getIntent();
 
-        Intent intent = getIntent();
-
-        String text = intent.getStringExtra(AllTasks.NAME_REPLACE);
-//        int numberID = intent.getIntExtra(AllTasks.ID_REPLACE, 0);
-
+        String showTaskName = showTaskDetailsFromTaskDetailPage.getStringExtra("nameText");
         TextView textView1 = findViewById(R.id.taskDetailTitle);
-//        TextView textView2 = (TextView) findViewById(R.id.chronologicalTaskID);
+        textView1.setText(showTaskName);
 
-        textView1.setText(text);
-//        textView2.setText("" + numberID);
+        String showTaskStatus = showTaskDetailsFromTaskDetailPage.getStringExtra("stateText");
+        TextView textView2 = findViewById(R.id.taskState);
+        textView2.setText(showTaskStatus);
 
-//        String taskToView = getIntent().getStringExtra("taskDetailTitle");
-//        TextView taskTitleTextView = findViewById(R.id.taskDetailTitle);
-//        taskTitleTextView.setText(taskToView);
+//        String showTaskDescription = showTaskDetailsFromTaskDetailPage.getStringExtra(AllTasks.DESCRIPTION_REPLACE);
+//        TextView textView3 = findViewById(R.id.taskDetailDescription);
+//        textView3.setText(showTaskDescription);
+//
+//        String numberID = showTaskDetailsFromTaskDetailPage.getStringExtra(AllTasks.ID_REPLACE, 0);
+//        TextView textView4 = findViewById(R.id.chronologicalTaskID);
+//        textView4.setText("" + numberID);
         //
         //
         //

@@ -4,7 +4,6 @@ package com.daylong.taskmaster;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
@@ -17,13 +16,16 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewName;
-        TextView textViewVersion;
-        ImageView imageViewIcon;
+        TextView textViewState;
+//        TextView textViewDescription;
+//        TextView textViewID;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             this.textViewName = (TextView) itemView.findViewById(R.id.textViewName);
-            this.textViewVersion = (TextView) itemView.findViewById(R.id.textViewVersion);
+            this.textViewState = (TextView) itemView.findViewById(R.id.textViewCardState);
+//            this.textViewDescription = (TextView) itemView.findViewById(R.id.textViewCardDescription);
+//            this.textViewID = (TextView) itemView.findViewById(R.id.textViewCardID);
         }
     }
 
@@ -45,13 +47,15 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int listPosition) {
-
         TextView textViewName = holder.textViewName;
-        TextView textViewVersion = holder.textViewVersion;
-        ImageView imageView = holder.imageViewIcon;
+        TextView textViewState = holder.textViewState;
+//        TextView textViewDescription = holder.textViewName;
+//        TextView textViewID = holder.textViewState;
 
         textViewName.setText(dataSet.get(listPosition).getTaskName());
-        textViewVersion.setText(dataSet.get(listPosition).getDescription());
+        textViewState.setText(dataSet.get(listPosition).getState());
+//        textViewDescription.setText(dataSet.get(listPosition).getDescription());
+//        textViewID.setText(dataSet.get(listPosition).getId());
     }
 
     @Override
