@@ -6,8 +6,11 @@
     android:name="com.daylong.taskmaster.TaskFragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="20dp"
-    android:layout_marginRight="20dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:background="#3F3F3F"
+    android:hapticFeedbackEnabled="true"
+    android:scrollbars="vertical"
     app:layoutManager="LinearLayoutManager"
     tools:context=".TaskFragment"
     tools:listitem="@layout/cards_layout" />

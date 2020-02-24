@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:tag="cards main container">
 
-    <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardCornerRadius="10dp"
-        card_view:cardElevation="5dp"
+        card_view:cardBackgroundColor="#000000"
+        card_view:cardCornerRadius="20dp"
+        card_view:cardElevation="10dp"
         card_view:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -22,7 +24,8 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
                 android:layout_weight="2"
                 android:orientation="vertical">
 
@@ -32,21 +35,28 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
+                    android:text="Task Name Placeholder"
+                    android:textAlignment="center"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#F53175"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textViewVersion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="Current Task State"
+                    android:textAlignment="center"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#F53175"
+                    android:textSize="15sp" />
 
             </LinearLayout>
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
-
 </LinearLayout>
 
 

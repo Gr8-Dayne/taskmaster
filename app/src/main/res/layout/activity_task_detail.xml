@@ -29,7 +29,7 @@
         app:layout_constraintBottom_toTopOf="@+id/returnToMain"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskDetailTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/chronologicalTaskID" />
 
     <Button
         android:id="@+id/returnToMain"
@@ -45,11 +45,23 @@
         android:id="@+id/chronologicalTaskID"
         android:layout_width="120dp"
         android:layout_height="20dp"
+        android:layout_marginTop="5dp"
         android:text="Task Number"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/taskDetailDescription"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/taskState" />
+
+    <TextView
+        android:id="@+id/taskState"
+        android:layout_width="120dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="50dp"
+        android:text="Task State"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/taskDetailTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

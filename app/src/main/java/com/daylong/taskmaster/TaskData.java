@@ -15,6 +15,22 @@ public class TaskData {
         this.id = id;
     }
 
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getTaskName() {
         return taskName;
     }
@@ -29,5 +45,15 @@ public class TaskData {
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return "TaskData{" +
+                "taskName='" + taskName + '\'' +
+                ", description='" + description + '\'' +
+                ", state='" + state + '\'' +
+                ", id=" + id +
+                '}';
     }
 }

@@ -28,9 +28,13 @@ public class Settings extends AppCompatActivity {
                 item.setText("USERNAME SAVED");
 
                 EditText userNameEditText = findViewById(R.id.username);
+
                 SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
                 SharedPreferences.Editor editorIBarelyKnowHer = p.edit();
+
                 editorIBarelyKnowHer.putString("username", userNameEditText.getText().toString());
+
                 editorIBarelyKnowHer.apply();
             }
         });
