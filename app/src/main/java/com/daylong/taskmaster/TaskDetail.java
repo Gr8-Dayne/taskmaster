@@ -4,7 +4,6 @@ package com.daylong.taskmaster;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -33,22 +32,18 @@ public class TaskDetail extends AppCompatActivity {
         TextView textView3 = findViewById(R.id.taskDetailDescription);
         textView3.setText(showTaskDescription);
 
-//        String numberID = showTaskDetailsFromTaskDetailPage.getStringExtra("taskID");
-//        TextView textView4 = findViewById(R.id.chronologicalTaskID);
-//        textView4.setText(numberID);
+        String numberID = showTaskDetailsFromTaskDetailPage.getStringExtra("taskID");
+        TextView textView4 = findViewById(R.id.chronologicalTaskID);
+        textView4.setText(numberID);
         //
         //
         //
-
 
         // Redirect to Main
         Button buttonToMain = findViewById(R.id.returnToMain);
-        buttonToMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            Intent goToMain = new Intent (TaskDetail.this, MainActivity.class);
-            TaskDetail.this.startActivity(goToMain);
-            }
+        buttonToMain.setOnClickListener(view -> {
+        Intent goToMain = new Intent (TaskDetail.this, MainActivity.class);
+        TaskDetail.this.startActivity(goToMain);
         });
     }
 }
