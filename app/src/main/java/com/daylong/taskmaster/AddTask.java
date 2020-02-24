@@ -1,11 +1,11 @@
 package com.daylong.taskmaster;
 
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
 
 
 public class AddTask extends AppCompatActivity {
@@ -23,7 +23,9 @@ public class AddTask extends AppCompatActivity {
             @Override
             public void onClick(View e) {
                 TextView item = AddTask.this.findViewById(R.id.submittedTextShow);
-                item.setText("SUBMITTED");
+                item.setText("TASK CREATED");
+
+//                EditText userNameEditText = findViewById(R.id.newTaskTitle);
             }
         });
     }
