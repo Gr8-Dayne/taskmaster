@@ -23,35 +23,38 @@
         android:id="@+id/taskDetailDescription"
         android:layout_width="0dp"
         android:layout_height="185dp"
+        android:layout_marginTop="100dp"
         android:text="Lorem Ipsum"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/returnToMain"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chronologicalTaskID" />
+        app:layout_constraintTop_toBottomOf="@+id/taskState"
+        app:layout_constraintVertical_bias="0" />
 
     <Button
         android:id="@+id/returnToMain"
         android:layout_width="150dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="160dp"
+        android:layout_marginBottom="120dp"
         android:text="Return To Main"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/chronologicalTaskID"
-        android:layout_width="120dp"
-        android:layout_height="20dp"
-        android:text="Task Number"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskState" />
+    <!--    <TextView-->
+    <!--        android:id="@+id/chronologicalTaskID"-->
+    <!--        android:layout_width="120dp"-->
+    <!--        android:layout_height="20dp"-->
+    <!--        android:text="Task Number"-->
+    <!--        android:textAlignment="center"-->
+    <!--        android:textSize="10sp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.501"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/taskState" />-->
 
     <TextView
         android:id="@+id/taskState"
@@ -60,10 +63,10 @@
         android:layout_marginTop="50dp"
         android:text="Task State"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/taskDetailTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

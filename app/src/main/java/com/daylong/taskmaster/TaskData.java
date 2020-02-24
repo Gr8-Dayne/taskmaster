@@ -6,9 +6,9 @@ public class TaskData {
     private String taskName;
     private String description;
     private String state;
-    private int id;
+    private Integer id;
 
-    public TaskData(String taskName, String version, String state, int id) {
+    public TaskData(String taskName, String version, String state, Integer id) {
         this.taskName = taskName;
         this.description = version;
         this.state = state;
@@ -27,7 +27,7 @@ public class TaskData {
         this.state = state;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -43,7 +43,7 @@ public class TaskData {
         return state;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
