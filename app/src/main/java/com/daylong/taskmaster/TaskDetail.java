@@ -32,16 +32,6 @@ public class TaskDetail extends AppCompatActivity {
         TextView textView3 = findViewById(R.id.taskDetailDescription);
         textView3.setText(showTaskDescription);
 
-        //
-        //
-        //
-//        Integer numberID = showTaskDetailsFromTaskDetailPage.getIntExtra("taskIDInteger", 0);
-//        TextView textView4 = findViewById(R.id.chronologicalTaskID);
-//        textView4.setText(numberID);
-        //
-        //
-        //
-
         // Redirect to Main
         Button buttonToMain = findViewById(R.id.returnToMain);
         buttonToMain.setOnClickListener(view -> {

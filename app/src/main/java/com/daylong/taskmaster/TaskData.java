@@ -1,59 +1,57 @@
 package com.daylong.taskmaster;
 
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+
+@Entity
 public class TaskData {
 
-    private String taskName;
-    private String description;
-    private String state;
-    private Integer id;
+    @PrimaryKey(autoGenerate = true)
+    long id;
 
-    public TaskData(String taskName, String version, String state, Integer id) {
+    private String taskName;
+    private String state;
+    private String description;
+
+    public TaskData(String taskName, String state, String description) {
         this.taskName = taskName;
-        this.description = version;
         this.state = state;
-        this.id = id;
+        this.description = description;
     }
 
     public void setTaskName(String taskName) {
         this.taskName = taskName;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public void setState(String state) {
         this.state = state;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getTaskName() {
         return taskName;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public String getState() {
         return state;
     }
 
-    public Integer getId() {
-        return id;
+    public String getDescription() {
+        return description;
     }
 
     @Override
     public String toString() {
         return "TaskData{" +
-                "taskName='" + taskName + '\'' +
+                "id=" + id +
+                ", taskName='" + taskName + '\'' +
                 ", description='" + description + '\'' +
                 ", state='" + state + '\'' +
-                ", id=" + id +
                 '}';
     }
 }

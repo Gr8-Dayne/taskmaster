@@ -40,7 +40,7 @@ public class AllTasks extends AppCompatActivity {
 
         data = new ArrayList<TaskData>();
         for (int i = 0; i < HardCodedTasks.taskNameArray.length; i++) {
-            data.add(new TaskData(HardCodedTasks.taskNameArray[i], HardCodedTasks.descriptionArray[i], HardCodedTasks.stateArray[i], HardCodedTasks.id[i]));
+            data.add(new TaskData(HardCodedTasks.taskNameArray[i], HardCodedTasks.descriptionArray[i], HardCodedTasks.stateArray[i]));
         }
 
         removedItems = new ArrayList<Integer>();
@@ -50,10 +50,8 @@ public class AllTasks extends AppCompatActivity {
 
     // Something I plan on implementing later...
 //    public class MyOnClickListener implements View.OnClickListener {
-//
 //        private MyOnClickListener(Context context) {
 //        }
-//
 //        private void removeItem(View r) {
 //            int selectedItemPosition = recyclerView.getChildPosition(r);
 //            RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForPosition(selectedItemPosition);
@@ -72,13 +70,9 @@ public class AllTasks extends AppCompatActivity {
 //    }
 
 //    private void addRemovedItemToBin() {
-//
 //        int addItemAtListPosition = 3;
-//
 //        data.add(addItemAtListPosition, new TaskData(HardCodedTasks.taskNameArray[removedItems.get(0)], HardCodedTasks.descriptionArray[removedItems.get(0)], HardCodedTasks.descriptionArray[removedItems.get(0)], HardCodedTasks.id[removedItems.get(0)]));
-//
 //        adapter.notifyItemInserted(addItemAtListPosition);
-//
 //        removedItems.remove(0);
 //    }
 }

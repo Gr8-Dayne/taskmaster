@@ -1,10 +1,12 @@
 package com.daylong.taskmaster;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,12 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 import java.util.ArrayList;
+import java.util.List;
 
-
-// ViewAdapter has the job of telling the RecycleView what to display at each row (ForEach?)
-// RecycleView asks for things from ViewAdapter
-// ViewAdapter needs to know: the contents/data at each index AND total length
 
 // Credit: https://codingwithmitch.com/
 // Credit: https://guides.codepath.com/android/using-the-recyclerview
@@ -28,11 +28,25 @@ public class MainActivity extends AppCompatActivity {
     private static RecyclerView recyclerView;
     private static ArrayList<TaskData> data;
 
+    List<TaskData> listOfTasks;
+    TaskDatabase theTaskening;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        theTaskening = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "outstanding_tasks").allowMainThreadQueries().build();
+
+        this.listOfTasks = theTaskening.taskDao().getAllFromTaskDataList();
+        for(TaskData task : listOfTasks){
+            Log.i("daylongMainActivity", task.getTaskName() + task.getState() + task.getDescription());
+        }
+
+
+        //
+        // Recycler View
+        //
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
 
@@ -43,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         data = new ArrayList<TaskData>();
         for (int i = 0; i < HardCodedTasks.taskNameArray.length; i++) {
-            data.add(new TaskData(HardCodedTasks.taskNameArray[i], HardCodedTasks.descriptionArray[i], HardCodedTasks.stateArray[i], HardCodedTasks.id[i]));
+            data.add(new TaskData(HardCodedTasks.taskNameArray[i], HardCodedTasks.descriptionArray[i], HardCodedTasks.stateArray[i]));
         }
 
         adapter = new MyTaskRecyclerViewAdapter(data);
@@ -91,15 +105,14 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onResume() {
         super.onResume();
         TextView usernameMainTextView = findViewById(R.id.addTaskH1);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String customUsername = sharedPreferences.getString("username", "default");
-        if (customUsername != null) {
-            usernameMainTextView.setText(customUsername + "'s Tasks");
-        }
+        usernameMainTextView.setText(customUsername + "'s Tasks");
     }
 
     @Override

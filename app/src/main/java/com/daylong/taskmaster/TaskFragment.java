@@ -10,9 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.daylong.taskmaster.dummy.DummyContent;
-import com.daylong.taskmaster.dummy.DummyContent.DummyItem;
-import java.util.List;
 
 
 /**
@@ -107,6 +104,6 @@ public class TaskFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+//        void onListFragmentInteraction(DummyItem item);
     }
 }
