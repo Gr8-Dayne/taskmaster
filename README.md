@@ -1,9 +1,63 @@
-
 # Android Studio - Task Master
 
+### Lab 36 - Cognito
+
+Created?
+
+#### Picture
+
+<a href=>Home Page</a>
 
 
-### 02/12/2020
+### Lab 34 - Recycler View
+
+Created?
+
+#### Picture
+
+<a href=>Home Page</a>
+
+
+
+
+
+### Lab 33 - Recycler View
+
+Created?
+
+#### Picture
+
+<a href=>Home Page</a>
+
+
+
+
+
+### Lab 32 - Recycler View
+
+Created?
+
+#### Picture
+
+<a href=>Home Page</a>
+
+
+
+
+
+### Lab 28 - Recycler View
+
+Created two recycler views, and TaskDetail activities w/updated functionality to the cards now in it. Many additions code wise and a lot of deletions to match.
+
+#### Picture
+
+<a href=https://raw.githubusercontent.com/Gr8-Dayne/taskmaster/master/screenshots/LAB28HomePage.png>Home Page</a>
+
+
+
+
+
+### Lab 27 - Data
 
 Created Settings, and TaskDetail activities w/updated functionality to the buttons on MainActivity and username "saving" in Settings.
 
@@ -13,7 +67,9 @@ Created Settings, and TaskDetail activities w/updated functionality to the butto
 
 
 
-### 02/11/2020
+
+
+### Lab 26 - Beginning Task Master
 
 Created MainActivity, AddTask, and AllTasks w/ functionality to the buttons on MainActivity and AddTask.
 
