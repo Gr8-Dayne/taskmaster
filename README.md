@@ -9,7 +9,10 @@ Created?
 <a href=>Home Page</a>
 
 
-### Lab 34 - Recycler View
+
+
+
+### Lab 34 - Amplify and DynamoDB
 
 Created?
 
@@ -21,7 +24,7 @@ Created?
 
 
 
-### Lab 33 - Recycler View
+### Lab 33 - Polish
 
 Created?
 
@@ -33,7 +36,7 @@ Created?
 
 
 
-### Lab 32 - Recycler View
+### Lab 32 - Room
 
 Created?
 
