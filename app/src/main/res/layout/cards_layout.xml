@@ -30,7 +30,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textViewName"
+                    android:id="@+id/individualTaskName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -42,7 +42,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textViewCardState"
+                    android:id="@+id/individualTaskState"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -56,8 +56,8 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textViewCardDescription"
-                    android:layout_width="match_parent"
+                    android:id="@+id/individualTaskDescription"
+                    android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="0dp"
@@ -67,19 +67,6 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#F53175"
                     android:textSize="15sp" />
-
-<!--                <TextView-->
-<!--                    android:id="@+id/textViewCardID"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center_horizontal"-->
-<!--                    android:layout_marginTop="0dp"-->
-<!--                    android:layout_marginBottom="5dp"-->
-<!--                    android:text="Current Task ID"-->
-<!--                    android:textAlignment="center"-->
-<!--                    android:textAppearance="?android:attr/textAppearanceMedium"-->
-<!--                    android:textColor="#F53175"-->
-<!--                    android:textSize="15sp" />-->
 
             </LinearLayout>
         </LinearLayout>

@@ -5,11 +5,11 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 
-@Entity
+@Entity(tableName = "tasks_to_do")
 public class TaskData {
 
     @PrimaryKey(autoGenerate = true)
-    long id;
+    private long id;
 
     private String taskName;
     private String state;
@@ -21,16 +21,12 @@ public class TaskData {
         this.description = description;
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public long getId() {
+        return id;
     }
 
     public String getTaskName() {

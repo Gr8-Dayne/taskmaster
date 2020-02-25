@@ -21,19 +21,19 @@ public class TaskDetail extends AppCompatActivity {
         Intent showTaskDetailsFromTaskDetailPage = getIntent();
 
         String showTaskName = showTaskDetailsFromTaskDetailPage.getStringExtra("taskName");
-        TextView textView1 = findViewById(R.id.taskDetailTitle);
+        TextView textView1 = findViewById(R.id.taskDetail_Title);
         textView1.setText(showTaskName);
 
         String showTaskStatus = showTaskDetailsFromTaskDetailPage.getStringExtra("taskState");
-        TextView textView2 = findViewById(R.id.taskState);
+        TextView textView2 = findViewById(R.id.taskDetail_State);
         textView2.setText(showTaskStatus);
 
         String showTaskDescription = showTaskDetailsFromTaskDetailPage.getStringExtra("taskDescription");
-        TextView textView3 = findViewById(R.id.taskDetailDescription);
+        TextView textView3 = findViewById(R.id.taskDetail_Description);
         textView3.setText(showTaskDescription);
 
         // Redirect to Main
-        Button buttonToMain = findViewById(R.id.returnToMain);
+        Button buttonToMain = findViewById(R.id.returnToMain_Button);
         buttonToMain.setOnClickListener(view -> {
         Intent goToMain = new Intent (TaskDetail.this, MainActivity.class);
         TaskDetail.this.startActivity(goToMain);

@@ -6,62 +6,60 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
-import java.util.ArrayList;
 import java.util.List;
 
 
-// Credit: https://codingwithmitch.com/
+// Credit: https://stackoverflow.com/questions/33897978/android-convert-edittext-to-string
+// Credit: https://www.youtube.com/watch?v=JLwW5HivZg4
+// Credit: https://www.youtube.com/watch?v=reSPN7mgshI&feature=youtu.be
+// Credit: https://proandroiddev.com/a-guide-to-recyclerview-selection-3ed9f2381504
 // Credit: https://guides.codepath.com/android/using-the-recyclerview
 // Credit: https://www.journaldev.com/10024/android-recyclerview-android-cardview-example-tutorial
 public class MainActivity extends AppCompatActivity {
-
-    private static RecyclerView.Adapter adapter;
-    private static RecyclerView recyclerView;
-    private static ArrayList<TaskData> data;
-
-    List<TaskData> listOfTasks;
-    TaskDatabase theTaskening;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        theTaskening = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "outstanding_tasks").allowMainThreadQueries().build();
-
-        this.listOfTasks = theTaskening.taskDao().getAllFromTaskDataList();
-        for(TaskData task : listOfTasks){
-            Log.i("daylongMainActivity", task.getTaskName() + task.getState() + task.getDescription());
-        }
 
 
         //
         // Recycler View
         //
-        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.my_recycler_view);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        // Research more about this later
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+//        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        data = new ArrayList<TaskData>();
-        for (int i = 0; i < HardCodedTasks.taskNameArray.length; i++) {
-            data.add(new TaskData(HardCodedTasks.taskNameArray[i], HardCodedTasks.descriptionArray[i], HardCodedTasks.stateArray[i]));
-        }
-
-        adapter = new MyTaskRecyclerViewAdapter(data);
+        TaskAdapter adapter = new TaskAdapter();
         recyclerView.setAdapter(adapter);
+        //
+        // Recycler View
+        //
+
+
+
+        // Credit: https://developer.android.com/reference/android/arch/lifecycle/ViewModelProvider
+        AllTasks allTasks = ViewModelProviders.of(this).get(AllTasks.class);
+        allTasks.getAllTasks().observe(this, new Observer<List<TaskData>>() {
+            @Override
+            public void onChanged(@Nullable List<TaskData> tasks) {
+                adapter.setDataSet(tasks);
+            }
+        });
 
         // Redirect to AddTask
         Button buttonTaskAdd = findViewById(R.id.addTaskButton);
