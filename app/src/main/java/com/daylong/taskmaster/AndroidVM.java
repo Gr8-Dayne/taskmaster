@@ -19,7 +19,7 @@ public class AndroidVM extends AndroidViewModel {
         allTasks = repository.getAllTaskData();
     }
 
-    public void insert(TaskData task) {
+    public void save(TaskData task) {
         repository.save(task);
     }
 

@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
         // Recycler View
         //
 
+
+
         // Credit: https://developer.android.com/reference/android/arch/lifecycle/ViewModelProvider
         AndroidVM androidVM = ViewModelProviders.of(this).get(AndroidVM.class);
         androidVM.getAllTasks().observe(this, new Observer<List<TaskData>>() {
@@ -81,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-
                 Intent goToAddTask = new Intent (MainActivity.this, AddTask.class);
                 MainActivity.this.startActivity(goToAddTask);
             }
@@ -93,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-
                 Intent goToAddTask = new Intent (MainActivity.this, AllTasks.class);
                 MainActivity.this.startActivity(goToAddTask);
             }
@@ -105,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-
                 Intent goToSettings = new Intent (MainActivity.this, Settings.class);
                 MainActivity.this.startActivity(goToSettings);
             }
@@ -120,12 +119,12 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 1 && resultCode == RESULT_OK) {
 
             String title = data.getStringExtra(AddTask.EXTRA_TITLE);
-            String description = data.getStringExtra(AddTask.EXTRA_DESCRIPTION);
             String priority = data.getStringExtra(AddTask.EXTRA_PRIORITY);
+            String description = data.getStringExtra(AddTask.EXTRA_DESCRIPTION);
 
-            TaskData task = new TaskData(title, description, priority);
+            TaskData task = new TaskData(title, priority, description);
 
-            androidVM.insert(task);
+            androidVM.save(task);
 
             Toast.makeText(this, "Note saved successfully", Toast.LENGTH_LONG).show();
         } else {

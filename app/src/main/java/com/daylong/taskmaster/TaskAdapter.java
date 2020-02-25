@@ -34,8 +34,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         TaskData selectedTask = dataSet.get(index);
 
         holder.textViewTitle.setText(selectedTask.getTaskName());
-        holder.textViewDescription.setText(selectedTask.getDescription());
         holder.textViewPriority.setText(selectedTask.getState());
+        holder.textViewDescription.setText(selectedTask.getDescription());
 
         //--------------------------------------//
         //--------------------------------------//
@@ -47,16 +47,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             Context context = event.getContext();
 
             String potatoTitle = selectedTask.getTaskName();
-            String potatoState = selectedTask.getDescription();
             String potatoDescription = selectedTask.getState();
+            String potatoState = selectedTask.getDescription();
 
-            Intent intentionalAddToDataBase = new Intent(context, TaskDetail.class);
+            Intent intentionalToDetails = new Intent(context, TaskDetail.class);
 
-            intentionalAddToDataBase.putExtra("taskName", potatoTitle);
-            intentionalAddToDataBase.putExtra("taskState", potatoState);
-            intentionalAddToDataBase.putExtra("taskDescription", potatoDescription);
+            intentionalToDetails.putExtra("taskName", potatoTitle);
+            intentionalToDetails.putExtra("taskState", potatoState);
+            intentionalToDetails.putExtra("taskDescription", potatoDescription);
 
-            context.startActivity(intentionalAddToDataBase);
+            context.startActivity(intentionalToDetails);
         });
         //--------------------------------------//
         //--------------------------------------//
@@ -76,8 +76,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     class TaskHolder extends RecyclerView.ViewHolder {
 
         private TextView textViewTitle;
-        private TextView textViewDescription;
         private TextView textViewPriority;
+        private TextView textViewDescription;
 
         public TaskHolder(View itemView) {
             super(itemView);
