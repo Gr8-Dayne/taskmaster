@@ -26,7 +26,6 @@
         android:layout_marginTop="10dp"
         android:text="Add Task"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/submittedTextShow" />
 
@@ -103,6 +102,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Enter Task Priority"
                 android:textAlignment="center" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -116,7 +116,6 @@
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/createTask"
         app:layout_constraintVertical_bias="0.0" />

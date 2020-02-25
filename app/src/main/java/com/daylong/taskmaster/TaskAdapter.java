@@ -31,7 +31,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     @Override
     public void onBindViewHolder(@NonNull TaskHolder holder, int index) {
 
-
         TaskData selectedTask = dataSet.get(index);
 
         holder.textViewTitle.setText(selectedTask.getTaskName());
@@ -42,36 +41,26 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         //--------------------------------------//
         //--------------------------------------//
 
-//        TextView taskTitle = holder.textOfName;
-//        TextView taskState = holder.textOfCardState;
-//        TextView taskDescription = holder.textOfCardDescription;
-//        taskTitle.setText(dataSet.get(listPosition).getTaskName());
-//        taskState.setText(dataSet.get(listPosition).getState());
-//        taskDescription.setText(dataSet.get(listPosition).getDescription());
-
         // Credit: The illustrious TA James assisted me here
+        holder.itemView.setOnClickListener((event) -> {
 
-//        holder.itemView.setOnClickListener((event) -> {
-//
-//            Context context = event.getContext();
-//
-//            String potatoTitle = taskTitle.getText().toString();
-//            String potatoState = taskState.getText().toString();
-//            String potatoDesc = taskDescription.getText().toString();
-//
-//            Intent i = new Intent(context, TaskDetail.class);
-//
-//            i.putExtra("taskName", potatoTitle);
-//            i.putExtra("taskState", potatoState);
-//            i.putExtra("taskDescription", potatoDesc);
-//
-//            context.startActivity(i);
-//        });
+            Context context = event.getContext();
 
+            String potatoTitle = selectedTask.getTaskName();
+            String potatoState = selectedTask.getDescription();
+            String potatoDescription = selectedTask.getState();
+
+            Intent intentionalAddToDataBase = new Intent(context, TaskDetail.class);
+
+            intentionalAddToDataBase.putExtra("taskName", potatoTitle);
+            intentionalAddToDataBase.putExtra("taskState", potatoState);
+            intentionalAddToDataBase.putExtra("taskDescription", potatoDescription);
+
+            context.startActivity(intentionalAddToDataBase);
+        });
         //--------------------------------------//
         //--------------------------------------//
         //--------------------------------------//
-
     }
 
     @Override

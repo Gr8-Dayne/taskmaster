@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -16,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 
@@ -27,10 +29,27 @@ import java.util.List;
 // Credit: https://www.journaldev.com/10024/android-recyclerview-android-cardview-example-tutorial
 public class MainActivity extends AppCompatActivity {
 
+    private AndroidVM androidVM;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Button buttonAddTask = findViewById(R.id.addTaskButton);
+        buttonAddTask.setOnClickListener(new View.OnClickListener() {
+
+//        FloatingActionButton buttonAddTask = findViewById(R.id.add_brand_new_task);
+//        buttonAddTask.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AddTask.class);
+                startActivityForResult(intent, 1);
+            }
+        });
+
+
 
         //
         // Recycler View
@@ -91,6 +110,27 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(goToSettings);
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+
+            String title = data.getStringExtra(AddTask.EXTRA_TITLE);
+            String description = data.getStringExtra(AddTask.EXTRA_DESCRIPTION);
+            String priority = data.getStringExtra(AddTask.EXTRA_PRIORITY);
+
+            TaskData task = new TaskData(title, description, priority);
+
+            androidVM.insert(task);
+
+            Toast.makeText(this, "Note saved successfully", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Note not saved", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
