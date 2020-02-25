@@ -24,18 +24,6 @@ Created?
 
 
 
-### Lab 33 - Polish
-
-Created?
-
-#### Picture
-
-<a href=>Home Page</a>
-
-
-
-
-
 ### Lab 32 - Room
 
 Created?
@@ -79,5 +67,3 @@ Created MainActivity, AddTask, and AllTasks w/ functionality to the buttons on M
 #### Picture
 
 <a href=https://raw.githubusercontent.com/Gr8-Dayne/taskmaster/master/screenshots/02112020.png>Home Page</a>
-
-
