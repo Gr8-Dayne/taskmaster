@@ -8,12 +8,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+// Credit: https://codinginflow.com/tutorials/android/room-viewmodel-livedata-recyclerview-mvvm/part-7-add-note-activity
 public class AddTask extends AppCompatActivity {
 
     public static final String EXTRA_TITLE = "EXTRA_SAVE_TITLE";
@@ -47,7 +48,7 @@ public class AddTask extends AppCompatActivity {
 //        });
     }
 
-    private void saveTask() {
+    private void sendTaskToMain() {
         String title = editTextTitle.getText().toString();
         String description = editTextDescription.getText().toString();
         String priority = editTextPriority.getText().toString();
@@ -67,6 +68,7 @@ public class AddTask extends AppCompatActivity {
         finish();
     }
 
+    // Allow add_task_menu to be utilized w/AddTask
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -74,10 +76,11 @@ public class AddTask extends AppCompatActivity {
         return true;
     }
 
+    // This is where Task is SUPPOSED to go to Main Activity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.save_task: saveTask();
+            case R.id.save_task: sendTaskToMain();
                 return true;
             default: return super.onOptionsItemSelected(item);
         }

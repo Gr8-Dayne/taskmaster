@@ -32,6 +32,7 @@ public abstract class TaskDatabase extends RoomDatabase {
     };
 
     private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
+
         private TaskDao taskDao;
         private PopulateDbAsyncTask(TaskDatabase x) {
             taskDao = x.taskDao();

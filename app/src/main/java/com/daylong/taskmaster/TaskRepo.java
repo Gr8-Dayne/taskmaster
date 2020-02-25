@@ -44,13 +44,16 @@ public class TaskRepo {
 
     // Asynchronous Tasks
     private static class InsertTaskDataAsyncTask extends AsyncTask<TaskData, Void, Void> {
+
         private TaskDao taskDao;
+
         private InsertTaskDataAsyncTask(TaskDao taskDao) {
             this.taskDao = taskDao;
         }
+
         @Override
-        protected Void doInBackground(TaskData... tasks) {
-            taskDao.save(tasks[0]);
+        protected Void doInBackground(TaskData... task) {
+            taskDao.save(task[0]);
             return null;
         }
     }

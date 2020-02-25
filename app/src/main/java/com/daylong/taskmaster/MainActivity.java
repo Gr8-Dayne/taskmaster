@@ -17,7 +17,6 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 
@@ -39,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         Button buttonAddTask = findViewById(R.id.addTaskButton);
         buttonAddTask.setOnClickListener(new View.OnClickListener() {
 
+            // I tried on this one but maybe in another app
 //        FloatingActionButton buttonAddTask = findViewById(R.id.add_brand_new_task);
 //        buttonAddTask.setOnClickListener(new View.OnClickListener() {
 
@@ -126,9 +126,9 @@ public class MainActivity extends AppCompatActivity {
 
             androidVM.save(task);
 
-            Toast.makeText(this, "Note saved successfully", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Task saved successfully", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(this, "Note not saved", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Task not saved", Toast.LENGTH_SHORT).show();
         }
     }
 
