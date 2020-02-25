@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         card_view:cardBackgroundColor="#000000"
         card_view:cardCornerRadius="20dp"
-        card_view:cardElevation="10dp"
+        card_view:cardElevation="5dp"
         card_view:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -58,10 +58,10 @@
                 <TextView
                     android:id="@+id/individualTaskDescription"
                     android:layout_width="170dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="20dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="0dp"
-                    android:layout_marginBottom="3dp"
+                    android:layout_marginBottom="5dp"
                     android:text="Current Task Description"
                     android:textAlignment="center"
                     android:textAppearance="?android:attr/textAppearanceMedium"

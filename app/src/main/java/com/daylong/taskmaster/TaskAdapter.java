@@ -1,6 +1,8 @@
 package com.daylong.taskmaster;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +38,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         holder.textViewDescription.setText(selectedTask.getDescription());
         holder.textViewPriority.setText(selectedTask.getState());
 
+        //--------------------------------------//
+        //--------------------------------------//
+        //--------------------------------------//
 
 //        TextView taskTitle = holder.textOfName;
 //        TextView taskState = holder.textOfCardState;
@@ -43,19 +48,30 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 //        taskTitle.setText(dataSet.get(listPosition).getTaskName());
 //        taskState.setText(dataSet.get(listPosition).getState());
 //        taskDescription.setText(dataSet.get(listPosition).getDescription());
-//
-//        // Credit: The illustrious TA James assisted me here
+
+        // Credit: The illustrious TA James assisted me here
+
 //        holder.itemView.setOnClickListener((event) -> {
+//
 //            Context context = event.getContext();
+//
 //            String potatoTitle = taskTitle.getText().toString();
 //            String potatoState = taskState.getText().toString();
 //            String potatoDesc = taskDescription.getText().toString();
+//
 //            Intent i = new Intent(context, TaskDetail.class);
+//
 //            i.putExtra("taskName", potatoTitle);
 //            i.putExtra("taskState", potatoState);
 //            i.putExtra("taskDescription", potatoDesc);
+//
 //            context.startActivity(i);
 //        });
+
+        //--------------------------------------//
+        //--------------------------------------//
+        //--------------------------------------//
+
     }
 
     @Override

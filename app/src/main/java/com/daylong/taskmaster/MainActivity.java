@@ -32,34 +32,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         //
         // Recycler View
         //
         RecyclerView recyclerView = findViewById(R.id.my_recycler_view);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-
-//        recyclerView.setItemAnimator(new DefaultItemAnimator());
-
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         TaskAdapter adapter = new TaskAdapter();
         recyclerView.setAdapter(adapter);
         //
         // Recycler View
         //
 
-
-
         // Credit: https://developer.android.com/reference/android/arch/lifecycle/ViewModelProvider
-        AllTasks allTasks = ViewModelProviders.of(this).get(AllTasks.class);
-        allTasks.getAllTasks().observe(this, new Observer<List<TaskData>>() {
+        AndroidVM androidVM = ViewModelProviders.of(this).get(AndroidVM.class);
+        androidVM.getAllTasks().observe(this, new Observer<List<TaskData>>() {
             @Override
             public void onChanged(@Nullable List<TaskData> tasks) {
                 adapter.setDataSet(tasks);
             }
         });
+
+
 
         // Redirect to AddTask
         Button buttonTaskAdd = findViewById(R.id.addTaskButton);

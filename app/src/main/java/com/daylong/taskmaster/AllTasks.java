@@ -1,42 +1,45 @@
 package com.daylong.taskmaster;
 
 
-import android.app.Application;
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
+import android.os.Bundle;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 
-public class AllTasks extends AndroidViewModel {
+public class AllTasks extends AppCompatActivity {
 
-    private TaskRepo repository;
-    private LiveData<List<TaskData>> allTasks;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_all_tasks);
 
-    public AllTasks(@NonNull Application application) {
-        super(application);
-        repository = new TaskRepo(application);
-        allTasks = repository.getAllTaskData();
-    }
+        //
+        // Recycler View
+        //
+        RecyclerView recyclerView = findViewById(R.id.my_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        TaskAdapter adapter = new TaskAdapter();
+        recyclerView.setAdapter(adapter);
+        //
+        // Recycler View
+        //
 
-    public void insert(TaskData task) {
-        repository.save(task);
-    }
-
-    public void update(TaskData task) {
-        repository.update(task);
-    }
-
-    public void delete(TaskData task) {
-        repository.delete(task);
-    }
-
-    public void deleteAllTaskData() {
-        repository.deleteAllTasks();
-    }
-
-    public LiveData<List<TaskData>> getAllTasks() {
-        return allTasks;
+        // Credit: https://developer.android.com/reference/android/arch/lifecycle/ViewModelProvider
+        AndroidVM androidVM = ViewModelProviders.of(this).get(AndroidVM.class);
+        androidVM.getAllTasks().observe(this, new Observer<List<TaskData>>() {
+            @Override
+            public void onChanged(@Nullable List<TaskData> tasks) {
+                adapter.setDataSet(tasks);
+            }
+        });
     }
 }
 
