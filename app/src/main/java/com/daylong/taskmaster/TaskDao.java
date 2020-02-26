@@ -10,16 +10,18 @@ import androidx.room.Update;
 import java.util.List;
 
 
-// This guy is pretty good at android.
 // Credit: https://codinginflow.com/tutorials/android/room-viewmodel-livedata-recyclerview-mvvm/part-3-dao-roomdatabase
 @Dao
 public interface TaskDao {
 
     @Query("SELECT * FROM tasks_to_do ORDER BY id DESC")
-    LiveData<List<TaskData>> getAllFromTaskDataList();
+    LiveData<List<TaskData>> getAllFromTaskList();
 
     @Query("SELECT * FROM tasks_to_do WHERE id = :id")
     TaskData getSpecific(long id);
+
+    @Query("SELECT COUNT(id) FROM tasks_to_do")
+    int getCountOfTaskList();
 
     @Insert
     void save(TaskData task);

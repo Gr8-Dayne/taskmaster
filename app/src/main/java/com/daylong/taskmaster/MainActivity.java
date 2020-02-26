@@ -6,18 +6,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.View;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import java.util.List;
+import androidx.room.Room;
 
 
 // Credit: https://stackoverflow.com/questions/33897978/android-convert-edittext-to-string
@@ -28,26 +25,16 @@ import java.util.List;
 // Credit: https://www.journaldev.com/10024/android-recyclerview-android-cardview-example-tutorial
 public class MainActivity extends AppCompatActivity {
 
-    private AndroidVM androidVM;
+//    private AndroidVM androidVM;
+
+    private TaskDatabase dbMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button buttonAddTask = findViewById(R.id.addTaskButton);
-        buttonAddTask.setOnClickListener(new View.OnClickListener() {
-
-            // I tried on this one but maybe in another app
-//        FloatingActionButton buttonAddTask = findViewById(R.id.add_brand_new_task);
-//        buttonAddTask.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddTask.class);
-                startActivityForResult(intent, 1);
-            }
-        });
+        dbMain = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
 
 
 
@@ -66,71 +53,36 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        // Credit: https://developer.android.com/reference/android/arch/lifecycle/ViewModelProvider
-        AndroidVM androidVM = ViewModelProviders.of(this).get(AndroidVM.class);
-        androidVM.getAllTasks().observe(this, new Observer<List<TaskData>>() {
-            @Override
-            public void onChanged(@Nullable List<TaskData> tasks) {
-                adapter.setDataSet(tasks);
-            }
-        });
-
-
-
-        // Redirect to AddTask
-        Button buttonTaskAdd = findViewById(R.id.addTaskButton);
-        buttonTaskAdd.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Intent goToAddTask = new Intent (MainActivity.this, AddTask.class);
-                MainActivity.this.startActivity(goToAddTask);
-            }
-        });
-
-        // Redirect to AllTasks
-        Button buttonViewAllTasks = findViewById(R.id.viewAllTasks);
-        buttonViewAllTasks.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Intent goToAddTask = new Intent (MainActivity.this, AllTasks.class);
-                MainActivity.this.startActivity(goToAddTask);
-            }
-        });
-
-        // Redirect to Settings
-        Button buttonToSettings = findViewById(R.id.toSettingsButton);
-        buttonToSettings.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Intent goToSettings = new Intent (MainActivity.this, Settings.class);
-                MainActivity.this.startActivity(goToSettings);
-            }
-        });
+//         Credit: https://developer.android.com/reference/android/arch/lifecycle/ViewModelProvider
+//        AndroidVM androidVM = ViewModelProviders.of(this).get(AndroidVM.class);
+//        androidVM.getAllTasks().observe(this, new Observer<List<TaskData>>() {
+//            @Override
+//            public void onChanged(@Nullable List<TaskData> tasks) {
+//                adapter.setDataSet(tasks);
+//            }
+//        });
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-
-            String title = data.getStringExtra(AddTask.EXTRA_TITLE);
-            String priority = data.getStringExtra(AddTask.EXTRA_PRIORITY);
-            String description = data.getStringExtra(AddTask.EXTRA_DESCRIPTION);
-
-            TaskData task = new TaskData(title, priority, description);
-
-            androidVM.save(task);
-
-            Toast.makeText(this, "Task saved successfully", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this, "Task not saved", Toast.LENGTH_SHORT).show();
-        }
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (requestCode == 1 && resultCode == RESULT_OK) {
+//
+//            String title = data.getStringExtra(AddTask.EXTRA_TITLE);
+//            String priority = data.getStringExtra(AddTask.EXTRA_PRIORITY);
+//            String description = data.getStringExtra(AddTask.EXTRA_DESCRIPTION);
+//
+//            TaskData task = new TaskData(title, priority, description);
+//
+//            androidVM.save(task);
+//
+//            Toast.makeText(this, "Task saved successfully", Toast.LENGTH_LONG).show();
+//        } else {
+//            Toast.makeText(this, "Task not saved", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     @Override
     protected void onStart() {
@@ -165,6 +117,42 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    // Allow nav_and_actions to be utilized
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.nav_and_actions, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.widget_to_main) {
+            Intent goToAddMain = new Intent (this, MainActivity.class);
+            this.startActivity(goToAddMain);
+            return (true);
+
+        } else if (itemId == R.id.widget_to_AddTask) {
+            Intent goToAddTask = new Intent (this, AddTask.class);
+            this.startActivity(goToAddTask);
+            return (true);
+
+        } else if (itemId == R.id.widget_to_AllTasks) {
+            Intent goToAllTask = new Intent (this, AllTasks.class);
+            this.startActivity(goToAllTask);
+            return (true);
+
+        } else if (itemId == R.id.widget_to_Settings) {
+            Intent goToSettings = new Intent (this, Settings.class);
+            this.startActivity(goToSettings);
+            return (true);
+        }
+        return(super.onOptionsItemSelected(item));
     }
 }
 
