@@ -1,12 +1,16 @@
 # Android Studio - Task Master
 
-### Lab 36 - Cognito
+### Lab 37 - S3
 
 Created?
 
-#### Picture
 
-<a href=>Home Page</a>
+
+
+
+### Lab 36 - Cognito
+
+Created?
 
 
 
@@ -15,10 +19,6 @@ Created?
 ### Lab 34 - Amplify and DynamoDB
 
 Created?
-
-#### Picture
-
-<a href=>Home Page</a>
 
 
 
