@@ -4,6 +4,10 @@
 
 Created?
 
+#### Picture
+
+<a href=>Home Page</a>?
+
 
 
 
@@ -12,6 +16,10 @@ Created?
 
 Created?
 
+#### Picture
+
+<a href=>Home Page</a>?
+
 
 
 
@@ -19,6 +27,10 @@ Created?
 ### Lab 34 - Amplify and DynamoDB
 
 Created?
+
+#### Picture
+
+<a href=>Home Page</a>?
 
 
 
