@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -19,9 +17,7 @@ public class TaskDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail);
 
-        //
         // Update Task Detail Title with Task being looked at
-        //
         Intent showTaskDetailsFromTaskDetailPage = getIntent();
 
         String showTaskName = showTaskDetailsFromTaskDetailPage.getStringExtra("taskName");
