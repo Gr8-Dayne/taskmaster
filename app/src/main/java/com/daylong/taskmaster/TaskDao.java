@@ -1,7 +1,6 @@
 package com.daylong.taskmaster;
 
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -15,7 +14,7 @@ import java.util.List;
 public interface TaskDao {
 
     @Query("SELECT * FROM tasks_to_do ORDER BY id DESC")
-    LiveData<List<TaskData>> getAllFromTaskList();
+    List<TaskData> getAllFromTaskList();
 
     @Query("SELECT * FROM tasks_to_do WHERE id = :id")
     TaskData getSpecific(long id);
@@ -32,6 +31,6 @@ public interface TaskDao {
     @Delete
     void delete(TaskData task);
 
-    @Query("DELETE FROM Tasks_To_Do")
+    @Query("DELETE FROM tasks_to_do")
     void deleteAllTasks();
 }

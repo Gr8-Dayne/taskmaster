@@ -3,17 +3,24 @@ package com.daylong.taskmaster;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
 public class AllTasks extends AppCompatActivity {
+
+    TaskDatabase dbTasks;
+    RecyclerView recyclerView;
+    List<TaskData> dataSet = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,32 +30,24 @@ public class AllTasks extends AppCompatActivity {
         setTitle("All Tasks");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
+        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
 
+        this.dataSet = dbTasks.taskDao().getAllFromTaskList();
 
-        //
-        // Recycler View
-        //
-        RecyclerView recyclerView = findViewById(R.id.my_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        TaskAdapter adapter = new TaskAdapter();
-        recyclerView.setAdapter(adapter);
-        //
-        // Recycler View
-        //
+        for(TaskData item : dataSet){
+            Log.i("daylongTheGreat", item.getTaskName() + item.getState());
+        }
 
-
-
-        // Credit: https://developer.android.com/reference/android/arch/lifecycle/ViewModelProvider
-//        AndroidVM androidVM = ViewModelProviders.of(this).get(AndroidVM.class);
-//        androidVM.getAllTasks().observe(this, new Observer<List<TaskData>>() {
-//            @Override
-//            public void onChanged(@Nullable List<TaskData> tasks) {
-//                adapter.setDataSet(tasks);
-//            }
-//        });
+        recyclerView = findViewById(R.id.my_recycler_view);
+        recyclerView.setAdapter(new TaskAdapter(dataSet, getApplication()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(AllTasks.this));
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
     // Allow nav_and_actions to be utilized
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -6,15 +6,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 
 // Credit: https://stackoverflow.com/questions/33897978/android-convert-edittext-to-string
@@ -25,64 +28,29 @@ import androidx.room.Room;
 // Credit: https://www.journaldev.com/10024/android-recyclerview-android-cardview-example-tutorial
 public class MainActivity extends AppCompatActivity {
 
-//    private AndroidVM androidVM;
-
-    private TaskDatabase dbMain;
+    TaskDatabase dbTasks;
+    RecyclerView recyclerView;
+    List<TaskData> dataSet = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dbMain = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
+        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
 
+        this.dataSet = dbTasks.taskDao().getAllFromTaskList();
 
-        //
-        // Recycler View
-        //
-        RecyclerView recyclerView = findViewById(R.id.my_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        TaskAdapter adapter = new TaskAdapter();
-        recyclerView.setAdapter(adapter);
-        //
-        // Recycler View
-        //
+        for(TaskData item : dataSet){
+            Log.i("daylongTheGreat", item.getTaskName() + item.getState());
+        }
 
-
-
-//         Credit: https://developer.android.com/reference/android/arch/lifecycle/ViewModelProvider
-//        AndroidVM androidVM = ViewModelProviders.of(this).get(AndroidVM.class);
-//        androidVM.getAllTasks().observe(this, new Observer<List<TaskData>>() {
-//            @Override
-//            public void onChanged(@Nullable List<TaskData> tasks) {
-//                adapter.setDataSet(tasks);
-//            }
-//        });
+        recyclerView = findViewById(R.id.my_recycler_view);
+        recyclerView.setAdapter(new TaskAdapter(dataSet, getApplication()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
     }
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (requestCode == 1 && resultCode == RESULT_OK) {
-//
-//            String title = data.getStringExtra(AddTask.EXTRA_TITLE);
-//            String priority = data.getStringExtra(AddTask.EXTRA_PRIORITY);
-//            String description = data.getStringExtra(AddTask.EXTRA_DESCRIPTION);
-//
-//            TaskData task = new TaskData(title, priority, description);
-//
-//            androidVM.save(task);
-//
-//            Toast.makeText(this, "Task saved successfully", Toast.LENGTH_LONG).show();
-//        } else {
-//            Toast.makeText(this, "Task not saved", Toast.LENGTH_SHORT).show();
-//        }
-//    }
 
     @Override
     protected void onStart() {
@@ -93,9 +61,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         TextView usernameMainTextView = findViewById(R.id.addTaskH1);
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String customUsername = sharedPreferences.getString("username", "default");
+
         usernameMainTextView.setText(customUsername + "'s Tasks");
     }
 

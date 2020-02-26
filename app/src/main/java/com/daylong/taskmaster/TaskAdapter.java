@@ -19,36 +19,43 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
     private List<TaskData> dataSet = new ArrayList<>();
 
+    private Context context;
+
+    TaskAdapter(List<TaskData> dataSet, Context context) {
+        this.dataSet = dataSet;
+        this.context = context;
+    }
+
     @NonNull
     @Override
-    public TaskHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TaskHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        context = parent.getContext();
 
         // Credit: https://developer.android.com/reference/android/view/LayoutInflater
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cards_layout, parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.cards_layout, parent, false);
         return new TaskHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TaskHolder holder, int index) {
+    public void onBindViewHolder(final TaskHolder holder, final int index) {
 
-        TaskData selectedTask = dataSet.get(index);
+        TextView taskTitle = holder.textViewTitle;
+        TextView taskState = holder.textViewPriority;
+        TextView taskDescription = holder.textViewDescription;
 
-        holder.textViewTitle.setText(selectedTask.getTaskName());
-        holder.textViewPriority.setText(selectedTask.getState());
-        holder.textViewDescription.setText(selectedTask.getDescription());
-
-        //--------------------------------------//
-        //--------------------------------------//
-        //--------------------------------------//
+        taskTitle.setText(dataSet.get(index).getTaskName());
+        taskState.setText(dataSet.get(index).getState());
+        taskDescription.setText(dataSet.get(index).getDescription());
 
         // Credit: The illustrious TA James assisted me here
         holder.itemView.setOnClickListener((event) -> {
 
             Context context = event.getContext();
 
-            String potatoTitle = selectedTask.getTaskName();
-            String potatoDescription = selectedTask.getState();
-            String potatoState = selectedTask.getDescription();
+            String potatoTitle = taskTitle.getText().toString();
+            String potatoState = taskState.getText().toString();
+            String potatoDescription = taskDescription.getText().toString();
 
             Intent intentionalToDetails = new Intent(context, TaskDetail.class);
 
@@ -58,9 +65,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
             context.startActivity(intentionalToDetails);
         });
-        //--------------------------------------//
-        //--------------------------------------//
-        //--------------------------------------//
     }
 
     @Override
@@ -68,9 +72,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         return dataSet.size();
     }
 
-    public void setDataSet(List<TaskData> data) {
-        this.dataSet = data;
-        notifyDataSetChanged();
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
     }
 
     class TaskHolder extends RecyclerView.ViewHolder {
@@ -79,7 +83,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         private TextView textViewPriority;
         private TextView textViewDescription;
 
-        public TaskHolder(View itemView) {
+        TaskHolder(View itemView) {
             super(itemView);
 
             textViewTitle = itemView.findViewById(R.id.individualTaskName);
