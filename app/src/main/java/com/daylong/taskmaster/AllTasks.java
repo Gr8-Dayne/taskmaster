@@ -1,86 +1,87 @@
 package com.daylong.taskmaster;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.*;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 
-// Credit: https://codingwithmitch.com/
-// Credit: https://stackoverflow.com/questions/33897978/android-convert-edittext-to-string
-// Credit: https://guides.codepath.com/android/using-the-recyclerview
-// Credit: https://www.journaldev.com/10024/android-recyclerview-android-cardview-example-tutorial
-// Credit: https://codinginflow.com/tutorials/android/open-a-new-activity-and-pass-variables
-// Credit: https://proandroiddev.com/a-guide-to-recyclerview-selection-3ed9f2381504
 public class AllTasks extends AppCompatActivity {
 
-    static View.OnClickListener myOnClickListener;
-    private RecyclerView.LayoutManager layoutManager;
-    private static RecyclerView.Adapter adapter;
-    private static RecyclerView recyclerView;
-    private static ArrayList<TaskData> data;
-    private static ArrayList<Integer> removedItems;
+    TaskDatabase dbTasks;
+    RecyclerView recyclerView;
+    List<TaskData> dataSet = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_tasks);
 
-        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        recyclerView.setHasFixedSize(true);
+        setTitle("All Tasks");
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
-        // Research more about this later
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
 
-        data = new ArrayList<TaskData>();
-        for (int i = 0; i < HardCodedTasks.taskNameArray.length; i++) {
-            data.add(new TaskData(HardCodedTasks.taskNameArray[i], HardCodedTasks.descriptionArray[i], HardCodedTasks.stateArray[i], HardCodedTasks.id[i]));
+        this.dataSet = dbTasks.taskDao().getAllFromTaskList();
+
+        for(TaskData item : dataSet){
+            Log.i("daylongTheGreat", item.getTaskName() + item.getState());
         }
 
-        removedItems = new ArrayList<Integer>();
-        adapter = new MyTaskRecyclerViewAdapter(data);
-        recyclerView.setAdapter(adapter);
+        recyclerView = findViewById(R.id.my_recycler_view);
+        recyclerView.setAdapter(new TaskAdapter(dataSet, getApplication()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(AllTasks.this));
     }
 
-    // Something I plan on implementing later...
-//    public class MyOnClickListener implements View.OnClickListener {
-//
-//        private MyOnClickListener(Context context) {
-//        }
-//
-//        private void removeItem(View r) {
-//            int selectedItemPosition = recyclerView.getChildPosition(r);
-//            RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForPosition(selectedItemPosition);
-//            TextView textViewName = (TextView) viewHolder.itemView.findViewById(R.id.textViewName);
-//            String selectedName = (String) textViewName.getText();
-//            int selectedItemId = -1;
-//            for (int i = 0; i < HardCodedTasks.taskNameArray.length; i++) {
-//                if (selectedName.equals(HardCodedTasks.taskNameArray[i])) {
-//                    selectedItemId = HardCodedTasks.id[i];
-//                }
-//            }
-//            removedItems.add(selectedItemId);
-//            data.remove(selectedItemPosition);
-//            adapter.notifyItemRemoved(selectedItemPosition);
-//        }
-//    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 
-//    private void addRemovedItemToBin() {
-//
-//        int addItemAtListPosition = 3;
-//
-//        data.add(addItemAtListPosition, new TaskData(HardCodedTasks.taskNameArray[removedItems.get(0)], HardCodedTasks.descriptionArray[removedItems.get(0)], HardCodedTasks.descriptionArray[removedItems.get(0)], HardCodedTasks.id[removedItems.get(0)]));
-//
-//        adapter.notifyItemInserted(addItemAtListPosition);
-//
-//        removedItems.remove(0);
-//    }
+    // Allow nav_and_actions to be utilized
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.nav_and_actions, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.widget_to_main) {
+            Intent goToAddMain = new Intent (this, MainActivity.class);
+            this.startActivity(goToAddMain);
+            return (true);
+
+        } else if (itemId == R.id.widget_to_AddTask) {
+            Intent goToAddTask = new Intent (this, AddTask.class);
+            this.startActivity(goToAddTask);
+            return (true);
+
+        } else if (itemId == R.id.widget_to_AllTasks) {
+            Intent goToAllTask = new Intent (this, AllTasks.class);
+            this.startActivity(goToAllTask);
+            return (true);
+        } else if (itemId == R.id.widget_to_Settings) {
+            Intent goToSettings = new Intent (this, Settings.class);
+            this.startActivity(goToSettings);
+            return (true);
+        }
+        return(super.onOptionsItemSelected(item));
+    }
 }
 
 

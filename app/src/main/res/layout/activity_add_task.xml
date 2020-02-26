@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#5F5F5F"
+    android:textColor="#FFFFFF"
+    android:hapticFeedbackEnabled="true"
     tools:context=".AddTask">
 
     <TextView
@@ -14,6 +18,7 @@
         android:text="Add New Task"
         android:textAlignment="center"
         android:textSize="30sp"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,34 +28,24 @@
         android:id="@+id/createTask"
         android:layout_width="150dp"
         android:layout_height="60dp"
-        android:layout_marginTop="10dp"
         android:text="Add Task"
+        android:background="#141414"
+        android:textColor="#F53175"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/submittedTextShow" />
-
-    <TextView
-        android:id="@+id/submittedTextShow"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:textAlignment="center"
-        android:textColor="@color/colorAccent"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.338" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="0dp"
         android:layout_height="300dp"
-        android:layout_marginBottom="275dp"
+        android:layout_marginBottom="250dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addTaskH1">
 
@@ -58,7 +53,7 @@
             android:id="@+id/newTaskTitleInput"
             android:layout_width="350dp"
             android:layout_height="75dp"
-            app:layout_constraintBottom_toTopOf="@+id/newTaskDescriptionInput"
+            android:layout_marginTop="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -68,6 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter Task Title"
+                android:textColor="#FFFFFF"
                 android:textAlignment="center" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -77,15 +73,35 @@
             android:layout_height="75dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/newTaskTitleInput">
+            app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/newTaskDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Task Description (Optional)"
+                android:hint="Enter Task Description"
+                android:textColor="#FFFFFF"
                 android:textAlignment="center" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/newTaskPriority"
+            android:layout_width="350dp"
+            android:layout_height="75dp"
+            app:layout_constraintBottom_toTopOf="@+id/newTaskDescriptionInput"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/newTaskTitleInput">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/newTaskState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Task Priority"
+                android:textColor="#FFFFFF"
+                android:textAlignment="center" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -97,11 +113,9 @@
         android:layout_marginTop="10dp"
         android:text="Total Tasks: 0"
         android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createTask"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/createTask" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

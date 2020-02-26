@@ -1,89 +1,55 @@
 package com.daylong.taskmaster;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.View;
-import android.widget.Button;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 
-// ViewAdapter has the job of telling the RecycleView what to display at each row (ForEach?)
-// RecycleView asks for things from ViewAdapter
-// ViewAdapter needs to know: the contents/data at each index AND total length
-
-// Credit: https://codingwithmitch.com/
+// Credit: https://stackoverflow.com/questions/33897978/android-convert-edittext-to-string
+// Credit: https://www.youtube.com/watch?v=JLwW5HivZg4
+// Credit: https://www.youtube.com/watch?v=reSPN7mgshI&feature=youtu.be
+// Credit: https://proandroiddev.com/a-guide-to-recyclerview-selection-3ed9f2381504
 // Credit: https://guides.codepath.com/android/using-the-recyclerview
 // Credit: https://www.journaldev.com/10024/android-recyclerview-android-cardview-example-tutorial
 public class MainActivity extends AppCompatActivity {
 
-    private static RecyclerView.Adapter adapter;
-    private static RecyclerView recyclerView;
-    private static ArrayList<TaskData> data;
+    TaskDatabase dbTasks;
+    RecyclerView recyclerView;
+    List<TaskData> dataSet = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        recyclerView.setHasFixedSize(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
-        // Research more about this later
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
 
-        data = new ArrayList<TaskData>();
-        for (int i = 0; i < HardCodedTasks.taskNameArray.length; i++) {
-            data.add(new TaskData(HardCodedTasks.taskNameArray[i], HardCodedTasks.descriptionArray[i], HardCodedTasks.stateArray[i], HardCodedTasks.id[i]));
+        this.dataSet = dbTasks.taskDao().getAllFromTaskList();
+
+        for(TaskData item : dataSet){
+            Log.i("daylongTheGreat", item.getTaskName() + item.getState());
         }
 
-        adapter = new MyTaskRecyclerViewAdapter(data);
-        recyclerView.setAdapter(adapter);
-
-        // Redirect to AddTask
-        Button buttonTaskAdd = findViewById(R.id.addTaskButton);
-        buttonTaskAdd.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                Intent goToAddTask = new Intent (MainActivity.this, AddTask.class);
-                MainActivity.this.startActivity(goToAddTask);
-            }
-        });
-
-        // Redirect to AllTasks
-        Button buttonViewAllTasks = findViewById(R.id.viewAllTasks);
-        buttonViewAllTasks.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                Intent goToAddTask = new Intent (MainActivity.this, AllTasks.class);
-                MainActivity.this.startActivity(goToAddTask);
-            }
-        });
-
-        // Redirect to Settings
-        Button buttonToSettings = findViewById(R.id.toSettingsButton);
-        buttonToSettings.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                Intent goToSettings = new Intent (MainActivity.this, Settings.class);
-                MainActivity.this.startActivity(goToSettings);
-            }
-        });
+        recyclerView = findViewById(R.id.my_recycler_view);
+        recyclerView.setAdapter(new TaskAdapter(dataSet, getApplication()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
     }
 
     @Override
@@ -91,15 +57,17 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onResume() {
         super.onResume();
+
         TextView usernameMainTextView = findViewById(R.id.addTaskH1);
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String customUsername = sharedPreferences.getString("username", "default");
-        if (customUsername != null) {
-            usernameMainTextView.setText(customUsername + "'s Tasks");
-        }
+
+        usernameMainTextView.setText(customUsername + "'s Tasks");
     }
 
     @Override
@@ -120,6 +88,42 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    // Allow nav_and_actions to be utilized
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.nav_and_actions, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.widget_to_main) {
+            Intent goToAddMain = new Intent (this, MainActivity.class);
+            this.startActivity(goToAddMain);
+            return (true);
+
+        } else if (itemId == R.id.widget_to_AddTask) {
+            Intent goToAddTask = new Intent (this, AddTask.class);
+            this.startActivity(goToAddTask);
+            return (true);
+
+        } else if (itemId == R.id.widget_to_AllTasks) {
+            Intent goToAllTask = new Intent (this, AllTasks.class);
+            this.startActivity(goToAllTask);
+            return (true);
+
+        } else if (itemId == R.id.widget_to_Settings) {
+            Intent goToSettings = new Intent (this, Settings.class);
+            this.startActivity(goToSettings);
+            return (true);
+        }
+        return(super.onOptionsItemSelected(item));
     }
 }
 

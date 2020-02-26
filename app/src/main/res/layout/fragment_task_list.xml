@@ -8,13 +8,12 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    android:background="#3F3F3F"
+    android:background="#5F5F5F"
+    android:textColor="#FFFFFF"
     android:hapticFeedbackEnabled="true"
     android:scrollbars="vertical"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".TaskFragment"
+    tools:context=".MainActivity"
     tools:listitem="@layout/cards_layout" />
 
 
-
-<!--    tools:listitem="@layout/fragment_task"-->

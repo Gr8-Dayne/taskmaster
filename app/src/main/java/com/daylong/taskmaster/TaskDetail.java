@@ -4,7 +4,9 @@ package com.daylong.taskmaster;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 
@@ -15,39 +17,54 @@ public class TaskDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail);
 
-        //
         // Update Task Detail Title with Task being looked at
-        //
         Intent showTaskDetailsFromTaskDetailPage = getIntent();
 
         String showTaskName = showTaskDetailsFromTaskDetailPage.getStringExtra("taskName");
-        TextView textView1 = findViewById(R.id.taskDetailTitle);
+        TextView textView1 = findViewById(R.id.taskDetail_Title);
         textView1.setText(showTaskName);
 
         String showTaskStatus = showTaskDetailsFromTaskDetailPage.getStringExtra("taskState");
-        TextView textView2 = findViewById(R.id.taskState);
+        TextView textView2 = findViewById(R.id.taskDetail_State);
         textView2.setText(showTaskStatus);
 
         String showTaskDescription = showTaskDetailsFromTaskDetailPage.getStringExtra("taskDescription");
-        TextView textView3 = findViewById(R.id.taskDetailDescription);
+        TextView textView3 = findViewById(R.id.taskDetail_Description);
         textView3.setText(showTaskDescription);
+    }
+    // Allow nav_and_actions to be utilized
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.nav_and_actions, menu);
+        return true;
+    }
 
-        //
-        //
-        //
-//        Integer numberID = showTaskDetailsFromTaskDetailPage.getIntExtra("taskIDInteger", 0);
-//        TextView textView4 = findViewById(R.id.chronologicalTaskID);
-//        textView4.setText(numberID);
-        //
-        //
-        //
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-        // Redirect to Main
-        Button buttonToMain = findViewById(R.id.returnToMain);
-        buttonToMain.setOnClickListener(view -> {
-        Intent goToMain = new Intent (TaskDetail.this, MainActivity.class);
-        TaskDetail.this.startActivity(goToMain);
-        });
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.widget_to_main) {
+            Intent goToAddMain = new Intent (this, MainActivity.class);
+            this.startActivity(goToAddMain);
+            return (true);
+
+        } else if (itemId == R.id.widget_to_AddTask) {
+            Intent goToAddTask = new Intent (this, AddTask.class);
+            this.startActivity(goToAddTask);
+            return (true);
+
+        } else if (itemId == R.id.widget_to_AllTasks) {
+            Intent goToAllTask = new Intent (this, AllTasks.class);
+            this.startActivity(goToAllTask);
+            return (true);
+        } else if (itemId == R.id.widget_to_Settings) {
+            Intent goToSettings = new Intent (this, Settings.class);
+            this.startActivity(goToSettings);
+            return (true);
+        }
+        return(super.onOptionsItemSelected(item));
     }
 }
 
