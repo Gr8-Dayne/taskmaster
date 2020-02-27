@@ -40,16 +40,14 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
         dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
-
         this.dataSet = dbTasks.taskDao().getAllFromTaskList();
-
-        for(TaskData item : dataSet){
-            Log.i("daylongTheGreat", item.getTaskName() + item.getState());
-        }
-
         recyclerView = findViewById(R.id.my_recycler_view);
         recyclerView.setAdapter(new TaskAdapter(dataSet, getApplication()));
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
+//        for(TaskData item : dataSet){
+//            Log.i("daylongTheGreat", item.getTaskName() + item.getState());
+//        }
     }
 
     @Override
@@ -63,11 +61,15 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         TextView usernameMainTextView = findViewById(R.id.addTaskH1);
-
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String customUsername = sharedPreferences.getString("username", "default");
-
         usernameMainTextView.setText(customUsername + "'s Tasks");
+
+        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
+        this.dataSet = dbTasks.taskDao().getAllFromTaskList();
+        recyclerView = findViewById(R.id.my_recycler_view);
+        recyclerView.setAdapter(new TaskAdapter(dataSet, getApplication()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
     }
 
     @Override

@@ -27,25 +27,32 @@ public class AllTasks extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_tasks);
 
-        setTitle("All Tasks");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
         dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
-
         this.dataSet = dbTasks.taskDao().getAllFromTaskList();
-
-        for(TaskData item : dataSet){
-            Log.i("daylongTheGreat", item.getTaskName() + item.getState());
-        }
-
         recyclerView = findViewById(R.id.my_recycler_view);
         recyclerView.setAdapter(new TaskAdapter(dataSet, getApplication()));
         recyclerView.setLayoutManager(new LinearLayoutManager(AllTasks.this));
+
+//        for(TaskData item : dataSet){
+//            Log.i("daylongTheGreat", item.getTaskName());
+//        }
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
+        this.dataSet = dbTasks.taskDao().getAllFromTaskList();
+        recyclerView = findViewById(R.id.my_recycler_view);
+        recyclerView.setAdapter(new TaskAdapter(dataSet, getApplication()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(AllTasks.this));
     }
 
     // Allow nav_and_actions to be utilized
@@ -75,6 +82,7 @@ public class AllTasks extends AppCompatActivity {
             Intent goToAllTask = new Intent (this, AllTasks.class);
             this.startActivity(goToAllTask);
             return (true);
+
         } else if (itemId == R.id.widget_to_Settings) {
             Intent goToSettings = new Intent (this, Settings.class);
             this.startActivity(goToSettings);

@@ -15,10 +15,7 @@ import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
-//    private static View.OnClickListener myOnClickListener;
-
     private List<TaskData> dataSet = new ArrayList<>();
-
     private Context context;
 
     TaskAdapter(List<TaskData> dataSet, Context context) {
@@ -53,12 +50,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
             Context context = event.getContext();
 
+            String potatoID = index + "";
+
             String potatoTitle = taskTitle.getText().toString();
             String potatoState = taskState.getText().toString();
             String potatoDescription = taskDescription.getText().toString();
 
             Intent intentionalToDetails = new Intent(context, TaskDetail.class);
 
+            intentionalToDetails.putExtra("taskID", potatoID);
             intentionalToDetails.putExtra("taskName", potatoTitle);
             intentionalToDetails.putExtra("taskState", potatoState);
             intentionalToDetails.putExtra("taskDescription", potatoDescription);
@@ -79,12 +79,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
     class TaskHolder extends RecyclerView.ViewHolder {
 
+//        private long longViewID;
+
         private TextView textViewTitle;
         private TextView textViewPriority;
         private TextView textViewDescription;
 
         TaskHolder(View itemView) {
             super(itemView);
+
+//            longViewID = itemView.getId();
 
             textViewTitle = itemView.findViewById(R.id.individualTaskName);
             textViewPriority = itemView.findViewById(R.id.individualTaskState);

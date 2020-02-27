@@ -19,11 +19,10 @@ import androidx.room.Room;
 // Credit: https://codinginflow.com/tutorials/android/room-viewmodel-livedata-recyclerview-mvvm/part-7-add-note-activity
 public class AddTask extends AppCompatActivity {
 
+    private TaskDatabase dbTasks;
     private EditText editTextTitle;
     private EditText editTextDescription;
     private EditText editTextPriority;
-
-    private TaskDatabase db;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -34,13 +33,13 @@ public class AddTask extends AppCompatActivity {
         //
         //
         //
-        db = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
+        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
         //
         //
         //
 
         TextView addTaskCounter = findViewById(R.id.taskCount);
-        addTaskCounter.setText("Total Tasks: " + db.taskDao().getCountOfTaskList());
+        addTaskCounter.setText("Total Tasks: " + dbTasks.taskDao().getCountOfTaskList());
 
         editTextTitle = findViewById(R.id.newTaskTitle);
         editTextDescription = findViewById(R.id.newTaskDescription);
@@ -62,7 +61,7 @@ public class AddTask extends AppCompatActivity {
                 } else if (true) {
 
                     TaskData newTask = new TaskData(title, priority, description);
-                    db.taskDao().save(newTask);
+                    dbTasks.taskDao().save(newTask);
 
                     Toast.makeText(AddTask.this, "Task saved successfully", Toast.LENGTH_LONG).show();
                     finish();
@@ -72,6 +71,7 @@ public class AddTask extends AppCompatActivity {
             }
         });
     }
+
     // Allow nav_and_actions to be utilized
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
