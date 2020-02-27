@@ -11,29 +11,29 @@
             android:id="@+id/widget_to_AllTasks"
             android:icon="@drawable/ic_unarchive"
             android:title="To AllTasks"
-            app:showAsAction="always" />
+            app:showAsAction="collapseActionView" />
         <item
             android:id="@+id/widget_to_AddTask"
             android:icon="@drawable/ic_queue"
             android:title="To AddTask"
-            app:showAsAction="always" />
+            app:showAsAction="collapseActionView" />
         <item
             android:id="@+id/widget_to_Settings"
             android:icon="@drawable/ic_settings"
             android:title="To Settings"
-            app:showAsAction="always" />
+            app:showAsAction="collapseActionView" />
 
         <item
             android:id="@+id/delete_this_task"
             android:icon="@drawable/ic_trash"
-            android:title="Delete This Task"
-            android:visible="false"
+            android:title="Delete All Tasks"
+            android:visible="true"
             app:showAsAction="collapseActionView" />
         <item
             android:id="@+id/increase_priority"
             android:icon="@drawable/ic_plus_one"
             android:title="Make Priority"
-            android:visible="false"
+            android:visible="true"
             app:showAsAction="collapseActionView" />
 </menu>
 

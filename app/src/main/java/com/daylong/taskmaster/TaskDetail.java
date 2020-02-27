@@ -11,15 +11,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 
 public class TaskDetail extends AppCompatActivity {
 
     TaskDatabase dbTasks;
-    List<TaskData> dataSet = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,30 +28,19 @@ public class TaskDetail extends AppCompatActivity {
         dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
 
         Intent showTaskID = getIntent();
-        String taskIDInStringForDetailPage = showTaskID.getStringExtra("taskID");
-        TextView idTextView = findViewById(R.id.textViewIDFromAdapter);
-        idTextView.setText(taskIDInStringForDetailPage);
 
-        assert taskIDInStringForDetailPage != null;
-        long taskIndexForDetail = Long.parseLong(taskIDInStringForDetailPage);
-        Log.i("daylongTheGreat", String.valueOf(taskIndexForDetail));
-
-        // Get Task info from DB by using DB ID received from Adapter
-        TaskData clickedOnTask = dbTasks.taskDao().getSpecific(taskIndexForDetail);
-        Log.i("daylongTheGreat", String.valueOf(clickedOnTask));
-        //
-
-        // Update Task Detail Title with Task being looked at
-        Intent showTaskDetailsFromTaskDetailPage = getIntent();
-        String showTaskName = showTaskDetailsFromTaskDetailPage.getStringExtra("taskName");
+        String showTaskName = showTaskID.getStringExtra("taskName");
         TextView textView1 = findViewById(R.id.taskDetail_Title);
         textView1.setText(showTaskName);
 
-        String showTaskStatus = showTaskDetailsFromTaskDetailPage.getStringExtra("taskState");
-        TextView textView2 = findViewById(R.id.taskDetail_State);
-        textView2.setText(showTaskStatus);
+        TaskData taskDataViaTaskName = dbTasks.taskDao().getSpecificViaTaskName(showTaskName);
+        Log.i("daylongTheGreat", String.valueOf(taskDataViaTaskName));
 
-        String showTaskDescription = showTaskDetailsFromTaskDetailPage.getStringExtra("taskDescription");
+        String showTaskStatus = taskDataViaTaskName.getState();
+        TextView textView2 = findViewById(R.id.taskDetail_State);
+        textView2.setText("Priority: " + showTaskStatus);
+
+        String showTaskDescription = taskDataViaTaskName.getDescription();
         TextView textView3 = findViewById(R.id.taskDetail_Description);
         textView3.setText(showTaskDescription);
     }
@@ -64,9 +50,6 @@ public class TaskDetail extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.nav_and_actions, menu);
-
-
-
         return true;
     }
 
@@ -95,10 +78,8 @@ public class TaskDetail extends AppCompatActivity {
             this.startActivity(goToSettings);
             return (true);
 
-        } else if (itemId == R.id.increase_priority) {
-
-
-
+        } else if (itemId == R.id.delete_this_task) {
+            dbTasks.taskDao().deleteAllTasks();
             return (true);
         }
         return(super.onOptionsItemSelected(item));

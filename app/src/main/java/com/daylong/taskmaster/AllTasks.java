@@ -35,9 +35,9 @@ public class AllTasks extends AppCompatActivity {
         recyclerView.setAdapter(new TaskAdapter(dataSet, getApplication()));
         recyclerView.setLayoutManager(new LinearLayoutManager(AllTasks.this));
 
-//        for(TaskData item : dataSet){
-//            Log.i("daylongTheGreat", item.getTaskName());
-//        }
+        for(TaskData item : dataSet){
+            Log.i("daylongTheGreat", item.getTaskName());
+        }
     }
 
     @Override

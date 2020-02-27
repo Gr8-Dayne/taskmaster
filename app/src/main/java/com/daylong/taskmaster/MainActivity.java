@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.ButtonBarLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -44,10 +46,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.my_recycler_view);
         recyclerView.setAdapter(new TaskAdapter(dataSet, getApplication()));
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-
-//        for(TaskData item : dataSet){
-//            Log.i("daylongTheGreat", item.getTaskName() + item.getState());
-//        }
     }
 
     @Override
@@ -123,6 +121,10 @@ public class MainActivity extends AppCompatActivity {
         } else if (itemId == R.id.widget_to_Settings) {
             Intent goToSettings = new Intent (this, Settings.class);
             this.startActivity(goToSettings);
+            return (true);
+
+        } else if (itemId == R.id.delete_this_task) {
+            dbTasks.taskDao().deleteAllTasks();
             return (true);
         }
         return(super.onOptionsItemSelected(item));

@@ -51,3 +51,53 @@ public class TaskData {
                 '}';
     }
 }
+
+
+
+//
+// For priority == boolean
+//
+//    @PrimaryKey(autoGenerate = true)
+//    private long id;
+//
+//    private String taskName;
+//    private boolean priority;
+//    private String description;
+//
+//    public TaskData(String taskName, boolean priority, String description) {
+//        this.taskName = taskName;
+//        this.priority = priority;
+//        this.description = description;
+//    }
+//
+//    public void setId(long id) {
+//        this.id = id;
+//    }
+//
+//    public long getId() {
+//        return id;
+//    }
+//
+//    public String getTaskName() {
+//        return taskName;
+//    }
+//
+//    public boolean getPriority() {
+//        return priority;
+//    }
+//
+//    public String getDescription() {
+//        return description;
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return "TaskData{" +
+//                "id=" + id +
+//                ", taskName='" + taskName + '\'' +
+//                ", description='" + description + '\'' +
+//                ", state='" + priority + '\'' +
+//                '}';
+//    }
+
+
