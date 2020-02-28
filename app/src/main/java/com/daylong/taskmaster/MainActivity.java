@@ -15,9 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
-import com.amazonaws.amplify.generated.graphql.CreateTodoMutation;
-import com.amazonaws.amplify.generated.graphql.ListTodosQuery;
-import com.amazonaws.amplify.generated.graphql.OnCreateTodoSubscription;
+import com.amazonaws.amplify.generated.graphql.CreateTasksToDoMutation;
+import com.amazonaws.amplify.generated.graphql.ListTasksToDosQuery;
+import com.amazonaws.amplify.generated.graphql.OnCreateTasksToDoSubscription;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 import com.amazonaws.mobileconnectors.appsync.AppSyncSubscriptionCall;
@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.Nonnull;
-import type.CreateTodoInput;
+import type.CreateTasksToDoInput;
 
 
 // Credit: https://stackoverflow.com/questions/33897978/android-convert-edittext-to-string
@@ -104,44 +104,22 @@ public class MainActivity extends AppCompatActivity {
     //
     //
     //
-        // Class Demo
-//    public void runBuyableItemCreateMutation(String name, float price){
-//
-//        // I need to know shelf ids.
-//        awsSyncer.query(ListShelfsQuery.builder().build()).enqueue(new GraphQLCall.Callback<ListShelfsQuery.Data>() {
-//
-//            @Override
-//            public void onResponse(@Nonnull Response<ListShelfsQuery.Data> response) {
-//                ListShelfsQuery.Item item = response.data().listShelfs().items().get(1);
-//
-//                // old code goes here
-//                CreateBuyableItemInput createBuyableItemInput = CreateBuyableItemInput.builder().title(name).buyableItemShelfId(item.id()).price((double) price).build();
-//
-//                awsSyncer.mutate(CreateBuyableItemMutation.builder().input(createBuyableItemInput).build()).enqueue(addMutationCallback);
-//            }
-//            @Override
-//            public void onFailure(@Nonnull ApolloException e) {
-//            }
-//        });
-//    }
-
-
 
     // Mattäus' Code
-//    public void createTodoMutation(TaskData task)
+//    public void createTasksToDoMutation(TaskData task)
 //    {
-//        CreateTodoInput createTodoInput = CreateTodoInput.builder()
+//        CreateTasksToDoInput createTasksToDoInput = CreateTasksToDoInput.builder()
 //                .taskName(task.getTaskName())
 //                .description(task.getDescription())
 //                .state(task.getState())
 //                .build();
-//        awsSyncer.mutate(CreateTodoMutation.builder().input(createTodoInput).build()).enqueue(createMutationCallback);
+//        awsSyncer.mutate(CreateTasksToDoMutation.builder().input(createTasksToDoInput).build()).enqueue(createMutationCallback);
 //    }
 //
-//    private GraphQLCall.Callback<CreateTodoMutation.Data>createMutationCallback = new GraphQLCall.Callback<CreateTodoMutation.Data>() {
+//    private GraphQLCall.Callback<CreateTasksToDoMutation.Data>createMutationCallback = new GraphQLCall.Callback<CreateTasksToDoMutation.Data>() {
 //
 //        @Override
-//        public void onResponse(@Nonnull Response<CreateTodoMutation.Data> response) {
+//        public void onResponse(@Nonnull Response<CreateTasksToDoMutation.Data> response) {
 //            Log.i("daylongTheGreat", "Added Task");
 //        }
 //
@@ -154,19 +132,20 @@ public class MainActivity extends AppCompatActivity {
 
     // Add things to Amplify
     public void addHardCodedTask(){
-        CreateTodoInput hardCodedTodoInput = CreateTodoInput.builder()
+
+        CreateTasksToDoInput hardCodedTasksToDoInput = CreateTasksToDoInput.builder()
                 .taskName("Do Things Right")
                 .state("Urgent")
                 .description("Doing it right")
                 .build();
-        awsSyncer.mutate(CreateTodoMutation.builder().input(hardCodedTodoInput).build())
+        awsSyncer.mutate(CreateTasksToDoMutation.builder().input(hardCodedTasksToDoInput).build())
                 .enqueue(addHardCodedTaskCallback);
     }
 
-    private GraphQLCall.Callback<CreateTodoMutation.Data> addHardCodedTaskCallback = new GraphQLCall.Callback<CreateTodoMutation.Data>() {
+    private GraphQLCall.Callback<CreateTasksToDoMutation.Data> addHardCodedTaskCallback = new GraphQLCall.Callback<CreateTasksToDoMutation.Data>() {
 
         @Override
-        public void onResponse(@Nonnull Response<CreateTodoMutation.Data> response) {
+        public void onResponse(@Nonnull Response<CreateTasksToDoMutation.Data> response) {
             Log.i("daylongTheGreat", "-----TASK ADDED SUCCESSFULLY-----");
         }
 
@@ -178,15 +157,15 @@ public class MainActivity extends AppCompatActivity {
 
     // Get things from Amplify
 //    public void getTasksFromAmplify(){
-//        awsSyncer.query(ListTodosQuery.builder().build()).responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK).enqueue(tasksCallBack);
+//        awsSyncer.query(ListTasksToDosQuery.builder().build()).responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK).enqueue(tasksCallBack);
 //    }
 //
-//    private GraphQLCall.Callback<ListTodosQuery.Data> tasksCallBack = new GraphQLCall.Callback<ListTodosQuery.Data>() {
+//    private GraphQLCall.Callback<ListTasksToDosQuery.Data> tasksCallBack = new GraphQLCall.Callback<ListTasksToDosQuery.Data>() {
 //
 //        @Override
-//        public void onResponse(@Nonnull Response<ListTodosQuery.Data> response) {
+//        public void onResponse(@Nonnull Response<ListTasksToDosQuery.Data> response) {
 //            assert response.data() != null;
-//            Log.i("daylongTheGreat", Objects.requireNonNull(Objects.requireNonNull(response.data().listTodos()).items()).toString());
+//            Log.i("daylongTheGreat", Objects.requireNonNull(Objects.requireNonNull(response.data().listTasksToDos()).items()).toString());
 //        }
 //
 //        @Override
@@ -197,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Subscriptions
 //    private void subscribeToAmplifyList(){
-//        OnCreateTodoSubscription potatoSubscription = OnCreateTodoSubscription.builder().build();
+//        OnCreateTasksToDoSubscription potatoSubscription = OnCreateTasksToDoSubscription.builder().build();
 //        AppSyncSubscriptionCall subWatch = awsSyncer.subscribe(potatoSubscription);
 //        subWatch.execute(subCallback);
 //    }

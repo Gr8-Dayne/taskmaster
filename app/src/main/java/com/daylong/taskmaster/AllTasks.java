@@ -31,7 +31,7 @@ public class AllTasks extends AppCompatActivity {
     TaskDatabase dbTasks;
     RecyclerView recyclerView;
     List<TaskData> dataSet;
-    private AWSAppSyncClient awsSyncer;
+//    private AWSAppSyncClient awsSyncer;
 
 
     @Override
@@ -42,24 +42,22 @@ public class AllTasks extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
         //
-        awsSyncer = AWSAppSyncClient.builder().context(getApplicationContext()).awsConfiguration(new AWSConfiguration(getApplicationContext())).build();
+//        awsSyncer = AWSAppSyncClient.builder().context(getApplicationContext()).awsConfiguration(new AWSConfiguration(getApplicationContext())).build();
         //
         dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
         //
 
         this.dataSet = new ArrayList<>();
 
-//        this.dataSet = dbTasks.taskDao().getAllFromTaskList();
+        this.dataSet = dbTasks.taskDao().getAllFromTaskList();
 
         recyclerView = findViewById(R.id.my_recycler_view);
         recyclerView.setAdapter(new TaskAdapter(dataSet, getApplication()));
         recyclerView.setLayoutManager(new LinearLayoutManager(AllTasks.this));
 
-        getTasksFromAmplify();
-
-//        for(TaskData item : dataSet){
-//            Log.i("daylongTheGreat", item.getTaskName());
-//        }
+        for(TaskData item : dataSet){
+            Log.i("daylongTheGreat", item.getTaskName());
+        }
     }
 
     @Override
@@ -76,55 +74,6 @@ public class AllTasks extends AppCompatActivity {
         recyclerView.setAdapter(new TaskAdapter(dataSet, getApplication()));
         recyclerView.setLayoutManager(new LinearLayoutManager(AllTasks.this));
     }
-
-    //
-    //
-    //
-    public void getTasksFromAmplify(){
-        awsSyncer.query(ListTodosQuery.builder().build()).responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK).enqueue(tasksCallBack);
-    }
-
-    private GraphQLCall.Callback<ListTodosQuery.Data> tasksCallBack = new GraphQLCall.Callback<ListTodosQuery.Data>() {
-
-        @Override
-        public void onResponse(@Nonnull Response<ListTodosQuery.Data> response) {
-            assert response.data() != null;
-            Log.i("daylongTheGreat", Objects.requireNonNull(Objects.requireNonNull(response.data().listTodos()).items()).toString());
-        }
-
-        @Override
-        public void onFailure(@Nonnull ApolloException e) {
-            Log.e("daylongError", e.toString());
-        }
-    };
-
-    private void subscribeToAmplifyList(){
-        OnCreateTodoSubscription potatoSubscription = OnCreateTodoSubscription.builder().build();
-        AppSyncSubscriptionCall subWatch = awsSyncer.subscribe(potatoSubscription);
-        subWatch.execute(subCallback);
-    }
-
-    private AppSyncSubscriptionCall.Callback subCallback = new AppSyncSubscriptionCall.Callback() {
-
-        @Override
-        public void onResponse(@Nonnull Response response) {
-            assert response.data() != null;
-            Log.i("daylongTheGreat", response.data().toString());
-        }
-
-        @Override
-        public void onFailure(@Nonnull ApolloException e) {
-            Log.e("daylongError", e.toString());
-        }
-
-        @Override
-        public void onCompleted() {
-            Log.i("daylongTheGreat", "Subscription completed");
-        }
-    };
-    //
-    //
-    //
 
     // Allow nav_and_actions to be utilized
     @Override
