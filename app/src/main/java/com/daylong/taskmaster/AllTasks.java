@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
-
 import com.amazonaws.amplify.generated.graphql.ListTodosQuery;
 import com.amazonaws.amplify.generated.graphql.OnCreateTodoSubscription;
 import com.amazonaws.mobile.config.AWSConfiguration;
@@ -21,11 +20,9 @@ import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
 import com.apollographql.apollo.GraphQLCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import javax.annotation.Nonnull;
 
 

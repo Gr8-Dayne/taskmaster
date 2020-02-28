@@ -1,22 +1,22 @@
 # this is an auto generated file. This will be overwritten
-subscription OnCreateTodo {
-  onCreateTodo {
+subscription OnCreateTasksToDo {
+  onCreateTasksToDo {
     id
     taskName
     state
     description
   }
 }
-subscription OnUpdateTodo {
-  onUpdateTodo {
+subscription OnUpdateTasksToDo {
+  onUpdateTasksToDo {
     id
     taskName
     state
     description
   }
 }
-subscription OnDeleteTodo {
-  onDeleteTodo {
+subscription OnDeleteTasksToDo {
+  onDeleteTasksToDo {
     id
     taskName
     state

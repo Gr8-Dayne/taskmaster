@@ -1,18 +1,18 @@
 # this is an auto generated file. This will be overwritten
-query GetTodo($id: ID!) {
-  getTodo(id: $id) {
+query GetTasksToDo($id: ID!) {
+  getTasksToDo(id: $id) {
     id
     taskName
     state
     description
   }
 }
-query ListTodos(
-  $filter: ModelTodoFilterInput
+query ListTasksToDos(
+  $filter: ModelTasksToDoFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listTasksToDos(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
       taskName

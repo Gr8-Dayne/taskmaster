@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.Database;
 
 
-@Database(entities = {TaskData.class}, version = 2)
+@Database(entities = {TaskData.class}, version = 3)
 public abstract class TaskDatabase extends RoomDatabase{
     public abstract TaskDao taskDao();
 }

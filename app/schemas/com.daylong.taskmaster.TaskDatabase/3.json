@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "cf1d94130adc6d09303be7ac1172f5c4",
+    "identityHash": "6fa2d0b5845666d1b0e96b4e5f5ae41a",
     "entities": [
       {
         "tableName": "tasks_to_do",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `taskName` TEXT, `priority` TEXT, `description` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `taskName` TEXT, `state` TEXT, `description` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -21,8 +21,8 @@
             "notNull": false
           },
           {
-            "fieldPath": "priority",
-            "columnName": "priority",
+            "fieldPath": "state",
+            "columnName": "state",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -46,7 +46,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'cf1d94130adc6d09303be7ac1172f5c4')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6fa2d0b5845666d1b0e96b4e5f5ae41a')"
     ]
   }
 }

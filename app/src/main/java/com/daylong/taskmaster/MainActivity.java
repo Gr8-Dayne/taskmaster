@@ -40,7 +40,7 @@ import type.CreateTodoInput;
 // Credit: https://www.journaldev.com/10024/android-recyclerview-android-cardview-example-tutorial
 public class MainActivity extends AppCompatActivity {
 
-    TaskDatabase dbTasks;
+//    TaskDatabase dbTasks;
     RecyclerView recyclerView;
     List<TaskData> dataSet;
     private AWSAppSyncClient awsSyncer;
@@ -55,8 +55,10 @@ public class MainActivity extends AppCompatActivity {
         //
         awsSyncer = AWSAppSyncClient.builder().context(getApplicationContext()).awsConfiguration(new AWSConfiguration(getApplicationContext())).build();
         //
-        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
+//        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
         //
+
+        addHardCodedTask();
 
         this.dataSet = new ArrayList<>();
 
@@ -82,42 +84,27 @@ public class MainActivity extends AppCompatActivity {
         String customUsername = sharedPreferences.getString("username", "default");
         usernameMainTextView.setText(customUsername + "'s Tasks");
 
-        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
+        //
+        awsSyncer = AWSAppSyncClient.builder().context(getApplicationContext()).awsConfiguration(new AWSConfiguration(getApplicationContext())).build();
+        //
+//        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
+        //
 
-        this.dataSet = dbTasks.taskDao().getAllFromTaskList();
+        getTasksFromAmplify();
+
+        this.dataSet = new ArrayList<>();
+
         recyclerView = findViewById(R.id.my_recycler_view);
         recyclerView.setAdapter(new TaskAdapter(dataSet, getApplication()));
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
     }
 
+
+
     //
     //
     //
-
-    public void createTodoMutation(TaskData task)
-    {
-        CreateTodoInput createTodoInput = CreateTodoInput.builder()
-                .taskName(task.getTaskName())
-                .description(task.getDescription())
-                .state(task.getState())
-                .build();
-        awsSyncer.mutate(CreateTodoMutation.builder().input(createTodoInput).build()).enqueue(createMutationCallback);
-    }
-
-    private GraphQLCall.Callback<CreateTodoMutation.Data>createMutationCallback = new GraphQLCall.Callback<CreateTodoMutation.Data>() {
-
-        @Override
-        public void onResponse(@Nonnull Response<CreateTodoMutation.Data> response) {
-            Log.i("daylongTheGreat", "Added Task");
-        }
-
-        @Override
-        public void onFailure(@Nonnull ApolloException e) {
-            Log.e("daylongTheGreat", e.toString());
-        }
-    };
-
-//    // Class Demo
+        // Class Demo
 //    public void runBuyableItemCreateMutation(String name, float price){
 //
 //        // I need to know shelf ids.
@@ -138,19 +125,49 @@ public class MainActivity extends AppCompatActivity {
 //        });
 //    }
 
-    public void addHardCodedTask(){
-        CreateTodoInput hardCodedTodoInput1 = CreateTodoInput.builder().id("0").taskName("Do Things Right").state("Urgent").description("Doing it right").build();
-        awsSyncer.mutate(CreateTodoMutation.builder().input(hardCodedTodoInput1).build()).enqueue(addHardCodedTaskCallback);
 
-        CreateTodoInput hardCodedTodoInput2 = CreateTodoInput.builder().id("1").taskName("Amplify Lab").state("Yes").description("Ensure Amplify is properly connected to taskmaster.").build();
-        awsSyncer.mutate(CreateTodoMutation.builder().input(hardCodedTodoInput2).build()).enqueue(addHardCodedTaskCallback);
+
+    // Mattäus' Code
+//    public void createTodoMutation(TaskData task)
+//    {
+//        CreateTodoInput createTodoInput = CreateTodoInput.builder()
+//                .taskName(task.getTaskName())
+//                .description(task.getDescription())
+//                .state(task.getState())
+//                .build();
+//        awsSyncer.mutate(CreateTodoMutation.builder().input(createTodoInput).build()).enqueue(createMutationCallback);
+//    }
+//
+//    private GraphQLCall.Callback<CreateTodoMutation.Data>createMutationCallback = new GraphQLCall.Callback<CreateTodoMutation.Data>() {
+//
+//        @Override
+//        public void onResponse(@Nonnull Response<CreateTodoMutation.Data> response) {
+//            Log.i("daylongTheGreat", "Added Task");
+//        }
+//
+//        @Override
+//        public void onFailure(@Nonnull ApolloException e) {
+//            Log.e("daylongTheGreat", e.toString());
+//        }
+//    };
+
+
+
+    public void addHardCodedTask(){
+        CreateTodoInput hardCodedTodoInput = CreateTodoInput.builder()
+                .taskName("Do Things Right")
+                .state("Urgent")
+                .description("Doing it right")
+                .build();
+        awsSyncer.mutate(CreateTodoMutation.builder().input(hardCodedTodoInput).build())
+                .enqueue(addHardCodedTaskCallback);
     }
 
     private GraphQLCall.Callback<CreateTodoMutation.Data> addHardCodedTaskCallback = new GraphQLCall.Callback<CreateTodoMutation.Data>() {
 
         @Override
         public void onResponse(@Nonnull Response<CreateTodoMutation.Data> response) {
-            Log.i("daylongTheGreat", "Added Task");
+            Log.i("daylongTheGreat", "-----TASK ADDED SUCCESSFULLY-----");
         }
 
         @Override
@@ -204,6 +221,8 @@ public class MainActivity extends AppCompatActivity {
     //
     //
     //
+
+
 
     @Override
     protected void onPause() {
@@ -259,7 +278,6 @@ public class MainActivity extends AppCompatActivity {
             return (true);
 
         } else if (itemId == R.id.delete_this_task) {
-            dbTasks.taskDao().deleteAllTasks();
             return (true);
 
         } else if (itemId == R.id.increase_priority) {

@@ -1,4 +1,4 @@
-type Todo @model {
+type TasksToDo @model {
   id: ID!
   taskName: String!
   state: String!
