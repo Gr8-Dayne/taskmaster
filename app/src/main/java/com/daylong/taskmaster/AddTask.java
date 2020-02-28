@@ -15,10 +15,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import com.amazonaws.mobile.config.AWSConfiguration;
+import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
+
 
 // Credit: https://codinginflow.com/tutorials/android/room-viewmodel-livedata-recyclerview-mvvm/part-7-add-note-activity
 public class AddTask extends AppCompatActivity {
 
+    private AWSAppSyncClient awsSyncer;
     private TaskDatabase dbTasks;
     private EditText editTextTitle;
     private EditText editTextDescription;
@@ -32,6 +36,8 @@ public class AddTask extends AppCompatActivity {
 
         //
         //
+        //
+        awsSyncer = AWSAppSyncClient.builder().context(getApplicationContext()).awsConfiguration(new AWSConfiguration(getApplicationContext())).build();
         //
         dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
         //
@@ -47,6 +53,7 @@ public class AddTask extends AppCompatActivity {
 
         Button normalTaskToDB = findViewById(R.id.createTask);
         normalTaskToDB.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View e) {
 

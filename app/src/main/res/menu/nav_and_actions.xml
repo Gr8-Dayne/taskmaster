@@ -6,7 +6,7 @@
             android:id="@+id/widget_to_main"
             android:icon="@drawable/ic_home"
             android:title="To Main Activity"
-            app:showAsAction="always" />
+            app:showAsAction="collapseActionView" />
         <item
             android:id="@+id/widget_to_AllTasks"
             android:icon="@drawable/ic_unarchive"
@@ -34,7 +34,7 @@
             android:icon="@drawable/ic_plus_one"
             android:title="Make Priority"
             android:visible="true"
-            app:showAsAction="collapseActionView" />
+            app:showAsAction="always" />
 </menu>
 
 

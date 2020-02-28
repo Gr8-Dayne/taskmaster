@@ -29,7 +29,15 @@ android {
     }
 }
 
+apply plugin: 'com.amazonaws.appsync'
+
 dependencies {
+    implementation 'com.amazonaws:aws-android-sdk-core:2.15.+'
+    implementation 'com.amazonaws:aws-android-sdk-appsync:2.8.+'
+
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+
     annotationProcessor "androidx.room:room-compiler:2.2.4"
     annotationProcessor "androidx.room:room-compiler:2.2.4"
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
