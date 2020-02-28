@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
 //        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
         //
 
-        getTasksFromAmplify();
+        addHardCodedTask();
 
         this.dataSet = new ArrayList<>();
 
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
 //    };
 
 
-
+    // Add things to Amplify
     public void addHardCodedTask(){
         CreateTodoInput hardCodedTodoInput = CreateTodoInput.builder()
                 .taskName("Do Things Right")
@@ -176,48 +176,50 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public void getTasksFromAmplify(){
-        awsSyncer.query(ListTodosQuery.builder().build()).responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK).enqueue(tasksCallBack);
-    }
+    // Get things from Amplify
+//    public void getTasksFromAmplify(){
+//        awsSyncer.query(ListTodosQuery.builder().build()).responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK).enqueue(tasksCallBack);
+//    }
+//
+//    private GraphQLCall.Callback<ListTodosQuery.Data> tasksCallBack = new GraphQLCall.Callback<ListTodosQuery.Data>() {
+//
+//        @Override
+//        public void onResponse(@Nonnull Response<ListTodosQuery.Data> response) {
+//            assert response.data() != null;
+//            Log.i("daylongTheGreat", Objects.requireNonNull(Objects.requireNonNull(response.data().listTodos()).items()).toString());
+//        }
+//
+//        @Override
+//        public void onFailure(@Nonnull ApolloException e) {
+//            Log.e("daylongTheGreat", e.toString());
+//        }
+//    };
 
-    private GraphQLCall.Callback<ListTodosQuery.Data> tasksCallBack = new GraphQLCall.Callback<ListTodosQuery.Data>() {
-
-        @Override
-        public void onResponse(@Nonnull Response<ListTodosQuery.Data> response) {
-            assert response.data() != null;
-            Log.i("daylongTheGreat", Objects.requireNonNull(Objects.requireNonNull(response.data().listTodos()).items()).toString());
-        }
-
-        @Override
-        public void onFailure(@Nonnull ApolloException e) {
-            Log.e("daylongTheGreat", e.toString());
-        }
-    };
-
-    private void subscribeToAmplifyList(){
-        OnCreateTodoSubscription potatoSubscription = OnCreateTodoSubscription.builder().build();
-        AppSyncSubscriptionCall subWatch = awsSyncer.subscribe(potatoSubscription);
-        subWatch.execute(subCallback);
-    }
-
-    private AppSyncSubscriptionCall.Callback subCallback = new AppSyncSubscriptionCall.Callback() {
-
-        @Override
-        public void onResponse(@Nonnull Response response) {
-            assert response.data() != null;
-            Log.i("daylongTheGreat", response.data().toString());
-        }
-
-        @Override
-        public void onFailure(@Nonnull ApolloException e) {
-            Log.e("daylongTheGreat", e.toString());
-        }
-
-        @Override
-        public void onCompleted() {
-            Log.i("daylongTheGreat", "Subscription completed");
-        }
-    };
+    // Subscriptions
+//    private void subscribeToAmplifyList(){
+//        OnCreateTodoSubscription potatoSubscription = OnCreateTodoSubscription.builder().build();
+//        AppSyncSubscriptionCall subWatch = awsSyncer.subscribe(potatoSubscription);
+//        subWatch.execute(subCallback);
+//    }
+//
+//    private AppSyncSubscriptionCall.Callback subCallback = new AppSyncSubscriptionCall.Callback() {
+//
+//        @Override
+//        public void onResponse(@Nonnull Response response) {
+//            assert response.data() != null;
+//            Log.i("daylongTheGreat", response.data().toString());
+//        }
+//
+//        @Override
+//        public void onFailure(@Nonnull ApolloException e) {
+//            Log.e("daylongTheGreat", e.toString());
+//        }
+//
+//        @Override
+//        public void onCompleted() {
+//            Log.i("daylongTheGreat", "Subscription completed");
+//        }
+//    };
     //
     //
     //
@@ -281,7 +283,6 @@ public class MainActivity extends AppCompatActivity {
             return (true);
 
         } else if (itemId == R.id.increase_priority) {
-            addHardCodedTask();
             return (true);
         }
         return(super.onOptionsItemSelected(item));
