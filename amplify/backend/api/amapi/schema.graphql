@@ -3,11 +3,11 @@ type Todo @model {
   name: String!
   priority: String
   description: String
-  tasklist: TaskList @connection(name: "All Local Tasks")
+  taskList: TaskList @connection(name: "TaskLists")
 }
 
 type TaskList @model {
   id: ID!
   name: String
-  todo: [Todo] @connection(name: "All Local Tasks")
+  toDo: [Todo] @connection(name: "TaskLists")
 }

@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import com.amazonaws.amplify.generated.graphql.CreateTaskListMutation;
 import com.amazonaws.amplify.generated.graphql.CreateTodoMutation;
 import com.amazonaws.amplify.generated.graphql.ListTodosQuery;
 import com.amazonaws.mobile.config.AWSConfiguration;
@@ -38,6 +39,8 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.annotation.Nonnull;
+
+import type.CreateTaskListInput;
 import type.CreateTodoInput;
 
 
@@ -49,7 +52,7 @@ import type.CreateTodoInput;
 // Credit: https://www.journaldev.com/10024/android-recyclerview-android-cardview-example-tutorial
 public class MainActivity extends AppCompatActivity {
 
-    TaskDatabase dbTasks;
+//    TaskDatabase dbTasks;
     RecyclerView recyclerView;
     List<TaskData> dataSetMain = new ArrayList<>();
     private AWSAppSyncClient awsSyncer;
@@ -73,11 +76,11 @@ public class MainActivity extends AppCompatActivity {
 //                .build();
         //
 
-        try {
-            this.dataSetMain = dbTasks.taskDao().getHIGHPriorityTasks("HIGH");
-        } catch (Exception e) {
-            Log.i("daylongTheGreat", String.valueOf(dataSetMain));
-        }
+//        try {
+//            this.dataSetMain = dbTasks.taskDao().getHIGHPriorityTasks("HIGH");
+//        } catch (Exception e) {
+//            Log.i("daylongTheGreat", String.valueOf(dataSetMain));
+//        }
 
         recyclerView = findViewById(R.id.my_Main_recycler_view);
         recyclerView.setAdapter(new TaskAdapter(dataSetMain, getApplication()));
@@ -113,20 +116,20 @@ public class MainActivity extends AppCompatActivity {
                 .awsConfiguration(new AWSConfiguration(getApplicationContext()))
                 .build();
         //
-        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks")
-                .allowMainThreadQueries()
-                .fallbackToDestructiveMigration()
-                .build();
+//        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks")
+//                .allowMainThreadQueries()
+//                .fallbackToDestructiveMigration()
+//                .build();
         //
 
-        this.dataSetMain = dbTasks.taskDao().getHIGHPriorityTasks("HIGH");
+//        this.dataSetMain = dbTasks.taskDao().getHIGHPriorityTasks("HIGH");
         recyclerView = findViewById(R.id.my_Main_recycler_view);
         recyclerView.setAdapter(new TaskAdapter(dataSetMain, getApplication()));
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
+        getTasksFromAmplify();
     }
 
-    //
-    //
     //
     // Get things from Amplify
     public void getTasksFromAmplify(){
@@ -139,18 +142,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onResponse(@Nonnull Response<ListTodosQuery.Data> response) {
             Log.i("daylongTheGreat", response.data().listTodos().items().toString());
-
             if(dataSetMain.size() == 0 || response.data().listTodos().items().size() != dataSetMain.size()){
-
                 dataSetMain.clear();
-
                 for(ListTodosQuery.Item item : response.data().listTodos().items()){
-
                     TaskData a = new TaskData(item.name(), item.priority(), item.description());
-
                     dataSetMain.add(a);
                 }
-
                 Handler handlerForMainThread = new Handler(Looper.getMainLooper()){
                     @Override
                     public void handleMessage(Message inputMessage){
@@ -166,33 +163,7 @@ public class MainActivity extends AppCompatActivity {
             Log.e("daylongTheGreat", e.toString());
         }
     };
-
-    // Subscription
-//    public void runShelfCreateMutation(String name){
-//        CreateTaskListInput createShelfInput = CreateShelfInput.builder()
-//                .name(name)
-//                .build();
-//        awsAppSyncClient.mutate(CreateShelfMutation.builder().input(createShelfInput).build())
-//                .enqueue(addShelfCallback);
-//
-//    }
-//
-//    private GraphQLCall.Callback<CreateShelfMutation.Data> addShelfCallback = new GraphQLCall.Callback<CreateShelfMutation.Data>() {
-//        @Override
-//        public void onResponse(@Nonnull Response<CreateShelfMutation.Data> response) {
-//            Log.i(TAG, "Added Shelf");
-//        }
-//
-//        @Override
-//        public void onFailure(@Nonnull ApolloException e) {
-//            Log.e(TAG, e.toString());
-//        }
-//    };
     //
-    //
-    //
-
-
 
     @Override
     protected void onPause() {

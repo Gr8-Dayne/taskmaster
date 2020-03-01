@@ -5,6 +5,13 @@ query GetTodo($id: ID!) {
     name
     priority
     description
+    taskList {
+      id
+      name
+      toDo {
+        nextToken
+      }
+    }
   }
 }
 query ListTodos(
@@ -18,6 +25,41 @@ query ListTodos(
       name
       priority
       description
+      taskList {
+        id
+        name
+      }
+    }
+    nextToken
+  }
+}
+query GetTaskList($id: ID!) {
+  getTaskList(id: $id) {
+    id
+    name
+    toDo {
+      items {
+        id
+        name
+        priority
+        description
+      }
+      nextToken
+    }
+  }
+}
+query ListTaskLists(
+  $filter: ModelTaskListFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listTaskLists(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      toDo {
+        nextToken
+      }
     }
     nextToken
   }

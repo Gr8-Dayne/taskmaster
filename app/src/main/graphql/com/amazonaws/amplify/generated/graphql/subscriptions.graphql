@@ -5,6 +5,13 @@ subscription OnCreateTodo {
     name
     priority
     description
+    taskList {
+      id
+      name
+      toDo {
+        nextToken
+      }
+    }
   }
 }
 subscription OnUpdateTodo {
@@ -13,6 +20,13 @@ subscription OnUpdateTodo {
     name
     priority
     description
+    taskList {
+      id
+      name
+      toDo {
+        nextToken
+      }
+    }
   }
 }
 subscription OnDeleteTodo {
@@ -21,5 +35,57 @@ subscription OnDeleteTodo {
     name
     priority
     description
+    taskList {
+      id
+      name
+      toDo {
+        nextToken
+      }
+    }
+  }
+}
+subscription OnCreateTaskList {
+  onCreateTaskList {
+    id
+    name
+    toDo {
+      items {
+        id
+        name
+        priority
+        description
+      }
+      nextToken
+    }
+  }
+}
+subscription OnUpdateTaskList {
+  onUpdateTaskList {
+    id
+    name
+    toDo {
+      items {
+        id
+        name
+        priority
+        description
+      }
+      nextToken
+    }
+  }
+}
+subscription OnDeleteTaskList {
+  onDeleteTaskList {
+    id
+    name
+    toDo {
+      items {
+        id
+        name
+        priority
+        description
+      }
+      nextToken
+    }
   }
 }

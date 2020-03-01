@@ -8,6 +8,13 @@ mutation CreateTodo(
     name
     priority
     description
+    taskList {
+      id
+      name
+      toDo {
+        nextToken
+      }
+    }
   }
 }
 mutation UpdateTodo(
@@ -19,6 +26,13 @@ mutation UpdateTodo(
     name
     priority
     description
+    taskList {
+      id
+      name
+      toDo {
+        nextToken
+      }
+    }
   }
 }
 mutation DeleteTodo(
@@ -30,5 +44,66 @@ mutation DeleteTodo(
     name
     priority
     description
+    taskList {
+      id
+      name
+      toDo {
+        nextToken
+      }
+    }
+  }
+}
+mutation CreateTaskList(
+  $input: CreateTaskListInput!
+  $condition: ModelTaskListConditionInput
+) {
+  createTaskList(input: $input, condition: $condition) {
+    id
+    name
+    toDo {
+      items {
+        id
+        name
+        priority
+        description
+      }
+      nextToken
+    }
+  }
+}
+mutation UpdateTaskList(
+  $input: UpdateTaskListInput!
+  $condition: ModelTaskListConditionInput
+) {
+  updateTaskList(input: $input, condition: $condition) {
+    id
+    name
+    toDo {
+      items {
+        id
+        name
+        priority
+        description
+      }
+      nextToken
+    }
+  }
+}
+mutation DeleteTaskList(
+  $input: DeleteTaskListInput!
+  $condition: ModelTaskListConditionInput
+) {
+  deleteTaskList(input: $input, condition: $condition) {
+    id
+    name
+    toDo {
+      items {
+        id
+        name
+        priority
+        description
+      }
+      nextToken
+    }
   }
 }
