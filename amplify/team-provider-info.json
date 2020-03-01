@@ -24,5 +24,18 @@
             "StackId": "arn:aws:cloudformation:us-west-2:247911380986:stack/amplify-taskmaster-tskmstrenv-184023/abfa2390-59d3-11ea-b1fa-0a9fa6069cfa",
             "AmplifyAppId": "d137kj31repyp4"
         }
+    },
+    "finalfix": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-taskmaster-finalfix-00815-authRole",
+            "UnauthRoleArn": "arn:aws:iam::247911380986:role/amplify-taskmaster-finalfix-00815-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::247911380986:role/amplify-taskmaster-finalfix-00815-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "amplify-taskmaster-finalfix-00815-deployment",
+            "UnauthRoleName": "amplify-taskmaster-finalfix-00815-unauthRole",
+            "StackName": "amplify-taskmaster-finalfix-00815",
+            "StackId": "arn:aws:cloudformation:us-west-2:247911380986:stack/amplify-taskmaster-finalfix-00815/cf0d58e0-5b93-11ea-a872-0288276eb0d6",
+            "AmplifyAppId": "d137kj31repyp4"
+        }
     }
 }
