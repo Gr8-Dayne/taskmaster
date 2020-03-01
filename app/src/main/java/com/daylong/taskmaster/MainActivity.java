@@ -10,6 +10,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,11 +44,11 @@ import type.CreateTodoInput;
 // Credit: https://www.journaldev.com/10024/android-recyclerview-android-cardview-example-tutorial
 public class MainActivity extends AppCompatActivity {
 
-    TaskDatabase dbTasks;
+//    TaskDatabase dbTasks;
     RecyclerView recyclerView;
     List<TaskData> dataSetMain = new ArrayList<>();
 
-//    private AWSAppSyncClient mAWSAppSyncClient;
+    private AWSAppSyncClient mAWSAppSyncClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,25 +58,22 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
         //
-//        mAWSAppSyncClient = AWSAppSyncClient.builder()
-//                .context(getApplicationContext())
-//                .awsConfiguration(new AWSConfiguration(getApplicationContext()))
-//                .build();
-        //
-        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks")
-                .allowMainThreadQueries()
-                .fallbackToDestructiveMigration()
+        mAWSAppSyncClient = AWSAppSyncClient.builder()
+                .context(getApplicationContext())
+                .awsConfiguration(new AWSConfiguration(getApplicationContext()))
                 .build();
         //
+//        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks")
+//                .allowMainThreadQueries()
+//                .fallbackToDestructiveMigration()
+//                .build();
+        //
 
-        try {
-            this.dataSetMain = dbTasks.taskDao().getHIGHPriorityTasks("HIGH");
-        } catch (Exception e) {
-
-            TaskData newTask = new TaskData("ERROR", "URGENT", "INVESTIGATE FURTHER ASAP");
-            dbTasks.taskDao().save(newTask);
-            Log.i("daylongTheGreat", String.valueOf(dataSetMain));
-        }
+//        try {
+//            this.dataSetMain = dbTasks.taskDao().getHIGHPriorityTasks("HIGH");
+//        } catch (Exception e) {
+//            Log.i("daylongTheGreat", String.valueOf(dataSetMain));
+//        }
 
         recyclerView = findViewById(R.id.my_Main_recycler_view);
         recyclerView.setAdapter(new TaskAdapter(dataSetMain, getApplication()));
@@ -82,6 +82,9 @@ public class MainActivity extends AppCompatActivity {
         for (TaskData item : dataSetMain) {
             Log.i("daylongTheGreat", item.getName() + " " + item.getPriority());
         }
+
+        Button addToCartButton = findViewById(R.id.add_to_amplify);
+        addToCartButton.setOnClickListener(view -> addHardCodedTask("Touch", "HIGH", "I remember touch."));
 
     }
 
@@ -118,29 +121,29 @@ public class MainActivity extends AppCompatActivity {
     //
     //
     // Add things to Amplify
-//    public void addHardCodedTask(){
-//
-//        CreateTodoInput createTodoInput = CreateTodoInput.builder()
-//                .name("Touch")
-//                .priority("URGENT")
-//                .description("I remember touch.")
-//                .build();
-//
-//        mAWSAppSyncClient.mutate(CreateTodoMutation.builder().input(createTodoInput).build())
-//                .enqueue(addTaskCallback);
-//    }
-//
-//    private GraphQLCall.Callback<CreateTodoMutation.Data> addTaskCallback = new GraphQLCall.Callback<CreateTodoMutation.Data>() {
-//        @Override
-//        public void onResponse(@Nonnull Response<CreateTodoMutation.Data> response) {
-//            Log.i("daylongTheGreat", "-----ADD TASK CLICKED-----");
-//        }
-//
-//        @Override
-//        public void onFailure(@Nonnull ApolloException e) {
-//            Log.e("daylongTheGreat", "_____ERROR_____ " + e.toString());
-//        }
-//    };
+    public void addHardCodedTask(String name, String priority, String description){
+
+        CreateTodoInput createTodoInput = CreateTodoInput.builder()
+                .name(name)
+                .priority(priority)
+                .description(description)
+                .build();
+
+        mAWSAppSyncClient.mutate(CreateTodoMutation.builder().input(createTodoInput).build())
+                .enqueue(addTaskCallback);
+    }
+
+    private GraphQLCall.Callback<CreateTodoMutation.Data> addTaskCallback = new GraphQLCall.Callback<CreateTodoMutation.Data>() {
+        @Override
+        public void onResponse(@Nonnull Response<CreateTodoMutation.Data> response) {
+            Log.i("daylongTheGreat", "-----ADD TASK CLICKED-----");
+        }
+
+        @Override
+        public void onFailure(@Nonnull ApolloException e) {
+            Log.e("daylongTheGreat", "_____ERROR_____ " + e.toString());
+        }
+    };
 
     // Mattäus' Code
 //    public void createToDoMutation(TaskData task)
