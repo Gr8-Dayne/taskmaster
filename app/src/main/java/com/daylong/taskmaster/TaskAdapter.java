@@ -1,6 +1,7 @@
 package com.daylong.taskmaster;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -34,6 +35,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         return new TaskHolder(v);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(final TaskHolder holder, final int RVIndex) {
 
@@ -47,13 +49,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         holder.itemView.setOnClickListener((event) -> {
 
             Context context = event.getContext();
-
             String potatoTitle = taskTitle.getText().toString();
-
             Intent intentionalToDetails = new Intent(context, TaskDetail.class);
-
             intentionalToDetails.putExtra("taskName", potatoTitle);
-
             context.startActivity(intentionalToDetails);
         });
     }

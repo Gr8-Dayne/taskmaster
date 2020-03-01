@@ -12,6 +12,11 @@ public class TaskData {
     private long id;
 
     private String taskName;
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
     private String state;
     private String description;
 

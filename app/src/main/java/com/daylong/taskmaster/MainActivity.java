@@ -11,25 +11,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
-import com.amazonaws.amplify.generated.graphql.CreateTasksToDoMutation;
-import com.amazonaws.amplify.generated.graphql.ListTasksToDosQuery;
-import com.amazonaws.amplify.generated.graphql.OnCreateTasksToDoSubscription;
-import com.amazonaws.mobile.config.AWSConfiguration;
-import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
-import com.amazonaws.mobileconnectors.appsync.AppSyncSubscriptionCall;
-import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
-import com.apollographql.apollo.GraphQLCall;
-import com.apollographql.apollo.api.Response;
-import com.apollographql.apollo.exception.ApolloException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.annotation.Nonnull;
-import type.CreateTasksToDoInput;
 
 
 // Credit: https://stackoverflow.com/questions/33897978/android-convert-edittext-to-string
@@ -40,10 +31,10 @@ import type.CreateTasksToDoInput;
 // Credit: https://www.journaldev.com/10024/android-recyclerview-android-cardview-example-tutorial
 public class MainActivity extends AppCompatActivity {
 
-//    TaskDatabase dbTasks;
+    TaskDatabase dbTasks;
     RecyclerView recyclerView;
-    List<TaskData> dataSet;
-    private AWSAppSyncClient awsSyncer;
+    List<TaskData> dataSetMain = new ArrayList<>();
+//    private AWSAppSyncClient awsSyncer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,20 +44,25 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
         //
-        awsSyncer = AWSAppSyncClient.builder().context(getApplicationContext()).awsConfiguration(new AWSConfiguration(getApplicationContext())).build();
+//        awsSyncer = AWSAppSyncClient.builder().context(getApplicationContext()).awsConfiguration(new AWSConfiguration(getApplicationContext())).build();
         //
-//        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
+        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
         //
 
-        addHardCodedTask();
+        // Test if Task is actually added to Amplify
+//        addHardCodedTask();
 
-        this.dataSet = new ArrayList<>();
+//        this.dataSet = new ArrayList<>();
 
-//        this.dataSet = dbTasks.taskDao().getAllFromTaskList();
+        this.dataSetMain = dbTasks.taskDao().getHIGHPriorityTasks("HIGH");
 
-        recyclerView = findViewById(R.id.my_recycler_view);
-        recyclerView.setAdapter(new TaskAdapter(dataSet, getApplication()));
+        recyclerView = findViewById(R.id.my_Main_recycler_view);
+        recyclerView.setAdapter(new TaskAdapter(dataSetMain, getApplication()));
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
+        for(TaskData item : dataSetMain){
+            Log.i("daylongTheGreat", item.getTaskName() + " " + item.getState());
+        }
     }
 
     @Override
@@ -79,23 +75,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        // Username Display
         TextView usernameMainTextView = findViewById(R.id.addTaskH1);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String customUsername = sharedPreferences.getString("username", "default");
         usernameMainTextView.setText(customUsername + "'s Tasks");
-
-        //
-        awsSyncer = AWSAppSyncClient.builder().context(getApplicationContext()).awsConfiguration(new AWSConfiguration(getApplicationContext())).build();
-        //
-//        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
         //
 
-        addHardCodedTask();
+        //
+//        awsSyncer = AWSAppSyncClient.builder().context(getApplicationContext()).awsConfiguration(new AWSConfiguration(getApplicationContext())).build();
+        //
+        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
+        //
 
-        this.dataSet = new ArrayList<>();
-
-        recyclerView = findViewById(R.id.my_recycler_view);
-        recyclerView.setAdapter(new TaskAdapter(dataSet, getApplication()));
+        this.dataSetMain = dbTasks.taskDao().getHIGHPriorityTasks("HIGH");
+        recyclerView = findViewById(R.id.my_Main_recycler_view);
+        recyclerView.setAdapter(new TaskAdapter(dataSetMain, getApplication()));
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
     }
 
@@ -131,29 +126,29 @@ public class MainActivity extends AppCompatActivity {
 
 
     // Add things to Amplify
-    public void addHardCodedTask(){
-
-        CreateTasksToDoInput hardCodedTasksToDoInput = CreateTasksToDoInput.builder()
-                .taskName("Do Things Right")
-                .state("Urgent")
-                .description("Doing it right")
-                .build();
-        awsSyncer.mutate(CreateTasksToDoMutation.builder().input(hardCodedTasksToDoInput).build())
-                .enqueue(addHardCodedTaskCallback);
-    }
-
-    private GraphQLCall.Callback<CreateTasksToDoMutation.Data> addHardCodedTaskCallback = new GraphQLCall.Callback<CreateTasksToDoMutation.Data>() {
-
-        @Override
-        public void onResponse(@Nonnull Response<CreateTasksToDoMutation.Data> response) {
-            Log.i("daylongTheGreat", "-----TASK ADDED SUCCESSFULLY-----");
-        }
-
-        @Override
-        public void onFailure(@Nonnull ApolloException e) {
-            Log.e("daylongTheGreat", e.toString());
-        }
-    };
+//    public void addHardCodedTask(){
+//
+//        CreateTasksToDoInput hardCodedTasksToDoInput = CreateTasksToDoInput.builder()
+//                .taskName("Do Things Right")
+//                .state("Urgent")
+//                .description("Doing it right")
+//                .build();
+//        awsSyncer.mutate(CreateTasksToDoMutation.builder().input(hardCodedTasksToDoInput).build())
+//                .enqueue(addHardCodedTaskCallback);
+//    }
+//
+//    private GraphQLCall.Callback<CreateTasksToDoMutation.Data> addHardCodedTaskCallback = new GraphQLCall.Callback<CreateTasksToDoMutation.Data>() {
+//
+//        @Override
+//        public void onResponse(@Nonnull Response<CreateTasksToDoMutation.Data> response) {
+//            Log.i("daylongTheGreat", "-----TASK ADDED SUCCESSFULLY-----");
+//        }
+//
+//        @Override
+//        public void onFailure(@Nonnull ApolloException e) {
+//            Log.e("daylongTheGreat", e.toString());
+//        }
+//    };
 
     // Get things from Amplify
 //    public void getTasksFromAmplify(){
@@ -239,8 +234,8 @@ public class MainActivity extends AppCompatActivity {
         int itemId = item.getItemId();
 
         if (itemId == R.id.widget_to_main) {
-            Intent goToAddMain = new Intent (this, MainActivity.class);
-            this.startActivity(goToAddMain);
+            Intent goToMain = new Intent (this, MainActivity.class);
+            this.startActivity(goToMain);
             return (true);
 
         } else if (itemId == R.id.widget_to_AddTask) {
@@ -259,9 +254,15 @@ public class MainActivity extends AppCompatActivity {
             return (true);
 
         } else if (itemId == R.id.delete_this_task) {
+            Toast.makeText(MainActivity.this, "Not Applicable", Toast.LENGTH_SHORT).show();
             return (true);
 
         } else if (itemId == R.id.increase_priority) {
+            Toast.makeText(MainActivity.this, "Not Applicable", Toast.LENGTH_SHORT).show();
+            return (true);
+
+        } else if (itemId == R.id.decrease_priority) {
+            Toast.makeText(MainActivity.this, "Not Applicable", Toast.LENGTH_SHORT).show();
             return (true);
         }
         return(super.onOptionsItemSelected(item));

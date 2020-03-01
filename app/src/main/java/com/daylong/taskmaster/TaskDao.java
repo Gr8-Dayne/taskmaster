@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.RoomWarnings;
 import androidx.room.Update;
 import java.util.List;
 
@@ -15,6 +16,9 @@ public interface TaskDao {
 
     @Query("SELECT * FROM tasks_to_do ORDER BY id")
     List<TaskData> getAllFromTaskList();
+
+    @Query("SELECT * FROM tasks_to_do WHERE state = :state")
+    List<TaskData> getHIGHPriorityTasks(String state);
 
     @Query("SELECT * FROM tasks_to_do WHERE id = :id")
     TaskData getSpecificViaID(long id);

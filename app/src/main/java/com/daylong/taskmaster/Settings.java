@@ -67,6 +67,18 @@ public class Settings extends AppCompatActivity {
             Intent goToSettings = new Intent (this, Settings.class);
             this.startActivity(goToSettings);
             return (true);
+
+        } else if (itemId == R.id.delete_this_task) {
+            Toast.makeText(Settings.this, "Not Applicable", Toast.LENGTH_SHORT).show();
+            return (true);
+
+        } else if (itemId == R.id.increase_priority) {
+            Toast.makeText(Settings.this, "Not Applicable", Toast.LENGTH_SHORT).show();
+            return (true);
+
+        } else if (itemId == R.id.decrease_priority) {
+            Toast.makeText(Settings.this, "Not Applicable", Toast.LENGTH_SHORT).show();
+            return (true);
         }
         return(super.onOptionsItemSelected(item));
     }

@@ -7,32 +7,22 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
-import com.amazonaws.amplify.generated.graphql.ListTodosQuery;
-import com.amazonaws.amplify.generated.graphql.OnCreateTodoSubscription;
-import com.amazonaws.mobile.config.AWSConfiguration;
-import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
-import com.amazonaws.mobileconnectors.appsync.AppSyncSubscriptionCall;
-import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
-import com.apollographql.apollo.GraphQLCall;
-import com.apollographql.apollo.api.Response;
-import com.apollographql.apollo.exception.ApolloException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.annotation.Nonnull;
 
 
 public class AllTasks extends AppCompatActivity {
 
     TaskDatabase dbTasks;
     RecyclerView recyclerView;
-    List<TaskData> dataSet;
+    List<TaskData> dataSet = new ArrayList<>();
 //    private AWSAppSyncClient awsSyncer;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +37,7 @@ public class AllTasks extends AppCompatActivity {
         dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
         //
 
-        this.dataSet = new ArrayList<>();
+//        this.dataSet = new ArrayList<>();
 
         this.dataSet = dbTasks.taskDao().getAllFromTaskList();
 
@@ -89,8 +79,8 @@ public class AllTasks extends AppCompatActivity {
         int itemId = item.getItemId();
 
         if (itemId == R.id.widget_to_main) {
-            Intent goToAddMain = new Intent (this, MainActivity.class);
-            this.startActivity(goToAddMain);
+            Intent goToMain = new Intent (this, MainActivity.class);
+            this.startActivity(goToMain);
             return (true);
 
         } else if (itemId == R.id.widget_to_AddTask) {
@@ -106,6 +96,18 @@ public class AllTasks extends AppCompatActivity {
         } else if (itemId == R.id.widget_to_Settings) {
             Intent goToSettings = new Intent (this, Settings.class);
             this.startActivity(goToSettings);
+            return (true);
+
+        } else if (itemId == R.id.delete_this_task) {
+            Toast.makeText(AllTasks.this, "Not Applicable", Toast.LENGTH_SHORT).show();
+            return (true);
+
+        } else if (itemId == R.id.increase_priority) {
+            Toast.makeText(AllTasks.this, "Not Applicable", Toast.LENGTH_SHORT).show();
+            return (true);
+
+        } else if (itemId == R.id.decrease_priority) {
+            Toast.makeText(AllTasks.this, "Not Applicable", Toast.LENGTH_SHORT).show();
             return (true);
         }
         return(super.onOptionsItemSelected(item));

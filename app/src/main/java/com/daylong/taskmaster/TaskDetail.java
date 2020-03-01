@@ -4,13 +4,19 @@ package com.daylong.taskmaster;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.Objects;
 
 
@@ -18,6 +24,7 @@ public class TaskDetail extends AppCompatActivity {
 
     TaskDatabase dbTasks;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,14 +60,19 @@ public class TaskDetail extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int itemId = item.getItemId();
 
+        Intent showTaskID = getIntent();
+        String showTaskName = showTaskID.getStringExtra("taskName");
+        TaskData taskDataViaTaskName = dbTasks.taskDao().getSpecificViaTaskName(showTaskName);
+
         if (itemId == R.id.widget_to_main) {
-            Intent goToAddMain = new Intent (this, MainActivity.class);
-            this.startActivity(goToAddMain);
+            Intent goToMain = new Intent (this, MainActivity.class);
+            this.startActivity(goToMain);
             return (true);
 
         } else if (itemId == R.id.widget_to_AddTask) {
@@ -79,7 +91,28 @@ public class TaskDetail extends AppCompatActivity {
             return (true);
 
         } else if (itemId == R.id.delete_this_task) {
-            dbTasks.taskDao().deleteAllTasks();
+
+            dbTasks.taskDao().delete(taskDataViaTaskName);
+            Toast.makeText(TaskDetail.this, "Task Deleted", Toast.LENGTH_SHORT).show();
+            finish();
+            return (true);
+
+        } else if (itemId == R.id.increase_priority) {
+
+            TaskData taskWithUpdatedPriority = new TaskData(taskDataViaTaskName.getTaskName(), "HIGH", taskDataViaTaskName.getDescription());
+            taskWithUpdatedPriority.setId(taskDataViaTaskName.getId());
+            dbTasks.taskDao().update(taskWithUpdatedPriority);
+            Toast.makeText(TaskDetail.this, "Task Priority Increased", Toast.LENGTH_SHORT).show();
+            finish();
+            return (true);
+
+        } else if (itemId == R.id.decrease_priority) {
+
+            TaskData taskWithUpdatedPriority = new TaskData(taskDataViaTaskName.getTaskName(), "LOW", taskDataViaTaskName.getDescription());
+            taskWithUpdatedPriority.setId(taskDataViaTaskName.getId());
+            dbTasks.taskDao().update(taskWithUpdatedPriority);
+            Toast.makeText(TaskDetail.this, "Task Priority Lowered", Toast.LENGTH_SHORT).show();
+            finish();
             return (true);
         }
         return(super.onOptionsItemSelected(item));

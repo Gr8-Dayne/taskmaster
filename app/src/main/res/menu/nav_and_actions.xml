@@ -5,34 +5,40 @@
         <item
             android:id="@+id/widget_to_main"
             android:icon="@drawable/ic_home"
-            android:title="To Main Activity"
-            app:showAsAction="collapseActionView" />
+            android:title="Main"
+            app:showAsAction="always" />
         <item
             android:id="@+id/widget_to_AllTasks"
             android:icon="@drawable/ic_unarchive"
-            android:title="To AllTasks"
+            android:title="All Tasks"
             app:showAsAction="collapseActionView" />
         <item
             android:id="@+id/widget_to_AddTask"
             android:icon="@drawable/ic_queue"
-            android:title="To AddTask"
+            android:title="Add Task"
             app:showAsAction="collapseActionView" />
         <item
             android:id="@+id/widget_to_Settings"
             android:icon="@drawable/ic_settings"
-            android:title="To Settings"
+            android:title="Settings"
             app:showAsAction="collapseActionView" />
 
         <item
             android:id="@+id/delete_this_task"
             android:icon="@drawable/ic_trash"
-            android:title="Delete All Tasks"
+            android:title="Delete"
             android:visible="true"
             app:showAsAction="collapseActionView" />
         <item
             android:id="@+id/increase_priority"
             android:icon="@drawable/ic_plus_one"
             android:title="Make Priority"
+            android:visible="true"
+            app:showAsAction="collapseActionView" />
+        <item
+            android:id="@+id/decrease_priority"
+            android:icon="@drawable/ic_minus"
+            android:title="Lower Priority"
             android:visible="true"
             app:showAsAction="collapseActionView" />
 </menu>

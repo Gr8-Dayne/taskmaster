@@ -67,12 +67,14 @@ public class AddTask extends AppCompatActivity {
                 } else if (true) {
 
                     TaskData newTask = new TaskData(title, priority, description);
+
                     dbTasks.taskDao().save(newTask);
 
                     Toast.makeText(AddTask.this, "Task saved successfully", Toast.LENGTH_LONG).show();
                     finish();
                 } else {
                     Toast.makeText(AddTask.this, "Task not saved", Toast.LENGTH_LONG).show();
+                    return;
                 }
             }
         });
@@ -108,6 +110,18 @@ public class AddTask extends AppCompatActivity {
         } else if (itemId == R.id.widget_to_Settings) {
             Intent goToSettings = new Intent (this, Settings.class);
             this.startActivity(goToSettings);
+            return (true);
+
+        } else if (itemId == R.id.delete_this_task) {
+            Toast.makeText(AddTask.this, "Not Applicable", Toast.LENGTH_SHORT).show();
+            return (true);
+
+        } else if (itemId == R.id.increase_priority) {
+            Toast.makeText(AddTask.this, "Not Applicable", Toast.LENGTH_SHORT).show();
+            return (true);
+
+        } else if (itemId == R.id.decrease_priority) {
+            Toast.makeText(AddTask.this, "Not Applicable", Toast.LENGTH_SHORT).show();
             return (true);
         }
         return(super.onOptionsItemSelected(item));
