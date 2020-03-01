@@ -113,6 +113,25 @@ public class MainActivity extends AppCompatActivity {
     //
     //
     //
+    // Add things to Amplify
+//    public void addHardCodedTask(){
+//        CreateTasksToDoInput hardCodedTasksToDoInput = CreateTasksToDoInput.builder()
+//                .taskName("Do Things Right")
+//                .state("Urgent")
+//                .description("Doing it right")
+//                .build();
+//        awsSyncer.mutate(CreateTasksToDoMutation.builder().input(hardCodedTasksToDoInput).build()).enqueue(addHardCodedTaskCallback);
+//    }
+//    private GraphQLCall.Callback<CreateTasksToDoMutation.Data> addHardCodedTaskCallback = new GraphQLCall.Callback<CreateTasksToDoMutation.Data>() {
+//        @Override
+//        public void onResponse(@Nonnull Response<CreateTasksToDoMutation.Data> response) {
+//            Log.i("daylongTheGreat", "-----TASK ADDED SUCCESSFULLY-----");
+//        }
+//        @Override
+//        public void onFailure(@Nonnull ApolloException e) {
+//            Log.e("daylongTheGreat", "_____ERROR_____ " + e.toString());
+//        }
+//    };
 
     // Mattäus' Code
 //    public void createTasksToDoMutation(TaskData task)
@@ -135,30 +154,6 @@ public class MainActivity extends AppCompatActivity {
 //        @Override
 //        public void onFailure(@Nonnull ApolloException e) {
 //            Log.e("daylongTheGreat", e.toString());
-//        }
-//    };
-
-
-    // Add things to Amplify
-//    public void addHardCodedTask(){
-//
-//        CreateTasksToDoInput hardCodedTasksToDoInput = CreateTasksToDoInput.builder()
-//                .name("Do Things Right")
-//                .priority("Urgent")
-//                .description("Doing it right")
-//                .build();
-//
-//        awsSyncer.mutate(CreateTasksToDoMutation.builder().input(hardCodedTasksToDoInput).build()).enqueue(addHardCodedTaskCallback);
-//    }
-
-//    private GraphQLCall.Callback<CreateTasksToDoMutation.Data> addHardCodedTaskCallback = new GraphQLCall.Callback<CreateTasksToDoMutation.Data>() {
-//        @Override
-//        public void onResponse(@Nonnull Response<CreateTasksToDoMutation.Data> response) {
-//            Log.i("daylongTheGreat", "-----TASK ADDED SUCCESSFULLY-----");
-//        }
-//        @Override
-//        public void onFailure(@Nonnull ApolloException e) {
-//            Log.e("daylongTheGreat", "_____ERROR_____ " + e.toString());
 //        }
 //    };
 

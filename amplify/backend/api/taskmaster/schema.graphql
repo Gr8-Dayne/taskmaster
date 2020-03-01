@@ -1,6 +1,0 @@
-type tasktodo @model {
-  id: ID!
-  name: String!
-  priority: String!
-  description: String!
-}

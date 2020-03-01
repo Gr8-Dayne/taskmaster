@@ -1,34 +1,34 @@
 # this is an auto generated file. This will be overwritten
-mutation CreateTasksToDo(
-  $input: CreateTasksToDoInput!
-  $condition: ModelTasksToDoConditionInput
+mutation CreateTasktodo(
+  $input: CreateTasktodoInput!
+  $condition: ModeltasktodoConditionInput
 ) {
-  createTasksToDo(input: $input, condition: $condition) {
+  createTasktodo(input: $input, condition: $condition) {
     id
-    taskName
-    state
+    name
+    priority
     description
   }
 }
-mutation UpdateTasksToDo(
-  $input: UpdateTasksToDoInput!
-  $condition: ModelTasksToDoConditionInput
+mutation UpdateTasktodo(
+  $input: UpdateTasktodoInput!
+  $condition: ModeltasktodoConditionInput
 ) {
-  updateTasksToDo(input: $input, condition: $condition) {
+  updateTasktodo(input: $input, condition: $condition) {
     id
-    taskName
-    state
+    name
+    priority
     description
   }
 }
-mutation DeleteTasksToDo(
-  $input: DeleteTasksToDoInput!
-  $condition: ModelTasksToDoConditionInput
+mutation DeleteTasktodo(
+  $input: DeleteTasktodoInput!
+  $condition: ModeltasktodoConditionInput
 ) {
-  deleteTasksToDo(input: $input, condition: $condition) {
+  deleteTasktodo(input: $input, condition: $condition) {
     id
-    taskName
-    state
+    name
+    priority
     description
   }
 }
