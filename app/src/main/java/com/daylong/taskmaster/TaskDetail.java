@@ -1,21 +1,18 @@
 package com.daylong.taskmaster;
 
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import java.util.Objects;
 
@@ -32,7 +29,10 @@ public class TaskDetail extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
-        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
+        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks")
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build();
 
         Intent showTaskID = getIntent();
 
@@ -43,7 +43,7 @@ public class TaskDetail extends AppCompatActivity {
         TaskData taskDataViaTaskName = dbTasks.taskDao().getSpecificViaTaskName(showTaskName);
         Log.i("daylongTheGreat", String.valueOf(taskDataViaTaskName));
 
-        String showTaskStatus = taskDataViaTaskName.getState();
+        String showTaskStatus = taskDataViaTaskName.getPriority();
         TextView textView2 = findViewById(R.id.taskDetail_State);
         textView2.setText("Priority: " + showTaskStatus);
 
@@ -99,7 +99,7 @@ public class TaskDetail extends AppCompatActivity {
 
         } else if (itemId == R.id.increase_priority) {
 
-            TaskData taskWithUpdatedPriority = new TaskData(taskDataViaTaskName.getTaskName(), "HIGH", taskDataViaTaskName.getDescription());
+            TaskData taskWithUpdatedPriority = new TaskData(taskDataViaTaskName.getName(), "HIGH", taskDataViaTaskName.getDescription());
             taskWithUpdatedPriority.setId(taskDataViaTaskName.getId());
             dbTasks.taskDao().update(taskWithUpdatedPriority);
             Toast.makeText(TaskDetail.this, "Task Priority Increased", Toast.LENGTH_SHORT).show();
@@ -108,7 +108,7 @@ public class TaskDetail extends AppCompatActivity {
 
         } else if (itemId == R.id.decrease_priority) {
 
-            TaskData taskWithUpdatedPriority = new TaskData(taskDataViaTaskName.getTaskName(), "LOW", taskDataViaTaskName.getDescription());
+            TaskData taskWithUpdatedPriority = new TaskData(taskDataViaTaskName.getName(), "LOW", taskDataViaTaskName.getDescription());
             taskWithUpdatedPriority.setId(taskDataViaTaskName.getId());
             dbTasks.taskDao().update(taskWithUpdatedPriority);
             Toast.makeText(TaskDetail.this, "Task Priority Lowered", Toast.LENGTH_SHORT).show();

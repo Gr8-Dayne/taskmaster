@@ -1,6 +1,6 @@
-type TasksToDo @model {
+type tasktodo @model {
   id: ID!
-  taskName: String!
-  state: String
-  description: String
+  name: String!
+  priority: String!
+  description: String!
 }

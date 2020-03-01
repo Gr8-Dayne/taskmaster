@@ -40,10 +40,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     public void onBindViewHolder(final TaskHolder holder, final int RVIndex) {
 
         TextView taskTitle = holder.textViewTitle;
-        taskTitle.setText(dataSet.get(RVIndex).getTaskName());
+        taskTitle.setText(dataSet.get(RVIndex).getName());
 
         TextView taskState = holder.textViewPriority;
-        taskState.setText("Priority: " + dataSet.get(RVIndex).getState());
+        taskState.setText("Priority: " + dataSet.get(RVIndex).getPriority());
 
         // Credit: The illustrious TA James assisted me here
         holder.itemView.setOnClickListener((event) -> {

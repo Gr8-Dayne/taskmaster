@@ -34,8 +34,10 @@ public class AllTasks extends AppCompatActivity {
         //
 //        awsSyncer = AWSAppSyncClient.builder().context(getApplicationContext()).awsConfiguration(new AWSConfiguration(getApplicationContext())).build();
         //
-        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
-        //
+        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks")
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build();        //
 
 //        this.dataSet = new ArrayList<>();
 
@@ -46,7 +48,7 @@ public class AllTasks extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(AllTasks.this));
 
         for(TaskData item : dataSet){
-            Log.i("daylongTheGreat", item.getTaskName());
+            Log.i("daylongTheGreat", item.getName());
         }
     }
 
@@ -58,7 +60,6 @@ public class AllTasks extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
         this.dataSet = dbTasks.taskDao().getAllFromTaskList();
         recyclerView = findViewById(R.id.my_recycler_view);
         recyclerView.setAdapter(new TaskAdapter(dataSet, getApplication()));

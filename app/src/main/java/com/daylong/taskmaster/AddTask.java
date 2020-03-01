@@ -12,10 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
-import com.amazonaws.mobile.config.AWSConfiguration;
-import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 
 
 // Credit: https://codinginflow.com/tutorials/android/room-viewmodel-livedata-recyclerview-mvvm/part-7-add-note-activity
@@ -38,13 +37,20 @@ public class AddTask extends AppCompatActivity {
         //
 //        awsSyncer = AWSAppSyncClient.builder().context(getApplicationContext()).awsConfiguration(new AWSConfiguration(getApplicationContext())).build();
         //
-        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
-        //
+        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks")
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build();        //
         //
         //
 
         TextView addTaskCounter = findViewById(R.id.taskCount);
-        addTaskCounter.setText("Total Tasks: " + dbTasks.taskDao().getCountOfTaskList());
+
+        try {
+            addTaskCounter.setText("Total Tasks: " + dbTasks.taskDao().getCountOfTaskList());
+        } catch (Exception e) {
+            Toast.makeText(AddTask.this, "Total Task Count ERROR", Toast.LENGTH_SHORT).show();
+        }
 
         editTextTitle = findViewById(R.id.newTaskTitle);
         editTextDescription = findViewById(R.id.newTaskDescription);
@@ -66,15 +72,16 @@ public class AddTask extends AppCompatActivity {
 
                 } else if (true) {
 
-                    TaskData newTask = new TaskData(title, priority, description);
+                    try {
+                        TaskData newTask = new TaskData(title, priority, description);
+                        dbTasks.taskDao().save(newTask);
 
-                    dbTasks.taskDao().save(newTask);
-
-                    Toast.makeText(AddTask.this, "Task saved successfully", Toast.LENGTH_LONG).show();
-                    finish();
-                } else {
-                    Toast.makeText(AddTask.this, "Task not saved", Toast.LENGTH_LONG).show();
-                    return;
+                        Toast.makeText(AddTask.this, "Task saved successfully", Toast.LENGTH_LONG).show();
+                        finish();
+                    } catch (Exception d) {
+                        Toast.makeText(AddTask.this, "Task not saved", Toast.LENGTH_LONG).show();
+                        return;
+                    }
                 }
             }
         });

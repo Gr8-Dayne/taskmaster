@@ -44,9 +44,15 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
         //
-//        awsSyncer = AWSAppSyncClient.builder().context(getApplicationContext()).awsConfiguration(new AWSConfiguration(getApplicationContext())).build();
+//        awsSyncer = AWSAppSyncClient.builder()
+//                .context(getApplicationContext())
+//                .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+//                .build();
         //
-        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
+        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks")
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build();
         //
 
         // Test if Task is actually added to Amplify
@@ -54,15 +60,23 @@ public class MainActivity extends AppCompatActivity {
 
 //        this.dataSet = new ArrayList<>();
 
-        this.dataSetMain = dbTasks.taskDao().getHIGHPriorityTasks("HIGH");
+        try {
+            this.dataSetMain = dbTasks.taskDao().getHIGHPriorityTasks("HIGH");
+        } catch (Exception e) {
+            TaskData newTask = new TaskData("ERROR", "URGENT", "INVESTIGATE FURTHER ASAP");
+            dbTasks.taskDao().save(newTask);
+
+            Log.i("daylongTheGreat", String.valueOf(dataSetMain));
+        }
 
         recyclerView = findViewById(R.id.my_Main_recycler_view);
         recyclerView.setAdapter(new TaskAdapter(dataSetMain, getApplication()));
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
-        for(TaskData item : dataSetMain){
-            Log.i("daylongTheGreat", item.getTaskName() + " " + item.getState());
+        for (TaskData item : dataSetMain) {
+            Log.i("daylongTheGreat", item.getName() + " " + item.getPriority());
         }
+
     }
 
     @Override
@@ -85,13 +99,13 @@ public class MainActivity extends AppCompatActivity {
         //
 //        awsSyncer = AWSAppSyncClient.builder().context(getApplicationContext()).awsConfiguration(new AWSConfiguration(getApplicationContext())).build();
         //
-        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
+//        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
         //
 
-        this.dataSetMain = dbTasks.taskDao().getHIGHPriorityTasks("HIGH");
-        recyclerView = findViewById(R.id.my_Main_recycler_view);
-        recyclerView.setAdapter(new TaskAdapter(dataSetMain, getApplication()));
-        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+//        this.dataSetMain = dbTasks.taskDao().getHIGHPriorityTasks("HIGH");
+//        recyclerView = findViewById(R.id.my_Main_recycler_view);
+//        recyclerView.setAdapter(new TaskAdapter(dataSetMain, getApplication()));
+//        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
     }
 
 
@@ -106,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 //        CreateTasksToDoInput createTasksToDoInput = CreateTasksToDoInput.builder()
 //                .taskName(task.getTaskName())
 //                .description(task.getDescription())
-//                .state(task.getState())
+//                .priority(task.getPriority())
 //                .build();
 //        awsSyncer.mutate(CreateTasksToDoMutation.builder().input(createTasksToDoInput).build()).enqueue(createMutationCallback);
 //    }
@@ -129,24 +143,22 @@ public class MainActivity extends AppCompatActivity {
 //    public void addHardCodedTask(){
 //
 //        CreateTasksToDoInput hardCodedTasksToDoInput = CreateTasksToDoInput.builder()
-//                .taskName("Do Things Right")
-//                .state("Urgent")
+//                .name("Do Things Right")
+//                .priority("Urgent")
 //                .description("Doing it right")
 //                .build();
-//        awsSyncer.mutate(CreateTasksToDoMutation.builder().input(hardCodedTasksToDoInput).build())
-//                .enqueue(addHardCodedTaskCallback);
+//
+//        awsSyncer.mutate(CreateTasksToDoMutation.builder().input(hardCodedTasksToDoInput).build()).enqueue(addHardCodedTaskCallback);
 //    }
-//
+
 //    private GraphQLCall.Callback<CreateTasksToDoMutation.Data> addHardCodedTaskCallback = new GraphQLCall.Callback<CreateTasksToDoMutation.Data>() {
-//
 //        @Override
 //        public void onResponse(@Nonnull Response<CreateTasksToDoMutation.Data> response) {
 //            Log.i("daylongTheGreat", "-----TASK ADDED SUCCESSFULLY-----");
 //        }
-//
 //        @Override
 //        public void onFailure(@Nonnull ApolloException e) {
-//            Log.e("daylongTheGreat", e.toString());
+//            Log.e("daylongTheGreat", "_____ERROR_____ " + e.toString());
 //        }
 //    };
 
@@ -258,7 +270,8 @@ public class MainActivity extends AppCompatActivity {
             return (true);
 
         } else if (itemId == R.id.increase_priority) {
-            Toast.makeText(MainActivity.this, "Not Applicable", Toast.LENGTH_SHORT).show();
+//            addHardCodedTask();
+            Toast.makeText(MainActivity.this, "addHardCodedTask Selected", Toast.LENGTH_SHORT).show();
             return (true);
 
         } else if (itemId == R.id.decrease_priority) {
