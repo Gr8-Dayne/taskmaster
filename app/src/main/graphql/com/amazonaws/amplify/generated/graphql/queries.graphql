@@ -1,0 +1,66 @@
+# this is an auto generated file. This will be overwritten
+query GetTodo($id: ID!) {
+  getTodo(id: $id) {
+    id
+    name
+    priority
+    description
+    taskList {
+      id
+      name
+      toDo {
+        nextToken
+      }
+    }
+  }
+}
+query ListTodos(
+  $filter: ModelTodoFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      priority
+      description
+      taskList {
+        id
+        name
+      }
+    }
+    nextToken
+  }
+}
+query GetTaskList($id: ID!) {
+  getTaskList(id: $id) {
+    id
+    name
+    toDo {
+      items {
+        id
+        name
+        priority
+        description
+      }
+      nextToken
+    }
+  }
+}
+query ListTaskLists(
+  $filter: ModelTaskListFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listTaskLists(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      toDo {
+        nextToken
+      }
+    }
+    nextToken
+  }
+}

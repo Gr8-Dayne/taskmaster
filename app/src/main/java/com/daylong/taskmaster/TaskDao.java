@@ -13,11 +13,17 @@ import java.util.List;
 @Dao
 public interface TaskDao {
 
-    @Query("SELECT * FROM tasks_to_do ORDER BY id DESC")
+    @Query("SELECT * FROM tasks_to_do ORDER BY id")
     List<TaskData> getAllFromTaskList();
 
+    @Query("SELECT * FROM tasks_to_do WHERE priority = :priority")
+    List<TaskData> getHIGHPriorityTasks(String priority);
+
     @Query("SELECT * FROM tasks_to_do WHERE id = :id")
-    TaskData getSpecific(long id);
+    TaskData getSpecificViaID(long id);
+
+    @Query("SELECT * FROM tasks_to_do WHERE name = :name")
+    TaskData getSpecificViaTaskName(String name);
 
     @Query("SELECT COUNT(id) FROM tasks_to_do")
     int getCountOfTaskList();

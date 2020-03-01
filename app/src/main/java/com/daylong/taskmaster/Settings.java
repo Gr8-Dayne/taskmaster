@@ -10,7 +10,6 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -25,23 +24,18 @@ public class Settings extends AppCompatActivity {
 
         // Save Username
         Button saveUsernameSubmit = findViewById(R.id.saveUsernameButton);
-        saveUsernameSubmit.setOnClickListener(new View.OnClickListener() {
+        saveUsernameSubmit.setOnClickListener(e -> {
 
-            @Override
-            public void onClick(View e) {
-
-                Toast.makeText(Settings.this, "Username Updated Successfully", Toast.LENGTH_LONG).show();
-
-                EditText userNameEditText = findViewById(R.id.username);
-
-                SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                SharedPreferences.Editor editorIBarelyKnowHer = p.edit();
-                editorIBarelyKnowHer.putString("username", userNameEditText.getText().toString());
-                editorIBarelyKnowHer.apply();
-                finish();
-            }
+            EditText userNameEditText = findViewById(R.id.username);
+            SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            SharedPreferences.Editor editorIBarelyKnowHer = p.edit();
+            editorIBarelyKnowHer.putString("username", userNameEditText.getText().toString());
+            editorIBarelyKnowHer.apply();
+            Toast.makeText(Settings.this, "Username Updated Successfully", Toast.LENGTH_LONG).show();
+            finish();
         });
     }
+
     // Allow nav_and_actions to be utilized
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -72,6 +66,18 @@ public class Settings extends AppCompatActivity {
         } else if (itemId == R.id.widget_to_Settings) {
             Intent goToSettings = new Intent (this, Settings.class);
             this.startActivity(goToSettings);
+            return (true);
+
+        } else if (itemId == R.id.delete_this_task) {
+            Toast.makeText(Settings.this, "Not Applicable", Toast.LENGTH_SHORT).show();
+            return (true);
+
+        } else if (itemId == R.id.increase_priority) {
+            Toast.makeText(Settings.this, "Not Applicable", Toast.LENGTH_SHORT).show();
+            return (true);
+
+        } else if (itemId == R.id.decrease_priority) {
+            Toast.makeText(Settings.this, "Not Applicable", Toast.LENGTH_SHORT).show();
             return (true);
         }
         return(super.onOptionsItemSelected(item));

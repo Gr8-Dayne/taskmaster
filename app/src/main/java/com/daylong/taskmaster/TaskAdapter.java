@@ -1,6 +1,7 @@
 package com.daylong.taskmaster;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -15,10 +16,7 @@ import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
-//    private static View.OnClickListener myOnClickListener;
-
     private List<TaskData> dataSet = new ArrayList<>();
-
     private Context context;
 
     TaskAdapter(List<TaskData> dataSet, Context context) {
@@ -37,32 +35,23 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         return new TaskHolder(v);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(final TaskHolder holder, final int index) {
+    public void onBindViewHolder(final TaskHolder holder, final int RVIndex) {
 
         TextView taskTitle = holder.textViewTitle;
-        TextView taskState = holder.textViewPriority;
-        TextView taskDescription = holder.textViewDescription;
+        taskTitle.setText(dataSet.get(RVIndex).getName());
 
-        taskTitle.setText(dataSet.get(index).getTaskName());
-        taskState.setText(dataSet.get(index).getState());
-        taskDescription.setText(dataSet.get(index).getDescription());
+        TextView taskState = holder.textViewPriority;
+        taskState.setText("Priority: " + dataSet.get(RVIndex).getPriority());
 
         // Credit: The illustrious TA James assisted me here
         holder.itemView.setOnClickListener((event) -> {
 
             Context context = event.getContext();
-
             String potatoTitle = taskTitle.getText().toString();
-            String potatoState = taskState.getText().toString();
-            String potatoDescription = taskDescription.getText().toString();
-
             Intent intentionalToDetails = new Intent(context, TaskDetail.class);
-
             intentionalToDetails.putExtra("taskName", potatoTitle);
-            intentionalToDetails.putExtra("taskState", potatoState);
-            intentionalToDetails.putExtra("taskDescription", potatoDescription);
-
             context.startActivity(intentionalToDetails);
         });
     }
@@ -81,14 +70,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
         private TextView textViewTitle;
         private TextView textViewPriority;
-        private TextView textViewDescription;
 
         TaskHolder(View itemView) {
             super(itemView);
-
             textViewTitle = itemView.findViewById(R.id.individualTaskName);
             textViewPriority = itemView.findViewById(R.id.individualTaskState);
-            textViewDescription = itemView.findViewById(R.id.individualTaskDescription);
         }
     }
 }

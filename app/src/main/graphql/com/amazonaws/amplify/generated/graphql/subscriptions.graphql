@@ -1,0 +1,91 @@
+# this is an auto generated file. This will be overwritten
+subscription OnCreateTodo {
+  onCreateTodo {
+    id
+    name
+    priority
+    description
+    taskList {
+      id
+      name
+      toDo {
+        nextToken
+      }
+    }
+  }
+}
+subscription OnUpdateTodo {
+  onUpdateTodo {
+    id
+    name
+    priority
+    description
+    taskList {
+      id
+      name
+      toDo {
+        nextToken
+      }
+    }
+  }
+}
+subscription OnDeleteTodo {
+  onDeleteTodo {
+    id
+    name
+    priority
+    description
+    taskList {
+      id
+      name
+      toDo {
+        nextToken
+      }
+    }
+  }
+}
+subscription OnCreateTaskList {
+  onCreateTaskList {
+    id
+    name
+    toDo {
+      items {
+        id
+        name
+        priority
+        description
+      }
+      nextToken
+    }
+  }
+}
+subscription OnUpdateTaskList {
+  onUpdateTaskList {
+    id
+    name
+    toDo {
+      items {
+        id
+        name
+        priority
+        description
+      }
+      nextToken
+    }
+  }
+}
+subscription OnDeleteTaskList {
+  onDeleteTaskList {
+    id
+    name
+    toDo {
+      items {
+        id
+        name
+        priority
+        description
+      }
+      nextToken
+    }
+  }
+}

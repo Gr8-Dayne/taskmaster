@@ -1,0 +1,109 @@
+# this is an auto generated file. This will be overwritten
+mutation CreateTodo(
+  $input: CreateTodoInput!
+  $condition: ModelTodoConditionInput
+) {
+  createTodo(input: $input, condition: $condition) {
+    id
+    name
+    priority
+    description
+    taskList {
+      id
+      name
+      toDo {
+        nextToken
+      }
+    }
+  }
+}
+mutation UpdateTodo(
+  $input: UpdateTodoInput!
+  $condition: ModelTodoConditionInput
+) {
+  updateTodo(input: $input, condition: $condition) {
+    id
+    name
+    priority
+    description
+    taskList {
+      id
+      name
+      toDo {
+        nextToken
+      }
+    }
+  }
+}
+mutation DeleteTodo(
+  $input: DeleteTodoInput!
+  $condition: ModelTodoConditionInput
+) {
+  deleteTodo(input: $input, condition: $condition) {
+    id
+    name
+    priority
+    description
+    taskList {
+      id
+      name
+      toDo {
+        nextToken
+      }
+    }
+  }
+}
+mutation CreateTaskList(
+  $input: CreateTaskListInput!
+  $condition: ModelTaskListConditionInput
+) {
+  createTaskList(input: $input, condition: $condition) {
+    id
+    name
+    toDo {
+      items {
+        id
+        name
+        priority
+        description
+      }
+      nextToken
+    }
+  }
+}
+mutation UpdateTaskList(
+  $input: UpdateTaskListInput!
+  $condition: ModelTaskListConditionInput
+) {
+  updateTaskList(input: $input, condition: $condition) {
+    id
+    name
+    toDo {
+      items {
+        id
+        name
+        priority
+        description
+      }
+      nextToken
+    }
+  }
+}
+mutation DeleteTaskList(
+  $input: DeleteTaskListInput!
+  $condition: ModelTaskListConditionInput
+) {
+  deleteTaskList(input: $input, condition: $condition) {
+    id
+    name
+    toDo {
+      items {
+        id
+        name
+        priority
+        description
+      }
+      nextToken
+    }
+  }
+}
