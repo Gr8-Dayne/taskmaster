@@ -209,6 +209,8 @@ Temporary Items
 # End of https://www.gitignore.io/api/java,macos,android,androidstudio
 **markdown-navigator.xml
 
+!app-debug.apk
+
 #amplify
 amplify/\#current-cloud-backend
 amplify/.config/local-*
@@ -223,5 +225,3 @@ awsconfiguration.json
 amplifyconfiguration.json
 amplify-gradle-config.json
 amplifyxc.config
-
-!app-debug.apk

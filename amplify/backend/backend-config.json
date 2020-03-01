@@ -1,6 +1,6 @@
 {
 	"api": {
-		"taskmaster": {
+		"shandiapi": {
 			"service": "AppSync",
 			"providerPlugin": "awscloudformation",
 			"output": {
@@ -9,8 +9,8 @@
 					"defaultAuthentication": {
 						"authenticationType": "API_KEY",
 						"apiKeyConfig": {
-							"description": "thisisit",
-							"apiKeyExpirationDays": "20"
+							"description": "shanditrykey",
+							"apiKeyExpirationDays": "25"
 						}
 					}
 				}
