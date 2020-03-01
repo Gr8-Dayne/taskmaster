@@ -4,6 +4,7 @@ package com.daylong.taskmaster;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,15 +17,26 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import com.amazonaws.amplify.generated.graphql.CreateTodoMutation;
+import com.amazonaws.mobile.config.AWSConfiguration;
+import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
+import com.apollographql.apollo.GraphQLCall;
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.exception.ApolloException;
+
+import javax.annotation.Nonnull;
+
+import type.CreateTodoInput;
+
 
 // Credit: https://codinginflow.com/tutorials/android/room-viewmodel-livedata-recyclerview-mvvm/part-7-add-note-activity
 public class AddTask extends AppCompatActivity {
 
-//    private AWSAppSyncClient awsSyncer;
     private TaskDatabase dbTasks;
     private EditText editTextTitle;
     private EditText editTextDescription;
     private EditText editTextPriority;
+    private AWSAppSyncClient awsSyncer;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -35,12 +47,16 @@ public class AddTask extends AppCompatActivity {
         //
         //
         //
-//        awsSyncer = AWSAppSyncClient.builder().context(getApplicationContext()).awsConfiguration(new AWSConfiguration(getApplicationContext())).build();
+        awsSyncer = AWSAppSyncClient.builder()
+                .context(getApplicationContext())
+                .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+                .build();
         //
         dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks")
                 .allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
-                .build();        //
+                .build();
+        //
         //
         //
 
@@ -57,35 +73,58 @@ public class AddTask extends AppCompatActivity {
         editTextPriority = findViewById(R.id.newTaskState);
 
         Button normalTaskToDB = findViewById(R.id.createTask);
-        normalTaskToDB.setOnClickListener(new View.OnClickListener() {
+        normalTaskToDB.setOnClickListener(e -> {
 
-            @Override
-            public void onClick(View e) {
+            String title = editTextTitle.getText().toString();
+            String description = editTextDescription.getText().toString();
+            String priority = editTextPriority.getText().toString();
 
-                String title = editTextTitle.getText().toString();
-                String description = editTextDescription.getText().toString();
-                String priority = editTextPriority.getText().toString();
+            if (title.trim().isEmpty() || description.trim().isEmpty() || priority.trim().isEmpty()) {
+                Toast.makeText(AddTask.this, "All fields are required", Toast.LENGTH_SHORT).show();
+                return;
 
-                if (title.trim().isEmpty() || description.trim().isEmpty() || priority.trim().isEmpty()) {
-                    Toast.makeText(AddTask.this, "All fields are required", Toast.LENGTH_SHORT).show();
+            } else if (true) {
+
+                try {
+                    TaskData newTask = new TaskData(title, priority, description);
+
+                    dbTasks.taskDao().save(newTask);
+//                    addTaskToDynomo(newTask);
+
+                    Toast.makeText(AddTask.this, "Task saved successfully", Toast.LENGTH_LONG).show();
+                    finish();
+                } catch (Exception d) {
+                    Toast.makeText(AddTask.this, "Task not saved", Toast.LENGTH_LONG).show();
                     return;
-
-                } else if (true) {
-
-                    try {
-                        TaskData newTask = new TaskData(title, priority, description);
-                        dbTasks.taskDao().save(newTask);
-
-                        Toast.makeText(AddTask.this, "Task saved successfully", Toast.LENGTH_LONG).show();
-                        finish();
-                    } catch (Exception d) {
-                        Toast.makeText(AddTask.this, "Task not saved", Toast.LENGTH_LONG).show();
-                        return;
-                    }
                 }
             }
         });
     }
+
+    // Add things to Amplify
+    public void addTaskToDynomo(TaskData newTask){
+
+        CreateTodoInput createTodoInput = CreateTodoInput.builder()
+                .name(newTask.getName())
+                .priority(newTask.getPriority())
+                .description(newTask.getDescription())
+                .build();
+
+        awsSyncer.mutate(CreateTodoMutation.builder().input(createTodoInput).build())
+                .enqueue(addTaskCallback);
+    }
+
+    private GraphQLCall.Callback<CreateTodoMutation.Data> addTaskCallback = new GraphQLCall.Callback<CreateTodoMutation.Data>() {
+        @Override
+        public void onResponse(@Nonnull Response<CreateTodoMutation.Data> response) {
+            Log.i("daylongTheGreat", "-----ADD TASK CLICKED-----");
+        }
+
+        @Override
+        public void onFailure(@Nonnull ApolloException e) {
+            Log.e("daylongTheGreat", "_____ERROR_____ " + e.toString());
+        }
+    };
 
     // Allow nav_and_actions to be utilized
     @Override

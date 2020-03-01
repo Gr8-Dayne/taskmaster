@@ -3,4 +3,11 @@ type Todo @model {
   name: String!
   priority: String
   description: String
+  tasklist: TaskList @connection(name: "All Local Tasks")
+}
+
+type TaskList @model {
+  id: ID!
+  name: String!
+  Todo: [TaskData] @connection(name: "All Local Tasks")
 }

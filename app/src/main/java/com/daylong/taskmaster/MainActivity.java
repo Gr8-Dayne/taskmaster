@@ -5,6 +5,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
@@ -22,8 +25,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.amazonaws.amplify.generated.graphql.CreateTodoMutation;
+import com.amazonaws.amplify.generated.graphql.ListTodosQuery;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
+import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
 import com.apollographql.apollo.GraphQLCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
@@ -44,11 +49,10 @@ import type.CreateTodoInput;
 // Credit: https://www.journaldev.com/10024/android-recyclerview-android-cardview-example-tutorial
 public class MainActivity extends AppCompatActivity {
 
-//    TaskDatabase dbTasks;
+    TaskDatabase dbTasks;
     RecyclerView recyclerView;
     List<TaskData> dataSetMain = new ArrayList<>();
-
-    private AWSAppSyncClient mAWSAppSyncClient;
+    private AWSAppSyncClient awsSyncer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
         //
-        mAWSAppSyncClient = AWSAppSyncClient.builder()
+        awsSyncer = AWSAppSyncClient.builder()
                 .context(getApplicationContext())
                 .awsConfiguration(new AWSConfiguration(getApplicationContext()))
                 .build();
@@ -69,23 +73,21 @@ public class MainActivity extends AppCompatActivity {
 //                .build();
         //
 
-//        try {
-//            this.dataSetMain = dbTasks.taskDao().getHIGHPriorityTasks("HIGH");
-//        } catch (Exception e) {
-//            Log.i("daylongTheGreat", String.valueOf(dataSetMain));
-//        }
+        try {
+            this.dataSetMain = dbTasks.taskDao().getHIGHPriorityTasks("HIGH");
+        } catch (Exception e) {
+            Log.i("daylongTheGreat", String.valueOf(dataSetMain));
+        }
 
         recyclerView = findViewById(R.id.my_Main_recycler_view);
         recyclerView.setAdapter(new TaskAdapter(dataSetMain, getApplication()));
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
+        getTasksFromAmplify();
+
         for (TaskData item : dataSetMain) {
             Log.i("daylongTheGreat", item.getName() + " " + item.getPriority());
         }
-
-        Button addToCartButton = findViewById(R.id.add_to_amplify);
-        addToCartButton.setOnClickListener(view -> addHardCodedTask("Touch", "HIGH", "I remember touch."));
-
     }
 
     @Override
@@ -106,111 +108,84 @@ public class MainActivity extends AppCompatActivity {
         //
 
         //
-//        awsSyncer = AWSAppSyncClient.builder().context(getApplicationContext()).awsConfiguration(new AWSConfiguration(getApplicationContext())).build();
-        //
-//        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks").allowMainThreadQueries().build();
-        //
-
-//        this.dataSetMain = dbTasks.taskDao().getHIGHPriorityTasks("HIGH");
-//        recyclerView = findViewById(R.id.my_Main_recycler_view);
-//        recyclerView.setAdapter(new TaskAdapter(dataSetMain, getApplication()));
-//        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-    }
-
-    //
-    //
-    //
-    // Add things to Amplify
-    public void addHardCodedTask(String name, String priority, String description){
-
-        CreateTodoInput createTodoInput = CreateTodoInput.builder()
-                .name(name)
-                .priority(priority)
-                .description(description)
+        awsSyncer = AWSAppSyncClient.builder()
+                .context(getApplicationContext())
+                .awsConfiguration(new AWSConfiguration(getApplicationContext()))
                 .build();
+        //
+        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks")
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build();
+        //
 
-        mAWSAppSyncClient.mutate(CreateTodoMutation.builder().input(createTodoInput).build())
-                .enqueue(addTaskCallback);
+        this.dataSetMain = dbTasks.taskDao().getHIGHPriorityTasks("HIGH");
+        recyclerView = findViewById(R.id.my_Main_recycler_view);
+        recyclerView.setAdapter(new TaskAdapter(dataSetMain, getApplication()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
     }
 
-    private GraphQLCall.Callback<CreateTodoMutation.Data> addTaskCallback = new GraphQLCall.Callback<CreateTodoMutation.Data>() {
-        @Override
-        public void onResponse(@Nonnull Response<CreateTodoMutation.Data> response) {
-            Log.i("daylongTheGreat", "-----ADD TASK CLICKED-----");
-        }
+    //
+    //
+    //
+    // Get things from Amplify
+    public void getTasksFromAmplify(){
+        awsSyncer.query(ListTodosQuery.builder().build())
+                .responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK).enqueue(getTasksCallBack);
+    }
 
+    // Credit: https://frontrowviews.com/Home/Event/Play/5e1fa720eee6db204c80779e#
+    private GraphQLCall.Callback<ListTodosQuery.Data> getTasksCallBack = new GraphQLCall.Callback<ListTodosQuery.Data>() {
+        @Override
+        public void onResponse(@Nonnull Response<ListTodosQuery.Data> response) {
+            Log.i("daylongTheGreat", response.data().listTodos().items().toString());
+
+            if(dataSetMain.size() == 0 || response.data().listTodos().items().size() != dataSetMain.size()){
+
+                dataSetMain.clear();
+
+                for(ListTodosQuery.Item item : response.data().listTodos().items()){
+
+                    TaskData a = new TaskData(item.name(), item.priority(), item.description());
+
+                    dataSetMain.add(a);
+                }
+
+                Handler handlerForMainThread = new Handler(Looper.getMainLooper()){
+                    @Override
+                    public void handleMessage(Message inputMessage){
+                        RecyclerView recyclerView = findViewById(R.id.my_Main_recycler_view);
+                        recyclerView.getAdapter().notifyDataSetChanged();
+                    }
+                };
+                handlerForMainThread.obtainMessage().sendToTarget();
+            }
+        }
         @Override
         public void onFailure(@Nonnull ApolloException e) {
-            Log.e("daylongTheGreat", "_____ERROR_____ " + e.toString());
+            Log.e("daylongTheGreat", e.toString());
         }
     };
 
-    // Mattäus' Code
-//    public void createToDoMutation(TaskData task)
-//    {
-//        CreateToDoInput createToDoInput = CreateToDoInput.builder()
-//                .taskName(task.getTaskName())
-//                .description(task.getDescription())
-//                .priority(task.getPriority())
+    // Subscription
+//    public void runShelfCreateMutation(String name){
+//        CreateTaskListInput createShelfInput = CreateShelfInput.builder()
+//                .name(name)
 //                .build();
-//        awsSyncer.mutate(CreateToDoMutation.builder().input(createToDoInput).build()).enqueue(createMutationCallback);
+//        awsAppSyncClient.mutate(CreateShelfMutation.builder().input(createShelfInput).build())
+//                .enqueue(addShelfCallback);
+//
 //    }
 //
-//    private GraphQLCall.Callback<CreateTasksToDoMutation.Data>createMutationCallback = new GraphQLCall.Callback<CreateTasksToDoMutation.Data>() {
-//
+//    private GraphQLCall.Callback<CreateShelfMutation.Data> addShelfCallback = new GraphQLCall.Callback<CreateShelfMutation.Data>() {
 //        @Override
-//        public void onResponse(@Nonnull Response<CreateTasksToDoMutation.Data> response) {
-//            Log.i("daylongTheGreat", "Added Task");
+//        public void onResponse(@Nonnull Response<CreateShelfMutation.Data> response) {
+//            Log.i(TAG, "Added Shelf");
 //        }
 //
 //        @Override
 //        public void onFailure(@Nonnull ApolloException e) {
-//            Log.e("daylongTheGreat", e.toString());
-//        }
-//    };
-
-    // Get things from Amplify
-//    public void getTasksFromAmplify(){
-//        awsSyncer.query(ListTasksToDosQuery.builder().build()).responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK).enqueue(tasksCallBack);
-//    }
-//
-//    private GraphQLCall.Callback<ListTasksToDosQuery.Data> tasksCallBack = new GraphQLCall.Callback<ListTasksToDosQuery.Data>() {
-//
-//        @Override
-//        public void onResponse(@Nonnull Response<ListTasksToDosQuery.Data> response) {
-//            assert response.data() != null;
-//            Log.i("daylongTheGreat", Objects.requireNonNull(Objects.requireNonNull(response.data().listTasksToDos()).items()).toString());
-//        }
-//
-//        @Override
-//        public void onFailure(@Nonnull ApolloException e) {
-//            Log.e("daylongTheGreat", e.toString());
-//        }
-//    };
-
-    // Subscriptions
-//    private void subscribeToAmplifyList(){
-//        OnCreateTasksToDoSubscription potatoSubscription = OnCreateTasksToDoSubscription.builder().build();
-//        AppSyncSubscriptionCall subWatch = awsSyncer.subscribe(potatoSubscription);
-//        subWatch.execute(subCallback);
-//    }
-//
-//    private AppSyncSubscriptionCall.Callback subCallback = new AppSyncSubscriptionCall.Callback() {
-//
-//        @Override
-//        public void onResponse(@Nonnull Response response) {
-//            assert response.data() != null;
-//            Log.i("daylongTheGreat", response.data().toString());
-//        }
-//
-//        @Override
-//        public void onFailure(@Nonnull ApolloException e) {
-//            Log.e("daylongTheGreat", e.toString());
-//        }
-//
-//        @Override
-//        public void onCompleted() {
-//            Log.i("daylongTheGreat", "Subscription completed");
+//            Log.e(TAG, e.toString());
 //        }
 //    };
     //
@@ -253,11 +228,9 @@ public class MainActivity extends AppCompatActivity {
         int itemId = item.getItemId();
 
         if (itemId == R.id.widget_to_main) {
-//            addHardCodedTask();
-            Toast.makeText(MainActivity.this, "addHardCodedTask Selected", Toast.LENGTH_SHORT).show();
-//            Intent goToMain = new Intent (this, MainActivity.class);
-//            this.startActivity(goToMain);
-//            return (true);
+            Intent goToMain = new Intent (this, MainActivity.class);
+            this.startActivity(goToMain);
+            return (true);
 
         } else if (itemId == R.id.widget_to_AddTask) {
             Intent goToAddTask = new Intent (this, AddTask.class);

@@ -12,6 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
+
+import com.amazonaws.mobile.config.AWSConfiguration;
+import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -22,7 +26,7 @@ public class AllTasks extends AppCompatActivity {
     TaskDatabase dbTasks;
     RecyclerView recyclerView;
     List<TaskData> dataSet = new ArrayList<>();
-//    private AWSAppSyncClient awsSyncer;
+    private AWSAppSyncClient awsSyncer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +36,16 @@ public class AllTasks extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
         //
-//        awsSyncer = AWSAppSyncClient.builder().context(getApplicationContext()).awsConfiguration(new AWSConfiguration(getApplicationContext())).build();
+        awsSyncer = AWSAppSyncClient.builder()
+                .context(getApplicationContext())
+                .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+                .build();
         //
         dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks")
                 .allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
-                .build();        //
-
-//        this.dataSet = new ArrayList<>();
+                .build();
+        //
 
         this.dataSet = dbTasks.taskDao().getAllFromTaskList();
 
