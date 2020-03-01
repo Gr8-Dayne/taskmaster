@@ -18,9 +18,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import com.amazonaws.amplify.generated.graphql.CreateTasksToDoMutation;
+import com.amazonaws.amplify.generated.graphql.CreateTodoMutation;
+import com.amazonaws.mobile.config.AWSConfiguration;
+import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
+import com.apollographql.apollo.GraphQLCall;
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.exception.ApolloException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import javax.annotation.Nonnull;
+
+import type.CreateTasksToDoInput;
 
 
 // Credit: https://stackoverflow.com/questions/33897978/android-convert-edittext-to-string
@@ -34,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
     TaskDatabase dbTasks;
     RecyclerView recyclerView;
     List<TaskData> dataSetMain = new ArrayList<>();
-//    private AWSAppSyncClient awsSyncer;
+
+//    private AWSAppSyncClient awsAppSyncClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
         //
-//        awsSyncer = AWSAppSyncClient.builder()
+//        awsAppSyncClient = AWSAppSyncClient.builder()
 //                .context(getApplicationContext())
 //                .awsConfiguration(new AWSConfiguration(getApplicationContext()))
 //                .build();
@@ -55,17 +68,12 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         //
 
-        // Test if Task is actually added to Amplify
-//        addHardCodedTask();
-
-//        this.dataSet = new ArrayList<>();
-
         try {
             this.dataSetMain = dbTasks.taskDao().getHIGHPriorityTasks("HIGH");
         } catch (Exception e) {
+
             TaskData newTask = new TaskData("ERROR", "URGENT", "INVESTIGATE FURTHER ASAP");
             dbTasks.taskDao().save(newTask);
-
             Log.i("daylongTheGreat", String.valueOf(dataSetMain));
         }
 
@@ -108,25 +116,28 @@ public class MainActivity extends AppCompatActivity {
 //        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
     }
 
-
-
     //
     //
     //
     // Add things to Amplify
 //    public void addHardCodedTask(){
-//        CreateTasksToDoInput hardCodedTasksToDoInput = CreateTasksToDoInput.builder()
-//                .taskName("Do Things Right")
-//                .state("Urgent")
-//                .description("Doing it right")
-//                .build();
-//        awsSyncer.mutate(CreateTasksToDoMutation.builder().input(hardCodedTasksToDoInput).build()).enqueue(addHardCodedTaskCallback);
+//
+//    CreateTasksToDoInput createTasksToDoinput = CreateTasksToDoInput.builder()
+//            .taskName("Doing it right")
+//            .state("URGENT")
+//            .description("GET IT DONE MY GUY.")
+//            .build();
+//
+//        awsAppSyncClient.mutate(CreateTasksToDoMutation.builder().input(createTasksToDoinput).build()).enqueue(addHardCodedTaskCallback);
+//
 //    }
+//
 //    private GraphQLCall.Callback<CreateTasksToDoMutation.Data> addHardCodedTaskCallback = new GraphQLCall.Callback<CreateTasksToDoMutation.Data>() {
 //        @Override
 //        public void onResponse(@Nonnull Response<CreateTasksToDoMutation.Data> response) {
 //            Log.i("daylongTheGreat", "-----TASK ADDED SUCCESSFULLY-----");
 //        }
+//
 //        @Override
 //        public void onFailure(@Nonnull ApolloException e) {
 //            Log.e("daylongTheGreat", "_____ERROR_____ " + e.toString());
@@ -241,8 +252,10 @@ public class MainActivity extends AppCompatActivity {
         int itemId = item.getItemId();
 
         if (itemId == R.id.widget_to_main) {
-            Intent goToMain = new Intent (this, MainActivity.class);
-            this.startActivity(goToMain);
+//            Intent goToMain = new Intent (this, MainActivity.class);
+//            this.startActivity(goToMain);
+//            addHardCodedTask();
+            Toast.makeText(MainActivity.this, "addHardCodedTask Selected", Toast.LENGTH_SHORT).show();
             return (true);
 
         } else if (itemId == R.id.widget_to_AddTask) {
@@ -265,8 +278,7 @@ public class MainActivity extends AppCompatActivity {
             return (true);
 
         } else if (itemId == R.id.increase_priority) {
-//            addHardCodedTask();
-            Toast.makeText(MainActivity.this, "addHardCodedTask Selected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Not Applicable", Toast.LENGTH_SHORT).show();
             return (true);
 
         } else if (itemId == R.id.decrease_priority) {

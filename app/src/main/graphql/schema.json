@@ -16,7 +16,7 @@
                 "description": null,
                 "fields": [
                     {
-                        "name": "getTasktodo",
+                        "name": "getTodo",
                         "description": null,
                         "args": [
                             {
@@ -36,14 +36,14 @@
                         ],
                         "type": {
                             "kind": "OBJECT",
-                            "name": "tasktodo",
+                            "name": "Todo",
                             "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
-                        "name": "listTasktodos",
+                        "name": "listTodos",
                         "description": null,
                         "args": [
                             {
@@ -51,7 +51,7 @@
                                 "description": null,
                                 "type": {
                                     "kind": "INPUT_OBJECT",
-                                    "name": "ModeltasktodoFilterInput",
+                                    "name": "ModelTodoFilterInput",
                                     "ofType": null
                                 },
                                 "defaultValue": null
@@ -79,7 +79,7 @@
                         ],
                         "type": {
                             "kind": "OBJECT",
-                            "name": "ModeltasktodoConnection",
+                            "name": "ModelTodoConnection",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -103,7 +103,7 @@
             },
             {
                 "kind": "OBJECT",
-                "name": "tasktodo",
+                "name": "Todo",
                 "description": null,
                 "fields": [
                     {
@@ -188,7 +188,7 @@
             },
             {
                 "kind": "INPUT_OBJECT",
-                "name": "ModeltasktodoFilterInput",
+                "name": "ModelTodoFilterInput",
                 "description": null,
                 "fields": null,
                 "inputFields": [
@@ -240,7 +240,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "INPUT_OBJECT",
-                                "name": "ModeltasktodoFilterInput",
+                                "name": "ModelTodoFilterInput",
                                 "ofType": null
                             }
                         },
@@ -254,7 +254,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "INPUT_OBJECT",
-                                "name": "ModeltasktodoFilterInput",
+                                "name": "ModelTodoFilterInput",
                                 "ofType": null
                             }
                         },
@@ -265,7 +265,7 @@
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
-                            "name": "ModeltasktodoFilterInput",
+                            "name": "ModelTodoFilterInput",
                             "ofType": null
                         },
                         "defaultValue": null
@@ -743,7 +743,7 @@
             },
             {
                 "kind": "OBJECT",
-                "name": "ModeltasktodoConnection",
+                "name": "ModelTodoConnection",
                 "description": null,
                 "fields": [
                     {
@@ -755,7 +755,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "OBJECT",
-                                "name": "tasktodo",
+                                "name": "Todo",
                                 "ofType": null
                             }
                         },
@@ -786,7 +786,7 @@
                 "description": null,
                 "fields": [
                     {
-                        "name": "createTasktodo",
+                        "name": "createTodo",
                         "description": null,
                         "args": [
                             {
@@ -797,7 +797,7 @@
                                     "name": null,
                                     "ofType": {
                                         "kind": "INPUT_OBJECT",
-                                        "name": "CreateTasktodoInput",
+                                        "name": "CreateTodoInput",
                                         "ofType": null
                                     }
                                 },
@@ -808,7 +808,7 @@
                                 "description": null,
                                 "type": {
                                     "kind": "INPUT_OBJECT",
-                                    "name": "ModeltasktodoConditionInput",
+                                    "name": "ModelTodoConditionInput",
                                     "ofType": null
                                 },
                                 "defaultValue": null
@@ -816,14 +816,14 @@
                         ],
                         "type": {
                             "kind": "OBJECT",
-                            "name": "tasktodo",
+                            "name": "Todo",
                             "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
-                        "name": "updateTasktodo",
+                        "name": "updateTodo",
                         "description": null,
                         "args": [
                             {
@@ -834,7 +834,7 @@
                                     "name": null,
                                     "ofType": {
                                         "kind": "INPUT_OBJECT",
-                                        "name": "UpdateTasktodoInput",
+                                        "name": "UpdateTodoInput",
                                         "ofType": null
                                     }
                                 },
@@ -845,7 +845,7 @@
                                 "description": null,
                                 "type": {
                                     "kind": "INPUT_OBJECT",
-                                    "name": "ModeltasktodoConditionInput",
+                                    "name": "ModelTodoConditionInput",
                                     "ofType": null
                                 },
                                 "defaultValue": null
@@ -853,14 +853,14 @@
                         ],
                         "type": {
                             "kind": "OBJECT",
-                            "name": "tasktodo",
+                            "name": "Todo",
                             "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
-                        "name": "deleteTasktodo",
+                        "name": "deleteTodo",
                         "description": null,
                         "args": [
                             {
@@ -871,7 +871,7 @@
                                     "name": null,
                                     "ofType": {
                                         "kind": "INPUT_OBJECT",
-                                        "name": "DeleteTasktodoInput",
+                                        "name": "DeleteTodoInput",
                                         "ofType": null
                                     }
                                 },
@@ -882,7 +882,7 @@
                                 "description": null,
                                 "type": {
                                     "kind": "INPUT_OBJECT",
-                                    "name": "ModeltasktodoConditionInput",
+                                    "name": "ModelTodoConditionInput",
                                     "ofType": null
                                 },
                                 "defaultValue": null
@@ -890,7 +890,7 @@
                         ],
                         "type": {
                             "kind": "OBJECT",
-                            "name": "tasktodo",
+                            "name": "Todo",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -904,7 +904,7 @@
             },
             {
                 "kind": "INPUT_OBJECT",
-                "name": "CreateTasktodoInput",
+                "name": "CreateTodoInput",
                 "description": null,
                 "fields": null,
                 "inputFields": [
@@ -967,7 +967,7 @@
             },
             {
                 "kind": "INPUT_OBJECT",
-                "name": "ModeltasktodoConditionInput",
+                "name": "ModelTodoConditionInput",
                 "description": null,
                 "fields": null,
                 "inputFields": [
@@ -1009,7 +1009,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "INPUT_OBJECT",
-                                "name": "ModeltasktodoConditionInput",
+                                "name": "ModelTodoConditionInput",
                                 "ofType": null
                             }
                         },
@@ -1023,7 +1023,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "INPUT_OBJECT",
-                                "name": "ModeltasktodoConditionInput",
+                                "name": "ModelTodoConditionInput",
                                 "ofType": null
                             }
                         },
@@ -1034,7 +1034,7 @@
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
-                            "name": "ModeltasktodoConditionInput",
+                            "name": "ModelTodoConditionInput",
                             "ofType": null
                         },
                         "defaultValue": null
@@ -1046,7 +1046,7 @@
             },
             {
                 "kind": "INPUT_OBJECT",
-                "name": "UpdateTasktodoInput",
+                "name": "UpdateTodoInput",
                 "description": null,
                 "fields": null,
                 "inputFields": [
@@ -1101,7 +1101,7 @@
             },
             {
                 "kind": "INPUT_OBJECT",
-                "name": "DeleteTasktodoInput",
+                "name": "DeleteTodoInput",
                 "description": null,
                 "fields": null,
                 "inputFields": [
@@ -1126,36 +1126,36 @@
                 "description": null,
                 "fields": [
                     {
-                        "name": "onCreateTasktodo",
+                        "name": "onCreateTodo",
                         "description": null,
                         "args": [],
                         "type": {
                             "kind": "OBJECT",
-                            "name": "tasktodo",
+                            "name": "Todo",
                             "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
-                        "name": "onUpdateTasktodo",
+                        "name": "onUpdateTodo",
                         "description": null,
                         "args": [],
                         "type": {
                             "kind": "OBJECT",
-                            "name": "tasktodo",
+                            "name": "Todo",
                             "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
-                        "name": "onDeleteTasktodo",
+                        "name": "onDeleteTodo",
                         "description": null,
                         "args": [],
                         "type": {
                             "kind": "OBJECT",
-                            "name": "tasktodo",
+                            "name": "Todo",
                             "ofType": null
                         },
                         "isDeprecated": false,
