@@ -8,6 +8,6 @@ type Todo @model {
 
 type TaskList @model {
   id: ID!
-  name: String!
-  Todo: [TaskData] @connection(name: "All Local Tasks")
+  name: String
+  todo: [Todo] @connection(name: "All Local Tasks")
 }
