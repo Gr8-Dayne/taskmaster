@@ -1,6 +1,6 @@
 {
 	"api": {
-		"shandiapi": {
+		"amapi": {
 			"service": "AppSync",
 			"providerPlugin": "awscloudformation",
 			"output": {
@@ -9,7 +9,7 @@
 					"defaultAuthentication": {
 						"authenticationType": "API_KEY",
 						"apiKeyConfig": {
-							"description": "shanditrykey",
+							"description": "am_key",
 							"apiKeyExpirationDays": "25"
 						}
 					}
