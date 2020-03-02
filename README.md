@@ -1,6 +1,6 @@
 # Android Studio - Task Master
 
-### Lab 37 - S3
+### Lab 37 & 38 - S3
 
 Created?
 
@@ -26,11 +26,11 @@ Created?
 
 ### Lab 34 - Amplify and DynamoDB
 
-Created?
+Created link between my application and AWS DynamoDB. This allowed the storing of objects to Dynamo (although everytime I saved something, two copies of it would save).
 
 #### Picture
 
-<a href=>Home Page</a>?
+<a href=https://raw.githubusercontent.com/Gr8-Dayne/taskmaster/master/screenshots/LAB32HomePage.png>Home Page</a>
 
 
 
@@ -38,7 +38,7 @@ Created?
 
 ### Lab 32 - Room
 
-Created?
+Created functional Database using Room, along with many features to manipulate the data that was stored across various views.
 
 #### Picture
 
