@@ -11,7 +11,7 @@ android {
             testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         }
         applicationId "com.daylong.taskmaster"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 2
         versionName "2.1"
@@ -33,7 +33,13 @@ apply plugin: 'com.amazonaws.appsync'
 
 dependencies {
 
-    implementation 'com.amazonaws:aws-android-sdk-core:2.15.2'
+    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.16.8'
+    implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.16.8'
+    implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.16.8'
+
+    implementation 'com.amazonaws:aws-android-sdk-cognitoauth:2.16.8'
+
+    implementation 'com.amazonaws:aws-android-sdk-core:2.16.8'
     implementation 'com.amazonaws:aws-android-sdk-appsync:2.8.3'
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'

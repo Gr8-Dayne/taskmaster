@@ -23,6 +23,11 @@
             "StackName": "amplify-awsmaster-haterade-45313",
             "StackId": "arn:aws:cloudformation:us-west-2:247911380986:stack/amplify-awsmaster-haterade-45313/9e270230-5bbb-11ea-a728-0284c9f60df0",
             "AmplifyAppId": "d2h0oe83zkusxw"
+        },
+        "categories": {
+            "auth": {
+                "awsmaster029eb392": {}
+            }
         }
     }
 }
