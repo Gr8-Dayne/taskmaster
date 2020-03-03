@@ -14,11 +14,11 @@ Created?
 
 ### Lab 36 - Cognito
 
-Created?
+Added the ability for users to log in and log out of my app once they have registered and confirmed an email address.
 
 #### Picture
 
-<a href=>Home Page</a>?
+<a href=https://github.com/Gr8-Dayne/taskmaster/tree/master/APK/current>APK</a>?
 
 
 
