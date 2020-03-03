@@ -18,7 +18,7 @@ Added the ability for users to log in and log out of my app once they have regis
 
 #### Picture
 
-<a href=https://github.com/Gr8-Dayne/taskmaster/tree/master/APK/current>APK</a>?
+<a href=https://github.com/Gr8-Dayne/taskmaster/tree/master/APK/current>APK</a>
 
 
 
