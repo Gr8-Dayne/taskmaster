@@ -15,11 +15,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.room.Room;
 
 import com.amazonaws.amplify.generated.graphql.CreateTaskListMutation;
 import com.amazonaws.amplify.generated.graphql.CreateTodoMutation;
 import com.amazonaws.amplify.generated.graphql.ListTaskListsQuery;
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobile.client.Callback;
+import com.amazonaws.mobile.client.SignInUIOptions;
+import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 import com.apollographql.apollo.GraphQLCall;
@@ -107,6 +112,48 @@ public class AddTask extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+                    @Override
+                    public void onResult(UserStateDetails userStateDetails) {
+                        Log.i("daylongTheGreat", "onResult: " + userStateDetails.getUserState());
+                        if (userStateDetails.getUserState().toString().equals("SIGNED_OUT")) {
+                            AWSMobileClient
+                                    .getInstance()
+                                    .showSignIn(AddTask.this, SignInUIOptions.builder().build(),
+                                            new Callback<UserStateDetails>() {
+                                                @Override
+                                                public void onResult(UserStateDetails result) {
+                                                    Log.d("daylongTheGreat", "onResult: " + result.getUserState());
+                                                    switch (result.getUserState()){
+                                                        case SIGNED_IN:
+                                                            Log.i("INIT", "logged in!");
+                                                            break;
+                                                        case SIGNED_OUT:
+                                                            Log.i("daylongTheGreat", "ERROR: User did not choose to sign-in");
+                                                            break;
+                                                        default:
+                                                            AWSMobileClient.getInstance().signOut();
+                                                            break;
+                                                    }
+                                                }
+                                                @Override
+                                                public void onError(Exception e) {
+                                                }
+                                            });
+                        }
+                    }
+                    @Override
+                    public void onError(Exception e) {
+                        Log.e("daylongTheGreat", "_____ERROR_____ " + e.toString());
+                    }
+                }
+        );
     }
 
     //
@@ -228,6 +275,11 @@ public class AddTask extends AppCompatActivity {
         } else if (itemId == R.id.decrease_priority) {
             Toast.makeText(AddTask.this, "Not Applicable", Toast.LENGTH_SHORT).show();
             return (true);
+
+        } else if (itemId == R.id.logout_button) {
+            Toast.makeText(AddTask.this, "Logging Out User", Toast.LENGTH_SHORT).show();
+            AWSMobileClient.getInstance().signOut();
+            finish();
         }
         return(super.onOptionsItemSelected(item));
     }

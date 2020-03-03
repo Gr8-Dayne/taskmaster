@@ -7,12 +7,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobile.client.Callback;
+import com.amazonaws.mobile.client.SignInUIOptions;
+import com.amazonaws.mobile.client.UserStateDetails;
 
 
 public class Settings extends AppCompatActivity {
@@ -22,7 +28,7 @@ public class Settings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        // Save Username
+        // Save Username Button
         Button saveUsernameSubmit = findViewById(R.id.saveUsernameButton);
         saveUsernameSubmit.setOnClickListener(e -> {
 
@@ -34,6 +40,48 @@ public class Settings extends AppCompatActivity {
             Toast.makeText(Settings.this, "Username Updated Successfully", Toast.LENGTH_LONG).show();
             finish();
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+                    @Override
+                    public void onResult(UserStateDetails userStateDetails) {
+                        Log.i("daylongTheGreat", "onResult: " + userStateDetails.getUserState());
+                        if (userStateDetails.getUserState().toString().equals("SIGNED_OUT")) {
+                            AWSMobileClient
+                                    .getInstance()
+                                    .showSignIn(Settings.this, SignInUIOptions.builder().build(),
+                                            new Callback<UserStateDetails>() {
+                                                @Override
+                                                public void onResult(UserStateDetails result) {
+                                                    Log.d("daylongTheGreat", "onResult: " + result.getUserState());
+                                                    switch (result.getUserState()){
+                                                        case SIGNED_IN:
+                                                            Log.i("INIT", "logged in!");
+                                                            break;
+                                                        case SIGNED_OUT:
+                                                            Log.i("daylongTheGreat", "ERROR: User did not choose to sign-in");
+                                                            break;
+                                                        default:
+                                                            AWSMobileClient.getInstance().signOut();
+                                                            break;
+                                                    }
+                                                }
+                                                @Override
+                                                public void onError(Exception e) {
+                                                }
+                                            });
+                        }
+                    }
+                    @Override
+                    public void onError(Exception e) {
+                        Log.e("daylongTheGreat", "_____ERROR_____ " + e.toString());
+                    }
+                }
+        );
     }
 
     // Allow nav_and_actions to be utilized
