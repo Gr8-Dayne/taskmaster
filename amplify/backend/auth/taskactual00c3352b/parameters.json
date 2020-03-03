@@ -1,18 +1,18 @@
 {
-    "identityPoolName": "awsmaster029eb392_identitypool_029eb392",
+    "identityPoolName": "taskactual00c3352b_identitypool_00c3352b",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "awsmas029eb392",
-    "userPoolName": "awsmaster029eb392_userpool_029eb392",
+    "resourceNameTruncated": "taskac00c3352b",
+    "userPoolName": "taskactual00c3352b_userpool_00c3352b",
     "autoVerifiedAttributes": [
         "email"
     ],
-    "mfaConfiguration": "OPTIONAL",
+    "mfaConfiguration": "OFF",
     "mfaTypes": [
         "SMS Text Message"
     ],
-    "smsAuthenticationMessage": "Remember Better Next Time {####}",
+    "smsAuthenticationMessage": "Your authentication code is {####}",
     "smsVerificationMessage": "Your verification code is {####}",
-    "emailVerificationSubject": "Mother's Maiden Name",
+    "emailVerificationSubject": "Your verification code",
     "emailVerificationMessage": "Your verification code is {####}",
     "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 8,
@@ -21,16 +21,16 @@
         "email"
     ],
     "userpoolClientGenerateSecret": true,
-    "userpoolClientRefreshTokenValidity": "30",
+    "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [
         "email"
     ],
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "awsmas029eb392_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "taskac00c3352b_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "resourceName": "awsmaster029eb392",
+    "resourceName": "taskactual00c3352b",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -44,18 +44,10 @@
             "Arn"
         ]
     },
-    "useDefault": "manual",
-    "userPoolGroupList": [
-        "taskAppGroup"
+    "useDefault": "default",
+    "usernameAttributes": [
+        "email"
     ],
-    "dependsOn": [],
-    "thirdPartyAuth": false,
-    "userPoolGroups": true,
-    "adminQueries": false,
-    "triggers": "{}",
-    "hostedUI": false,
-    "parentStack": {
-        "Ref": "AWS::StackId"
-    },
-    "permissions": []
+    "userPoolGroupList": [],
+    "dependsOn": []
 }

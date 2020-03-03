@@ -18,17 +18,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
-
 import com.amazonaws.amplify.generated.graphql.CreateTaskListMutation;
 import com.amazonaws.amplify.generated.graphql.CreateTodoMutation;
 import com.amazonaws.amplify.generated.graphql.ListTodosQuery;
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobile.client.Callback;
+import com.amazonaws.mobile.client.SignInUIOptions;
 import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
@@ -36,13 +35,10 @@ import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
 import com.apollographql.apollo.GraphQLCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import javax.annotation.Nonnull;
-
 import type.CreateTaskListInput;
 import type.CreateTodoInput;
 
@@ -95,19 +91,45 @@ public class MainActivity extends AppCompatActivity {
             Log.i("daylongTheGreat", item.getName() + " " + item.getPriority());
         }
 
-//        AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
-//
-//                    @Override
-//                    public void onResult(UserStateDetails userStateDetails) {
-//                        Log.i("daylongTheGreat", "onResult: " + userStateDetails.getUserState());
-//                    }
-//
-//                    @Override
-//                    public void onError(Exception e) {
-//                        Log.e("daylongTheGreat", "_____ERROR_____ " + e.toString());
-//                    }
-//                }
-//        );
+        AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+                    @Override
+                    public void onResult(UserStateDetails userStateDetails) {
+                        Log.i("daylongTheGreat", "onResult: " + userStateDetails.getUserState());
+                        if (userStateDetails.getUserState().toString().equals("SIGNED_OUT")) {
+                            AWSMobileClient
+                                    .getInstance()
+                                    .showSignIn(MainActivity.this, SignInUIOptions.builder().build(),
+                                    new Callback<UserStateDetails>() {
+                                        @Override
+                                        public void onResult(UserStateDetails result) {
+                                            Log.d("daylongTheGreat", "onResult: " + result.getUserState());
+                                            switch (result.getUserState()){
+                                                case SIGNED_IN:
+                                                    Log.i("INIT", "logged in!");
+                                                    break;
+                                                case SIGNED_OUT:
+                                                    Log.i("daylongTheGreat", "ERROR: User did not choose to sign-in");
+                                                    break;
+                                                default:
+                                                    AWSMobileClient.getInstance().signOut();
+                                                    break;
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onError(Exception e) {
+
+                                        }
+                                    });
+                        }
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Log.e("daylongTheGreat", "_____ERROR_____ " + e.toString());
+                    }
+                }
+        );
     }
 
     @Override
@@ -126,6 +148,46 @@ public class MainActivity extends AppCompatActivity {
         String customUsername = sharedPreferences.getString("username", "default");
         usernameMainTextView.setText(customUsername + "'s Tasks");
         //
+
+        AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+                    @Override
+                    public void onResult(UserStateDetails userStateDetails) {
+                        Log.i("daylongTheGreat", "onResult: " + userStateDetails.getUserState());
+                        if (userStateDetails.getUserState().toString().equals("SIGNED_OUT")) {
+                            AWSMobileClient
+                                    .getInstance()
+                                    .showSignIn(MainActivity.this, SignInUIOptions.builder().build(),
+                                            new Callback<UserStateDetails>() {
+                                                @Override
+                                                public void onResult(UserStateDetails result) {
+                                                    Log.d("daylongTheGreat", "onResult: " + result.getUserState());
+                                                    switch (result.getUserState()){
+                                                        case SIGNED_IN:
+                                                            Log.i("INIT", "logged in!");
+                                                            break;
+                                                        case SIGNED_OUT:
+                                                            Log.i("daylongTheGreat", "ERROR: User did not choose to sign-in");
+                                                            break;
+                                                        default:
+                                                            AWSMobileClient.getInstance().signOut();
+                                                            break;
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onError(Exception e) {
+
+                                                }
+                                            });
+                        }
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Log.e("daylongTheGreat", "_____ERROR_____ " + e.toString());
+                    }
+                }
+        );
 
         //
         awsSyncer = AWSAppSyncClient.builder()
@@ -246,6 +308,11 @@ public class MainActivity extends AppCompatActivity {
         } else if (itemId == R.id.decrease_priority) {
             Toast.makeText(MainActivity.this, "Not Applicable", Toast.LENGTH_SHORT).show();
             return (true);
+
+        } else if (itemId == R.id.logout_button) {
+            Toast.makeText(MainActivity.this, "Logging Out User", Toast.LENGTH_SHORT).show();
+            AWSMobileClient.getInstance().signOut();
+            finish();
         }
         return(super.onOptionsItemSelected(item));
     }

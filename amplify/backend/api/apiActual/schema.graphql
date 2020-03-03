@@ -8,6 +8,6 @@ type Todo @model {
 
 type TaskList @model {
   id: ID!
-  name: String
+  name: String!
   toDo: [Todo] @connection(name: "TaskLists")
 }
