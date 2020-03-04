@@ -6,10 +6,6 @@ Created?
 
 #### Picture
 
-<a href=>Home Page</a>
-
-<a href=https://github.com/Gr8-Dayne/taskmaster/tree/master/APK/current>Data Base</a>
-
 
 
 
@@ -44,7 +40,9 @@ Created functional Database using Room, along with many features to manipulate t
 
 #### Picture
 
-<a href=https://raw.githubusercontent.com/Gr8-Dayne/taskmaster/master/screenshots/LAB32HomePage.png>Home Page</a>
+<a href=https://github.com/Gr8-Dayne/taskmaster/blob/master/screenshots/amplifyHomePage.png>Home Page</a>
+
+<a href=https://github.com/Gr8-Dayne/taskmaster/blob/master/screenshots/amplifyDynamoDB.png>Data Base</a>
 
 
 
