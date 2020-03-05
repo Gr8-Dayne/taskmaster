@@ -24,5 +24,11 @@
 			"dependsOn": [],
 			"customAuth": false
 		}
+	},
+	"storage": {
+		"s3deal": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation"
+		}
 	}
 }

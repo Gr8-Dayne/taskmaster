@@ -43,12 +43,9 @@ import type.CreateTaskListInput;
 import type.CreateTodoInput;
 
 
-// Credit: https://stackoverflow.com/questions/33897978/android-convert-edittext-to-string
-// Credit: https://www.youtube.com/watch?v=JLwW5HivZg4
-// Credit: https://www.youtube.com/watch?v=reSPN7mgshI&feature=youtu.be
-// Credit: https://proandroiddev.com/a-guide-to-recyclerview-selection-3ed9f2381504
-// Credit: https://guides.codepath.com/android/using-the-recyclerview
-// Credit: https://www.journaldev.com/10024/android-recyclerview-android-cardview-example-tutorial
+// Credit: https://frontrowviews.com/Home/Event/Play/5e1929feeee6d91a185440d6
+// Credit: https://aws-amplify.github.io/docs/android/storage
+// Credit: https://github.com/codefellows/seattle-java-401d9/commit/8f5939819ea796a4a748ce0723b2ccccd8e1d9e6
 public class MainActivity extends AppCompatActivity {
 
 //    TaskDatabase dbTasks;

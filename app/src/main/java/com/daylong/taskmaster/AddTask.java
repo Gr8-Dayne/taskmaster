@@ -40,7 +40,7 @@ import type.CreateTodoInput;
 // Credit: https://codinginflow.com/tutorials/android/room-viewmodel-livedata-recyclerview-mvvm/part-7-add-note-activity
 public class AddTask extends AppCompatActivity {
 
-    private TaskDatabase dbTasks;
+//    private TaskDatabase dbTasks;
     private EditText editTextTitle;
     private EditText editTextDescription;
     private EditText editTextPriority;
@@ -60,10 +60,10 @@ public class AddTask extends AppCompatActivity {
                 .awsConfiguration(new AWSConfiguration(getApplicationContext()))
                 .build();
         //
-        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks")
-                .allowMainThreadQueries()
-                .fallbackToDestructiveMigration()
-                .build();
+//        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks")
+//                .allowMainThreadQueries()
+//                .fallbackToDestructiveMigration()
+//                .build();
         //
         //
         //
@@ -73,11 +73,11 @@ public class AddTask extends AppCompatActivity {
 
         TextView addTaskCounter = findViewById(R.id.taskCount);
 
-        try {
-            addTaskCounter.setText("Total Tasks: " + dbTasks.taskDao().getCountOfTaskList());
-        } catch (Exception e) {
+//        try {
+//            addTaskCounter.setText("Total Tasks: " + dbTasks.taskDao().getCountOfTaskList());
+//        } catch (Exception e) {
             Toast.makeText(AddTask.this, "Task Counter ERROR", Toast.LENGTH_SHORT).show();
-        }
+//        }
 
         editTextTitle = findViewById(R.id.newTaskTitle);
         editTextDescription = findViewById(R.id.newTaskDescription);
@@ -100,7 +100,7 @@ public class AddTask extends AppCompatActivity {
                     TaskData newTask = new TaskData(title, priority, description);
 
                     //
-                    dbTasks.taskDao().save(newTask);
+//                    dbTasks.taskDao().save(newTask);
                     addTaskToDynomo(newTask);
                     //
 

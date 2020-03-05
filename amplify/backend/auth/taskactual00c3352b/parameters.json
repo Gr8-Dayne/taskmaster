@@ -1,6 +1,6 @@
 {
     "identityPoolName": "taskactual00c3352b_identitypool_00c3352b",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "taskac00c3352b",
     "userPoolName": "taskactual00c3352b_userpool_00c3352b",
     "autoVerifiedAttributes": [
