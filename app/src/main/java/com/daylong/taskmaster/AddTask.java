@@ -84,6 +84,7 @@ public class AddTask extends AppCompatActivity {
         editTextPriority = findViewById(R.id.newTaskState);
 
         Button normalTaskToDB = findViewById(R.id.createTask);
+
         normalTaskToDB.setOnClickListener(e -> {
 
             String title = editTextTitle.getText().toString();
@@ -105,7 +106,7 @@ public class AddTask extends AppCompatActivity {
                     //
 
                     Toast.makeText(AddTask.this, "Task saved successfully", Toast.LENGTH_LONG).show();
-                    finish();
+                    return;
                 } catch (Exception d) {
                     Toast.makeText(AddTask.this, "Task not saved", Toast.LENGTH_LONG).show();
                     return;
