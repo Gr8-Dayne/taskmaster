@@ -16,6 +16,16 @@ public class TaskData {
     private String priority;
     private String description;
 
+    public String getImgURL() {
+        return imgURL;
+    }
+
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
+    }
+
+    private String imgURL;
+
     public TaskData(String name, String priority, String description) {
         this.name = name;
         this.priority = priority;

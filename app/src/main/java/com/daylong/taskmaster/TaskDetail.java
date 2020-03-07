@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
 import com.apollographql.apollo.GraphQLCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +44,7 @@ import javax.annotation.Nonnull;
 
 public class TaskDetail extends AppCompatActivity {
 
-    TaskDatabase dbTasks;
+//    TaskDatabase dbTasks;
     List<TaskData> dataSet = new ArrayList<>();
     private AWSAppSyncClient awsSyncer;
 
@@ -60,11 +62,14 @@ public class TaskDetail extends AppCompatActivity {
                 .awsConfiguration(new AWSConfiguration(getApplicationContext()))
                 .build();
         //
-        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks")
-                .allowMainThreadQueries()
-                .fallbackToDestructiveMigration()
-                .build();
+//        dbTasks = Room.databaseBuilder(getApplicationContext(), TaskDatabase.class, "tasks")
+//                .allowMainThreadQueries()
+//                .fallbackToDestructiveMigration()
+//                .build();
         //
+
+        ImageView taskImage = findViewById(R.id.task_Image);
+        Picasso.get().load("https://bucketfortasks123331-taskenv.s3-us-west-2.amazonaws.com/public/public/c803c223-3ea7-46ca-ba0e-1dfc9f14de7d").into(taskImage);
 
         Intent showTaskID = getIntent();
 
@@ -76,16 +81,16 @@ public class TaskDetail extends AppCompatActivity {
 
 //        dataSet.get((int) dbTasks.taskDao().getSpecificViaTaskName(showTaskName).getId());
 
-        TaskData taskDataViaTaskName = dbTasks.taskDao().getSpecificViaTaskName(showTaskName);
-        Log.i("daylongTheGreat", String.valueOf(taskDataViaTaskName));
-
-        String showTaskStatus = taskDataViaTaskName.getPriority();
-        TextView textView2 = findViewById(R.id.taskDetail_State);
-        textView2.setText("Priority: " + showTaskStatus);
-
-        String showTaskDescription = taskDataViaTaskName.getDescription();
-        TextView textView3 = findViewById(R.id.taskDetail_Description);
-        textView3.setText(showTaskDescription);
+//        TaskData taskDataViaTaskName = dbTasks.taskDao().getSpecificViaTaskName(showTaskName);
+//        Log.i("daylongTheGreat", String.valueOf(taskDataViaTaskName));
+//
+//        String showTaskStatus = taskDataViaTaskName.getPriority();
+//        TextView textView2 = findViewById(R.id.taskDetail_State);
+//        textView2.setText("Priority: " + showTaskStatus);
+//
+//        String showTaskDescription = taskDataViaTaskName.getDescription();
+//        TextView textView3 = findViewById(R.id.taskDetail_Description);
+//        textView3.setText(showTaskDescription);
     }
 
     @Override
@@ -180,7 +185,7 @@ public class TaskDetail extends AppCompatActivity {
 
         Intent showTaskID = getIntent();
         String showTaskName = showTaskID.getStringExtra("taskName");
-        TaskData taskDataViaTaskName = dbTasks.taskDao().getSpecificViaTaskName(showTaskName);
+//        TaskData taskDataViaTaskName = dbTasks.taskDao().getSpecificViaTaskName(showTaskName);
 
         if (itemId == R.id.widget_to_main) {
             Intent goToMain = new Intent (this, MainActivity.class);
@@ -204,27 +209,27 @@ public class TaskDetail extends AppCompatActivity {
 
         } else if (itemId == R.id.delete_this_task) {
 
-            dbTasks.taskDao().delete(taskDataViaTaskName);
-            Toast.makeText(TaskDetail.this, "Task Deleted", Toast.LENGTH_SHORT).show();
-            finish();
+//            dbTasks.taskDao().delete(taskDataViaTaskName);
+//            Toast.makeText(TaskDetail.this, "Task Deleted", Toast.LENGTH_SHORT).show();
+//            finish();
             return (true);
 
         } else if (itemId == R.id.increase_priority) {
 
-            TaskData taskWithUpdatedPriority = new TaskData(taskDataViaTaskName.getName(), "HIGH", taskDataViaTaskName.getDescription());
-            taskWithUpdatedPriority.setId(taskDataViaTaskName.getId());
-            dbTasks.taskDao().update(taskWithUpdatedPriority);
-            Toast.makeText(TaskDetail.this, "Task Priority Increased", Toast.LENGTH_SHORT).show();
-            finish();
+//            TaskData taskWithUpdatedPriority = new TaskData(taskDataViaTaskName.getName(), "HIGH", taskDataViaTaskName.getDescription());
+//            taskWithUpdatedPriority.setId(taskDataViaTaskName.getId());
+//            dbTasks.taskDao().update(taskWithUpdatedPriority);
+//            Toast.makeText(TaskDetail.this, "Task Priority Increased", Toast.LENGTH_SHORT).show();
+//            finish();
             return (true);
 
         } else if (itemId == R.id.decrease_priority) {
 
-            TaskData taskWithUpdatedPriority = new TaskData(taskDataViaTaskName.getName(), "LOW", taskDataViaTaskName.getDescription());
-            taskWithUpdatedPriority.setId(taskDataViaTaskName.getId());
-            dbTasks.taskDao().update(taskWithUpdatedPriority);
-            Toast.makeText(TaskDetail.this, "Task Priority Lowered", Toast.LENGTH_SHORT).show();
-            finish();
+//            TaskData taskWithUpdatedPriority = new TaskData(taskDataViaTaskName.getName(), "LOW", taskDataViaTaskName.getDescription());
+//            taskWithUpdatedPriority.setId(taskDataViaTaskName.getId());
+//            dbTasks.taskDao().update(taskWithUpdatedPriority);
+//            Toast.makeText(TaskDetail.this, "Task Priority Lowered", Toast.LENGTH_SHORT).show();
+//            finish();
             return (true);
 
         } else if (itemId == R.id.logout_button) {

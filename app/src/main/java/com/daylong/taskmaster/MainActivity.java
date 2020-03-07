@@ -32,9 +32,18 @@ import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.apollographql.apollo.GraphQLCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -52,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     List<TaskData> dataSetMain = new ArrayList<>();
     private AWSAppSyncClient awsSyncer;
+
+//    getApplicationContext().startService(new Intent(getApplicationContext(), TransferService.class));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
                                             Log.d("daylongTheGreat", "onResult: " + result.getUserState());
                                             switch (result.getUserState()){
                                                 case SIGNED_IN:
+                                                    uploadWithTransferUtility();
                                                     Log.i("INIT", "logged in!");
                                                     break;
                                                 case SIGNED_OUT:
@@ -112,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
                                                     break;
                                             }
                                         }
-
                                         @Override
                                         public void onError(Exception e) {
 
@@ -160,20 +171,18 @@ public class MainActivity extends AppCompatActivity {
                                                     Log.d("daylongTheGreat", "onResult: " + result.getUserState());
                                                     switch (result.getUserState()){
                                                         case SIGNED_IN:
-                                                            Log.i("INIT", "logged in!");
+                                                            Log.i("INIT", "LOGGED IN");
                                                             break;
                                                         case SIGNED_OUT:
-                                                            Log.i("daylongTheGreat", "ERROR: User did not choose to sign-in");
+                                                            Log.i("daylongTheGreat", "_____ERROR: NO SIGN IN_____");
                                                             break;
                                                         default:
                                                             AWSMobileClient.getInstance().signOut();
                                                             break;
                                                     }
                                                 }
-
                                                 @Override
                                                 public void onError(Exception e) {
-
                                                 }
                                             });
                         }
@@ -260,6 +269,68 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
+
+
+    //
+    //
+    // Demo code
+    public void uploadWithTransferUtility() {
+
+        TransferUtility transferUtility = TransferUtility.builder()
+                        .context(getApplicationContext())
+                        .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
+                        .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
+                        .build();
+
+        File file = new File(getApplicationContext().getFilesDir(), "sample.txt");
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.append("S3 is crazy.");
+            writer.close();
+        }
+        catch(Exception e) {
+            Log.e("daylongTheGreat", e.getMessage());
+        }
+
+        TransferObserver uploadObserver = transferUtility.upload(
+                        "public/sample.txt",
+                        new File(getApplicationContext().getFilesDir(),"sample.txt"));
+        // Attach a listener to the observer to get state update and progress notifications
+        uploadObserver.setTransferListener(new TransferListener() {
+
+            @Override
+            public void onStateChanged(int id, TransferState state) {
+                if (TransferState.COMPLETED == state) {
+                    // Handle a completed upload.
+                }
+            }
+
+            @Override
+            public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
+                float percentDonef = ((float) bytesCurrent / (float) bytesTotal) * 100;
+                int percentDone = (int)percentDonef;
+                Log.d("daylongTheGreat", "ID:" + id + " bytesCurrent: " + bytesCurrent + " bytesTotal: " + bytesTotal + " " + percentDone + "%");
+            }
+
+            @Override
+            public void onError(int id, Exception ex) {
+                // Handle errors
+            }
+        });
+
+        // If you prefer to poll for the data, instead of attaching a
+        // listener, check for the state and progress in the observer.
+        if (TransferState.COMPLETED == uploadObserver.getState()) {
+            // Handle a completed upload.
+        }
+        Log.d("daylongTheGreat", "Bytes Transferred: " + uploadObserver.getBytesTransferred());
+        Log.d("daylongTheGreat", "Bytes Total: " + uploadObserver.getBytesTotal());
+    }
+    //
+    //
+    //
+
 
     // Allow nav_and_actions to be utilized
     @Override

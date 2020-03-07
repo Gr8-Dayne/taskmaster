@@ -5,6 +5,7 @@ query GetTodo($id: ID!) {
     name
     priority
     description
+    imageurl
     taskList {
       id
       name
@@ -25,6 +26,7 @@ query ListTodos(
       name
       priority
       description
+      imageurl
       taskList {
         id
         name
@@ -43,6 +45,7 @@ query GetTaskList($id: ID!) {
         name
         priority
         description
+        imageurl
       }
       nextToken
     }

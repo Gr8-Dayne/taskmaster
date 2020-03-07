@@ -2,8 +2,12 @@ package com.daylong.taskmaster;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.room.Room;
 
@@ -27,14 +32,27 @@ import com.amazonaws.mobile.client.SignInUIOptions;
 import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferService;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.core.ResultListener;
+import com.amplifyframework.storage.result.StorageUploadFileResult;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 import com.apollographql.apollo.GraphQLCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
 import type.CreateTaskListInput;
 import type.CreateTodoInput;
+
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
 
 // Credit: https://codinginflow.com/tutorials/android/room-viewmodel-livedata-recyclerview-mvvm/part-7-add-note-activity
@@ -45,12 +63,35 @@ public class AddTask extends AppCompatActivity {
     private EditText editTextDescription;
     private EditText editTextPriority;
     private AWSAppSyncClient awsSyncer;
+    private String imageURL;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+
+        getApplicationContext().startService(new Intent(getApplicationContext(), TransferService.class));
+        String[] permissions = {READ_EXTERNAL_STORAGE};
+        ActivityCompat.requestPermissions(this, permissions, 1);
+
+        AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+            @Override
+            public void onResult(UserStateDetails userStateDetails) {
+                try {
+                    Amplify.addPlugin(new AWSS3StoragePlugin());
+                    Amplify.configure(getApplicationContext());
+                    Log.i("StorageQuickstart", "All set and ready to go!");
+                } catch (Exception e) {
+                    Log.e("StorageQuickstart", e.getMessage());
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Log.e("StorageQuickstart", "Initialization error.", e);
+            }
+        });
 
         //
         //
@@ -99,6 +140,7 @@ public class AddTask extends AppCompatActivity {
 
                 try {
                     TaskData newTask = new TaskData(title, priority, description);
+                    newTask.setImgURL(this.imageURL);
 
                     //
 //                    dbTasks.taskDao().save(newTask);
@@ -113,6 +155,31 @@ public class AddTask extends AppCompatActivity {
                 }
             }
         });
+
+        Button pixButton = findViewById(R.id.attach_file);
+
+        pixButton.setOnClickListener(e -> {
+
+            Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+            startActivityForResult(i, 47);
+
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+
+        super.onActivityResult(requestCode, resultCode, resultData);
+
+        if(requestCode == 47 && resultCode == Activity.RESULT_OK){
+            if(resultData != null){
+                Log.i("daylongTheGreat", "URI from image pic is: " + resultData.getData().toString());
+                Uri fileToS3 = resultData.getData();
+                uploadFile(fileToS3);
+            }
+        }
+
     }
 
     @Override
@@ -209,14 +276,68 @@ public class AddTask extends AppCompatActivity {
         }
     };
 
-    // Subscription
-    public void runTaskListCreateMutation(String name){
-        CreateTaskListInput createShelfInput = CreateTaskListInput.builder()
-                .name(name)
-                .build();
-        awsSyncer.mutate(CreateTaskListMutation.builder().input(createShelfInput).build())
-                .enqueue(addTaskListCallback);
+
+    private void uploadFile(Uri fileURI) {
+
+        String pathForPic = getPath(fileURI);
+        Log.i("daylongTheGreat", "pathForPic: " + pathForPic);
+
+        File picFile = new File(pathForPic);
+        Log.i("daylongTheGreat", "picFile: " + picFile);
+
+        String url = "https://bucketfortasks123331-taskenv.s3-us-west-2.amazonaws.com/";
+        String key = "public/" + java.util.UUID.randomUUID().toString();
+
+        this.imageURL = url + key;
+
+
+//        TransferObserver uploadObserver = ;
+
+//        File sampleFile = new File(getApplicationContext().getFilesDir(), "sample.txt");
+//        try {
+//            BufferedWriter writer = new BufferedWriter(new FileWriter(sampleFile));
+//            writer.append("Yeet!");
+//            writer.close();
+//        } catch(Exception e) {
+//            Log.e("daylongTheGreat", e.getMessage());
+//        }
+
+        Amplify.Storage.uploadFile(key, picFile.getAbsolutePath(), new ResultListener<StorageUploadFileResult>() {
+
+                @Override
+                public void onResult(StorageUploadFileResult result) {
+                    Log.i("daylongTheGreat", "Successfully uploaded: " + result.getKey());
+                }
+
+                @Override
+                public void onError(Throwable error) {
+                    Log.e("daylongTheGreat", "ERROR", error);
+                }
+            }
+        );
     }
+
+    public String getPath(Uri uri)
+    {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if (cursor == null) return null;
+        int column_index =             cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String s=cursor.getString(column_index);
+        cursor.close();
+        return s;
+    }
+
+
+    // Subscription
+//    public void runTaskListCreateMutation(String name){
+//        CreateTaskListInput createShelfInput = CreateTaskListInput.builder()
+//                .name(name)
+//                .build();
+//        awsSyncer.mutate(CreateTaskListMutation.builder().input(createShelfInput).build())
+//                .enqueue(addTaskListCallback);
+//    }
 
     // Allow nav_and_actions to be utilized
     @Override

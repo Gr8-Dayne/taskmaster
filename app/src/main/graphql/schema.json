@@ -233,6 +233,18 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "imageurl",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "taskList",
                         "description": null,
                         "args": [],
@@ -394,6 +406,16 @@
                     },
                     {
                         "name": "description",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelStringInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "imageurl",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
@@ -1365,6 +1387,16 @@
                         "defaultValue": null
                     },
                     {
+                        "name": "imageurl",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
                         "name": "todoTaskListId",
                         "description": null,
                         "type": {
@@ -1407,6 +1439,16 @@
                     },
                     {
                         "name": "description",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelStringInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "imageurl",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
@@ -1500,6 +1542,16 @@
                     },
                     {
                         "name": "description",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "imageurl",
                         "description": null,
                         "type": {
                             "kind": "SCALAR",

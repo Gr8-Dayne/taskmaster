@@ -5,6 +5,7 @@ subscription OnCreateTodo {
     name
     priority
     description
+    imageurl
     taskList {
       id
       name
@@ -20,6 +21,7 @@ subscription OnUpdateTodo {
     name
     priority
     description
+    imageurl
     taskList {
       id
       name
@@ -35,6 +37,7 @@ subscription OnDeleteTodo {
     name
     priority
     description
+    imageurl
     taskList {
       id
       name
@@ -54,6 +57,7 @@ subscription OnCreateTaskList {
         name
         priority
         description
+        imageurl
       }
       nextToken
     }
@@ -69,6 +73,7 @@ subscription OnUpdateTaskList {
         name
         priority
         description
+        imageurl
       }
       nextToken
     }
@@ -84,6 +89,7 @@ subscription OnDeleteTaskList {
         name
         priority
         description
+        imageurl
       }
       nextToken
     }

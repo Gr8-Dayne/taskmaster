@@ -3,6 +3,7 @@ type Todo @model {
   name: String!
   priority: String
   description: String
+  imageurl: String
   taskList: TaskList @connection(name: "TaskLists")
 }
 
